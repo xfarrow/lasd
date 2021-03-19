@@ -9,6 +9,7 @@ int main(){
 }
 
 void studentStructWithConstructor(){
+
   struct StudentNoDefaultConstructor{
     string nome, cognome, matricola;
     int annoCorso;
@@ -46,7 +47,7 @@ void studentStruct(){
     int annoCorso;
   };
   struct Student st1{"Alan","Turing","N86000000",1};
-  struct Student st2 = {"Kurt","Godel","N86000001",1};
+  struct Student st2 = {"Kurt","Godel","N86000001",1}; // non preferibile
   //Student st3("Kurt","Godel","N86000001",1); // errore, richiede esplicitamente un costruttore
   struct Student st4;
   struct Student st5();
