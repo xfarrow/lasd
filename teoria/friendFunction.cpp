@@ -10,7 +10,7 @@ struct Studente{
         int secureNumber = 999;
 };
 void printSecureNumber(Studente s){
-  cout<<s.secureNumber<<endl;
+  cout<<s.secureNumber<<endl;  // essendo funzione friend, posso accedere ai campi privati
 }
 int main(){
   Studente st;
