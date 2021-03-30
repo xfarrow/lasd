@@ -32,7 +32,7 @@ public:
   Container& operator=(const Container&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  Container& operator=(Container&&) = delete; // Move assignment of abstract types should not be possible.
+  Container& operator=(Container&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   /* ************************************************************************ */
 
@@ -115,7 +115,7 @@ public:
   TestableContainer& operator=(const TestableContainer&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  TestableContainer& operator=(TestableContainer&&) = delete; // Move assignment of abstract types should not be possible.
+  TestableContainer& operator=(TestableContainer&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   /* ************************************************************************ */
 
@@ -151,7 +151,7 @@ public:
   MappableContainer& operator=(const MappableContainer&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  MappableContainer& operator=(MappableContainer&&) = delete; // Move assignment of abstract types should not be possible.
+  MappableContainer& operator=(MappableContainer&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   /* ************************************************************************ */
 
@@ -165,7 +165,7 @@ public:
 
   typedef std::function<void(Data&, void*)> MapFunctor;
 
-  virtual voi MapPreOrder(const MapFunctor, void*) = 0;
+  virtual void MapPreOrder(const MapFunctor, void*) = 0;
   virtual void MapPostOrder(const MapFunctor, void*) = 0;
 
 };
@@ -190,7 +190,7 @@ public:
   FoldableContainer& operator=(const FoldableContainer&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  FoldableContainer& operator=(FoldableContainer&&) = delete; // Move assignment of abstract types should not be possible.
+  FoldableContainer& operator=(FoldableContainer&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   /* ************************************************************************ */
 
@@ -207,7 +207,7 @@ public:
   virtual void FoldPreOrder(const FoldFunctor, const void*, void*) const = 0;
   virtual void FoldPostOrder(const FoldFunctor, const void*, void*) const = 0;
 
-   virtual bool Exists(const Data&) const noexcept override; // Override TestableContainer member
+  virtual bool Exists(const Data&) const noexcept override; // Override TestableContainer member
 
 };
 
