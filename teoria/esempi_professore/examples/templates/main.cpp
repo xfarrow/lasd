@@ -3,11 +3,11 @@
 
 using namespace std;
 
-// template <typename Data>
-// class A;
-//
-// template <typename Data>
-// ostream& operator<< (ostream& outstr, const A<Data>& a);
+ template <typename Data>
+ class A;
+
+ template <typename Data>
+ ostream& operator<< (ostream& outstr, const A<Data>& a);
 
 template <typename Data>
 class A {
@@ -53,10 +53,10 @@ public:
     return false;
   }
 
-  template <typename DataX>
-  friend ostream& operator<<(ostream&, const A<DataX>&);
+  //template <typename DataX>
+  //friend ostream& operator<<(ostream&, const A<DataX>&);
 
-  // friend ostream& operator<< <>(ostream&, const A<Data>&);
+   friend ostream& operator<< <>(ostream&, const A<Data>&);
 
 };
 
