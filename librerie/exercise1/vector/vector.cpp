@@ -121,3 +121,60 @@ void Vector<Data>::Clear(){
   Elements = nullptr;
   size = 0;
 }
+
+template typename<Data>
+Data& Vector<Data>::Front() const{
+  if(size!=0){
+    return Elements[0];
+  }else{
+    return std::length_error("Access to an empty vector");
+  }
+}
+
+template typename<Data>
+Data& Vector<Data>::Back() const{
+  if(size!=0){
+    return Elements[size-1];
+  }else{
+    return std::length_error("Access to an empty vector");
+  }
+}
+
+template typename<Data>
+Data& Vector<Data>::operator[](const ulong index) const{
+  if(index < size){
+    return Elements[index];
+  }else{
+    throw std::out_of_range("Access at index " + std::to_string(index) + " invalid because the vector size is" + std::to_string(size));
+  }
+}
+
+template typename<Data>
+void Vector<Data>::MapPreOrder(const MapFunctor fun, void* par){
+  for(ulong i = 0 ; i<size ; i++){
+    fun(Elements[i], par);
+  }
+}
+
+template typename<Data>
+void Vector<Data>::MapPostOrder(const MapFunctor fun, void* par){
+  ulong i = size;
+  while(i>0){
+    fun(Elements[--i], par);
+  }
+}
+
+template typename<Data>
+void Vector<Data>::FoldPreOrder(const FoldFunctor fun, const void* par, void* acc) const{
+  for(ulong i = 0 ; i<size ; ++i){
+    fun(Elements[i], par, acc);
+  }
+}
+
+template typename<Data>
+void Vector<Data>::FoldPostOrder(const FoldFunctor fun, const void* par, void* acc) const{
+  ulong i = size;
+  while(i>0){
+    fun(Elements[--i], par, acc);
+  }
+}
