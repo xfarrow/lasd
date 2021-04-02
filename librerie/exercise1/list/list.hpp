@@ -37,9 +37,11 @@ protected:
 
     // Copy constructor
     Node(const Node&);
+    Node(const Data&);
 
     // Move constructor
     Node(Node&&);
+    Node(Data&&);
 
     /* ********************************************************************** */
 
@@ -118,7 +120,7 @@ public:
   Data& Front() override const; // Override LinearContainer member (must throw std::length_error when empty)
   Data& Back() override const; // Override LinearContainer member (must throw std::length_error when empty)
 
-   Data& operator[](const ulong) const override; // Override LinearContainer member (must throw std::out_of_range when out of range)
+  Data& operator[](const ulong) const override; // Override LinearContainer member (must throw std::out_of_range when out of range)
 
   /* ************************************************************************ */
 
