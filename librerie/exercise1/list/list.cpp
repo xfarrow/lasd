@@ -5,7 +5,7 @@ namespace lasd {
 
 // Specific constructors
 template <typename Data>
-List<Data>::Node::Node(Data newValue){
+List<Data>::Node::Node(const Data& newValue){
   value = newValue;
   next = nullptr;
 }
@@ -14,20 +14,20 @@ List<Data>::Node::Node(Data newValue){
 template <typename Data>
 List<Data>::Node::Node(const Node& copyFrom){
   value = copyFrom.value;
+  next = nullptr;
 }
-
-
 
 // Move constructor
 template <typename Data>
 List<Data>::Node::Node(Node&& moveFrom){
-  std::move(value, moveFrom.value);
-  std::move(next, moveFrom.next);
+  std::swap(value, moveFrom.value);
+  std::swap(next, moveFrom.next);
 }
 
 template <typename Data>
 List<Data>::Node::Node(Data&& moveFrom){
-  std::move(value, moveFrom);
+  std::swap(value, moveFrom);
+
 }
 
 
@@ -36,6 +36,7 @@ template <typename Data>
 bool List<Data>::Node::operator==(const Node& node)const noexcept{
   return (node.value == value);
 }
+
 
 template <typename Data>
 bool List<Data>::Node::operator!=(const Node& node)const noexcept{
@@ -88,7 +89,6 @@ template <typename Data>
  template <typename Data>
  List<Data>& List<Data>::operator=(List<Data>&& moveFrom)noexcept{
    if(*this != moveFrom){
-     //Clear();
      std::swap(size, moveFrom.size);
      std::swap(head, moveFrom.head);
      std::swap(tail, moveFrom.tail);
@@ -146,6 +146,7 @@ bool List<Data>::operator!=(const List<Data>& list) const noexcept{
     else{
       struct Node* tmp = head;
       head = head->next;
+      tmp->next = nullptr;
       delete tmp;
       size--;
     }

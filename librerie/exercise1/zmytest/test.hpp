@@ -54,32 +54,15 @@ template <typename Data>
 void ShowLastElement(lasd::List<Data>&);
 template <typename Data>
 void ShowElementWithASpecificIndex(lasd::List<Data>&);
+template <typename Data>
+void ShowAllElements(lasd::List<Data>&);
+template <typename Data>
+void CheckElementExists(lasd::List<Data>&);
+void SumLessThan(lasd::List<int>&);
+void DoubleIntegers(lasd::List<int>&);
+void ProductMoreThan(lasd::List<float>&);
+void SquareFloats(lasd::List<float>&);
+void ConcatLessThan(lasd::List<std::string>&);
+void Uppercase(lasd::List<std::string>&);
 ulong getDimension();
-/*
-void ChooseDimension(ulong&);
-LinearContainer<Data> GenerateRandomStructure(const ulong&);
-void ViewElement(const LinearContainer<Data>&);
-void PrintAllElements(const LinearContainer<Data>&);
-void PrintElement(Data&, void*); // funzione richiamata dalla map
-void CheckExists(const LinearContainer<Data>&);
-void ChooseFoldFunction(const LinearContainer<Data>&);
-void SumLessThan(const LinearContainer<int>&, const ulong&);
-void SumLessThanFold(int&, const void*, void*);
-void ProductMoreThan(const LinearContainer<float>&, const ulong&);
-void ProductMoreThanFold(float&, const void*, void*);
-void ConcatStringLessThan(const LinearContainer<string>&, const ulong&);
-void ConcatStringLessThanFold(string&, const void*, void*);
-
-//7
-void ChooseMapFunction(const LinearContainer<Data>);
-void DoubleN(const LinearContainer<int>&, const ulong&);
-void DoubleNMap(int&, void*);
-
-void SquareN(const LinearContainer<float>&, const ulong&);
-void SquareNMap(float&, void*);
-
-void Uppercase(const LinearContainer<string>&, const ulong&);
-void UppercaseMap(string&, void*);
-*/
-
 #endif

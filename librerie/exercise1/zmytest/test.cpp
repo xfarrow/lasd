@@ -1,6 +1,7 @@
 #include"test.hpp"
 #include<iostream>
 #include<random>
+#include "../zlasdtest/test.hpp"
 
 void menu(){
   unsigned short int choice;
@@ -15,17 +16,17 @@ void menu(){
 
   switch(choice){
     case 1:
-      //lasd::lasdtest();
+      lasdtest();
       break;
     case 2:
       chosenDataStructure = ChooseDataStructure();
       chosenDataType = ChooseDataType();
+      UseChosenType(chosenDataStructure,chosenDataType);
       break;
     default:
       std::cout<<"An error has occurred"<<std::endl;
       return;
   }
-  UseChosenType(chosenDataStructure,chosenDataType);
 }
 DataStructure ChooseDataStructure(){
   unsigned short int choice;
@@ -105,7 +106,8 @@ void VectorIntegerFunctions(lasd::Vector<int> myvec){
     std::cout<<"5. Controlla esistenza di uno specifico valore"<<std::endl;
     std::cout<<"6. Somma per gli interi minori di uno specifico valore"<<std::endl;
     std::cout<<"7. Raddoppia gli elementi."<<std::endl;
-    std::cout<<"8. Esci"<<std::endl;
+    std::cout<<"8. Torna indietro"<<std::endl;
+    std::cout<<"9. Esci"<<std::endl;
     std::cin>>std::ws;
     std::cin>>choice;
 
@@ -131,8 +133,12 @@ void VectorIntegerFunctions(lasd::Vector<int> myvec){
       case 7:
         DoubleIntegers(myvec);
         break;
+      case 8:
+        std::cout<<std::endl<<std::endl;
+        menu();
+        break;
       }
-  }while(choice!=8);
+  }while(choice!=9 && choice!=8);
 }
 void VectorFloatFunctions(lasd::Vector<float> myvec){
   unsigned short int choice;
@@ -145,7 +151,8 @@ void VectorFloatFunctions(lasd::Vector<float> myvec){
     std::cout<<"5. Controlla esistenza di uno specifico valore"<<std::endl;
     std::cout<<"6. Prodotto per i float maggiori di uno specifico valore"<<std::endl;
     std::cout<<"7. Eleva al quadrato gli elementi."<<std::endl;
-    std::cout<<"8. Esci"<<std::endl;
+    std::cout<<"8. Torna indietro"<<std::endl;
+    std::cout<<"9. Esci"<<std::endl;
     std::cin>>std::ws;
     std::cin>>choice;
     switch(choice){
@@ -170,8 +177,12 @@ void VectorFloatFunctions(lasd::Vector<float> myvec){
       case 7:
         SquareFloats(myvec);
         break;
+      case 8:
+          std::cout<<std::endl<<std::endl;
+          menu();
+          break;
       }
-  }while(choice!=8);
+    }while(choice!=9 && choice!=8);
 }
 void VectorStringFunctions(lasd::Vector<std::string> myvec){
   unsigned short int choice;
@@ -184,7 +195,8 @@ void VectorStringFunctions(lasd::Vector<std::string> myvec){
     std::cout<<"5. Controlla esistenza di uno specifico valore"<<std::endl;
     std::cout<<"6. Concatenazione delle stringhe lunghe meno di uno specifico n"<<std::endl;
     std::cout<<"7. Uppercase."<<std::endl;
-    std::cout<<"8. Esci"<<std::endl;
+    std::cout<<"8. Torna indietro"<<std::endl;
+    std::cout<<"9. Esci"<<std::endl;
     std::cin>>std::ws;
     std::cin>>choice;
     switch(choice){
@@ -209,8 +221,12 @@ void VectorStringFunctions(lasd::Vector<std::string> myvec){
       case 7:
         Uppercase(myvec);
         break;
-    }
-  }while(choice!=8);
+      case 8:
+        std::cout<<std::endl<<std::endl;
+        menu();
+        break;
+      }
+    }while(choice!=9 && choice!=8);
 }
 template <typename Data>
 void ShowFirstElement(lasd::Vector<Data>& vec){
@@ -250,9 +266,9 @@ void CheckElementExists(lasd::Vector<Data>& vec){
   std::cin>>std::ws;
   std::cin>>element;
   if(vec.Exists(element))
-    std::cout<<"The element exists"<<std::endl;
+    std::cout<<"The element exists"<<std::endl<<std::endl;
   else
-    std::cout<<"The element does not exist"<<std::endl;
+    std::cout<<"The element does not exist"<<std::endl<<std::endl;
 }
 void SumLessThan(lasd::Vector<int>& vec){
   int pivot;
@@ -272,7 +288,7 @@ if(data < (*(int*)par)){
 void DoubleIntegers(lasd::Vector<int>& vec){
   void (*fun)(int&, void*) = DoubleAnInteger;
   vec.MapPreOrder(fun, nullptr);
-  std::cout<<"The doubled elements of the vector are: ";
+  std::cout<<std::endl<<"The doubled elements of the vector are: ";
   for (ulong i=0 ; i < vec.Size(); ++i){
     std::cout<<vec[i]<<" ";
   }
@@ -284,7 +300,7 @@ void DoubleAnInteger(int& data, void* _){
 void ProductMoreThan(lasd::Vector<float>& vec){
   float pivot, acc=1;
   void (*func)(const float&, const void*, void*) = AccumulateProduct;
-  std::cout<<"Which element do you choose to performa a product above it? ";
+  std::cout<<"Which element do you choose to perform a product above it? ";
   std::cin>>std::ws;
   std::cin>>pivot;
   vec.FoldPreOrder(func, (void*)&pivot, (void*)&acc);
@@ -298,7 +314,7 @@ if(data > (*(float*)par)){
 void SquareFloats(lasd::Vector<float>& vec){
   void (*fun)(float&, void*) = SquareAFloat;
   vec.MapPreOrder(fun, nullptr);
-  std::cout<<"The squared elements of the vector are: ";
+  std::cout<<std::endl<<"The squared elements of the vector are: ";
   for (ulong i=0 ; i < vec.Size(); ++i){
     std::cout<<vec[i]<<" ";
   }
@@ -307,7 +323,6 @@ void SquareFloats(lasd::Vector<float>& vec){
 void SquareAFloat(float& data, void* _){
   data *= data;
 }
-
 void ConcatLessThan(lasd::Vector<std::string>& vec){
   ulong pivot;
   std::string acc = "";
@@ -355,7 +370,8 @@ void ListIntegerFunctions(lasd::List<int> mylist){
     std::cout<<"5. Controlla esistenza di uno specifico valore"<<std::endl;
     std::cout<<"6. Somma per gli interi minori di uno specifico valore"<<std::endl;
     std::cout<<"7. Raddoppia gli elementi."<<std::endl;
-    std::cout<<"8. Esci"<<std::endl;
+    std::cout<<"8. Torna indietro"<<std::endl;
+    std::cout<<"9. Esci"<<std::endl;
     std::cin>>std::ws;
     std::cin>>choice;
 
@@ -370,19 +386,23 @@ void ListIntegerFunctions(lasd::List<int> mylist){
         ShowElementWithASpecificIndex(mylist);
         break;
       case 4:
-        //ShowAllElements(mylist);
+        ShowAllElements(mylist);
         break;
       case 5:
-        //CheckElementExists(mylist);
+        CheckElementExists(mylist);
         break;
       case 6:
-        //SumLessThan(mylist);
+        SumLessThan(mylist);
         break;
       case 7:
-        //DoubleIntegers(mylist);
+        DoubleIntegers(mylist);
+        break;
+      case 8:
+        std::cout<<std::endl<<std::endl;
+        menu();
         break;
       }
-  }while(choice!=8);
+    }while(choice!=9 && choice!=8);
 }
 void ListFloatFunctions(lasd::List<float> mylist){
   unsigned short int choice;
@@ -395,7 +415,8 @@ void ListFloatFunctions(lasd::List<float> mylist){
     std::cout<<"5. Controlla esistenza di uno specifico valore"<<std::endl;
     std::cout<<"6. Prodotto per i float maggiori di uno specifico valore"<<std::endl;
     std::cout<<"7. Eleva al quadrato gli elementi."<<std::endl;
-    std::cout<<"8. Esci"<<std::endl;
+    std::cout<<"8. Torna indietro"<<std::endl;
+    std::cout<<"9. Esci"<<std::endl;
     std::cin>>std::ws;
     std::cin>>choice;
     switch(choice){
@@ -409,19 +430,23 @@ void ListFloatFunctions(lasd::List<float> mylist){
         ShowElementWithASpecificIndex(mylist);
         break;
       case 4:
-        //ShowAllElements(myvec);
+        ShowAllElements(mylist);
         break;
       case 5:
-        //CheckElementExists(myvec);
+        CheckElementExists(mylist);
         break;
       case 6:
-        //ProductMoreThan(myvec);
+        ProductMoreThan(mylist);
         break;
       case 7:
-        //SquareFloats(myvec);
+        SquareFloats(mylist);
         break;
-      }
-  }while(choice!=8);
+      case 8:
+        std::cout<<std::endl<<std::endl;
+        menu();
+        break;
+        }
+    }while(choice!=9 && choice!=8);
 }
 void ListStringFunctions(lasd::List<std::string> mylist){
   unsigned short int choice;
@@ -434,7 +459,8 @@ void ListStringFunctions(lasd::List<std::string> mylist){
     std::cout<<"5. Controlla esistenza di uno specifico valore"<<std::endl;
     std::cout<<"6. Concatenazione delle stringhe lunghe meno di uno specifico n"<<std::endl;
     std::cout<<"7. Uppercase."<<std::endl;
-    std::cout<<"8. Esci"<<std::endl;
+    std::cout<<"8. Vai indietro"<<std::endl;
+    std::cout<<"9. Esci"<<std::endl;
     std::cin>>std::ws;
     std::cin>>choice;
     switch(choice){
@@ -448,19 +474,23 @@ void ListStringFunctions(lasd::List<std::string> mylist){
         ShowElementWithASpecificIndex(mylist);
         break;
       case 4:
-        //ShowAllElements(myvec);
+        ShowAllElements(mylist);
         break;
       case 5:
-      // CheckElementExists(myvec);
+        CheckElementExists(mylist);
         break;
       case 6:
-        //ConcatLessThan(myvec);
+        ConcatLessThan(mylist);
         break;
       case 7:
-        //Uppercase(myvec);
+        Uppercase(mylist);
         break;
-    }
-  }while(choice!=8);
+      case 8:
+        std::cout<<std::endl<<std::endl;
+        menu();
+        break;
+      }
+    }while(choice!=9 && choice!=8);
 }
 
 template <typename Data>
@@ -483,6 +513,85 @@ void ShowElementWithASpecificIndex(lasd::List<Data>& list){
     std::cout<<exc.what()<<std::endl;
   }
 }
+
+template <typename Data>
+void ShowAllElements(lasd::List<Data>& list){
+  void (*AuxMapPreOrder) (Data&, void*) = PrintSingleElement;
+  std::cout<<"The list contains:"<<std::endl;
+  list.MapPreOrder(AuxMapPreOrder, nullptr);
+  std::cout<<std::endl<<std::endl;
+}
+
+template <typename Data>
+void CheckElementExists(lasd::List<Data>& list){
+  Data element;
+  std::cout<<"What element do you wanna check its exsistence on? ";
+  std::cin>>std::ws;
+  std::cin>>element;
+  if(list.Exists(element))
+    std::cout<<"The element exists"<<std::endl<<std::endl;
+  else
+    std::cout<<"The element does not exist"<<std::endl<<std::endl;
+}
+
+void SumLessThan(lasd::List<int>& list){
+  int pivot;
+  ulong acc=0;
+  void (*func)(const int&, const void*, void*) = AccumulateSum;
+  std::cout<<"Which element do you choose to performa a sum under it? ";
+  std::cin>>std::ws;
+  std::cin>>pivot;
+  list.FoldPreOrder(func, (void*)&pivot, (void*)&acc);
+  std::cout<<"The result of the sum is "<<acc<<std::endl<<std::endl;
+}
+
+void DoubleIntegers(lasd::List<int>& list){
+  void (*fun)(int&, void*) = DoubleAnInteger;
+  list.MapPreOrder(fun, nullptr);
+  std::cout<<std::endl<<"The doubled elements of the vector are: ";
+  for (ulong i=0 ; i < list.Size(); ++i){
+    std::cout<<list[i]<<" ";
+  }
+  std::cout<<std::endl<<std::endl;
+}
+void ProductMoreThan(lasd::List<float>& list){
+  float pivot, acc=1;
+  void (*func)(const float&, const void*, void*) = AccumulateProduct;
+  std::cout<<"Which element do you choose to perform a product above it? ";
+  std::cin>>std::ws;
+  std::cin>>pivot;
+  list.FoldPreOrder(func, (void*)&pivot, (void*)&acc);
+  std::cout<<"The result of the product is "<<acc<<std::endl<<std::endl;
+}
+void SquareFloats(lasd::List<float>& list){
+  void (*fun)(float&, void*) = SquareAFloat;
+  list.MapPreOrder(fun, nullptr);
+  std::cout<<std::endl<<"The squared elements of the vector are: ";
+  for (ulong i=0 ; i < list.Size(); ++i){
+    std::cout<<list[i]<<" ";
+  }
+  std::cout<<std::endl<<std::endl;
+}
+void ConcatLessThan(lasd::List<std::string>& list){
+  ulong pivot;
+  std::string acc = "";
+  void (*func)(const std::string&, const void*, void*) = ConcatAux;
+  std::cout<<"Concat elements whose length is less than: ";
+  std::cin>>std::ws;
+  std::cin>>pivot;
+  list.FoldPreOrder(func, (void*)&pivot, (void*)&acc);
+  std::cout<<"The concatenated string is "<<acc<<std::endl<<std::endl;
+}
+void Uppercase(lasd::List<std::string>& list){
+  void (*fun)(std::string&, void*) = UppercaseAString;
+  list.MapPreOrder(fun, nullptr);
+  std::cout<<"The uppercased strings are: "<<std::endl;
+  for (ulong i=0 ; i < list.Size() ; ++i){
+    std::cout<<list[i]<<" ";
+  }
+  std::cout<<std::endl<<std::endl;
+}
+
 /*
 ********** END LIST FUNCTIONS **********
 */
@@ -548,7 +657,7 @@ lasd::Vector<int> generateVectorOfIntegers(){
   for(ulong i = 0 ; i<dim ; ++i){
     myvec[i] = dist(gen);
   }
-  std::cout<<"Elements of the vector:"<<std::endl;
+  std::cout<<std::endl<<"Elements of the vector:"<<std::endl;
   for(unsigned long i = 0 ; i<dim ; ++i){
     std::cout<<myvec[i]<<" ";
   }
@@ -564,7 +673,7 @@ lasd::Vector<float> generateVectorOfFloat(){
   for(unsigned long i = 0; i < dim; ++i){
     myvec[i] = (round(distr(gen)*10000))/100;
   }
-  std::cout<<"Elements of the vector:"<<std::endl;
+  std::cout<<std::endl<<"Elements of the vector:"<<std::endl;
   for(unsigned long i = 0 ; i<dim ; ++i){
     std::cout<<myvec[i]<<" ";
   }
@@ -581,11 +690,11 @@ lasd::Vector<std::string> generateVectorOfStrings(){
   for(unsigned long i = 0; i < dim; ++i){
     myvec[i] = generateRandomString(dist(gen));
   }
-  std::cout<<"Elements of the vector:"<<std::endl;
+  std::cout<<std::endl<<"Elements of the vector:"<<std::endl;
   for(unsigned long i = 0 ; i<dim ; ++i){
     std::cout<<myvec[i]<<" ";
   }
-  std::cout<<std::endl;
+  std::cout<<std::endl<<std::endl;
   return myvec;
 }
 std::string generateRandomString(ulong dim){

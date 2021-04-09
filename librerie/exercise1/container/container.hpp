@@ -21,7 +21,7 @@ public:
   virtual ~Container() = default;
 
   // Copy assignment
-   Container& operator=(const Container&) = delete; // Copy assignment of abstract types should not be possible.
+  Container& operator=(const Container&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
   Container& operator=(Container&&) noexcept = delete;; // Move assignment of abstract types should not be possible.
