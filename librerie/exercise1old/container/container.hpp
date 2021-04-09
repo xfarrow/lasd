@@ -2,10 +2,16 @@
 #ifndef CONTAINER_HPP
 #define CONTAINER_HPP
 
+/* ************************************************************************** */
+
 #include <stdexcept>
 #include <functional>
 
+/* ************************************************************************** */
+
 namespace lasd {
+
+/* ************************************************************************** */
 
 class Container {
 
@@ -20,35 +26,40 @@ public:
   // Destructor
   virtual ~Container() = default;
 
+  /* ************************************************************************ */
+
   // Copy assignment
-   Container& operator=(const Container&) = delete; // Copy assignment of abstract types should not be possible.
+  Container& operator=(const Container&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  Container& operator=(Container&&) noexcept = delete;; // Move assignment of abstract types should not be possible.
+  Container& operator=(Container&&) noexcept = delete; // Move assignment of abstract types should not be possible.
+
+  /* ************************************************************************ */
 
   // Comparison operators
-   bool operator==(const Container&) const noexcept = delete; // Comparison of abstract types might not be possible.
-   bool operator!=(const Container&&) const noexcept = delete; // Comparison of abstract types might not be possible.
+  bool operator==(const Container&) const noexcept = delete; // Comparison of abstract types might not be possible.
+  bool operator!=(const Container&) const noexcept = delete; // Comparison of abstract types might not be possible.
+
+  /* ************************************************************************ */
 
   // Specific member functions
 
-   virtual bool Empty() const noexcept {
-     return (size == 0);
-   } // (concrete function should not throw exceptions)
+  virtual bool Empty() const noexcept { // (concrete function should not throw exceptions)
+    return (size == 0);
+  }
 
-   virtual ulong Size() const noexcept {
-     return size;
-   } // (concrete function should not throw exceptions)
+  virtual ulong Size() const noexcept{
+    return size;
+  }
 
-   virtual void Clear() = 0;
+  virtual void Clear() = 0;
+
 };
 
 /* ************************************************************************** */
 
-
-
 template <typename Data>
-class LinearContainer : virtual public Container{ // Must extend Container
+class LinearContainer : virtual public Container { // Must extend Container
 
 private:
 
@@ -59,11 +70,15 @@ public:
   // Destructor
   virtual ~LinearContainer() = default;
 
+  /* ************************************************************************ */
+
   // Copy assignment
   LinearContainer& operator=(const LinearContainer&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  LinearContainer& operator=(LinearContainer&&) noexcept = delete; // Move assignment of abstract types should not be possible.
+  LinearContainer& operator=(LinearContainer&&) = delete; // Move assignment of abstract types should not be possible.
+
+  /* ************************************************************************ */
 
   // Comparison operators
   bool operator==(const LinearContainer&) const noexcept = delete; // Comparison of abstract types might not be possible.
@@ -80,8 +95,10 @@ public:
 
 };
 
+/* ************************************************************************** */
+
 template <typename Data>
-class TestableContainer : virtual public Container{ // Must extend Container
+class TestableContainer : virtual public Container { // Must extend Container
 
 private:
 
@@ -92,11 +109,15 @@ public:
   // Destructor
   virtual ~TestableContainer() = default;
 
+  /* ************************************************************************ */
+
   // Copy assignment
   TestableContainer& operator=(const TestableContainer&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
   TestableContainer& operator=(TestableContainer&&) noexcept = delete; // Move assignment of abstract types should not be possible.
+
+  /* ************************************************************************ */
 
   // Comparison operators
   bool operator==(const TestableContainer&) const noexcept = delete; // Comparison of abstract types might not be possible.
@@ -110,6 +131,8 @@ public:
 
 };
 
+/* ************************************************************************** */
+
 template <typename Data>
 class MappableContainer : virtual public Container { // Must extend Container
 
@@ -122,15 +145,21 @@ public:
   // Destructor
   virtual ~MappableContainer() = default;
 
+  /* ************************************************************************ */
+
   // Copy assignment
-   MappableContainer& operator=(const MappableContainer&) = delete; // Copy assignment of abstract types should not be possible.
+  MappableContainer& operator=(const MappableContainer&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
   MappableContainer& operator=(MappableContainer&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
+  /* ************************************************************************ */
+
   // Comparison operators
   bool operator==(const MappableContainer&) const noexcept = delete; // Comparison of abstract types might not be possible.
   bool operator!=(const MappableContainer&) const noexcept = delete; // Comparison of abstract types might not be possible.
+
+  /* ************************************************************************ */
 
   // Specific member functions
 
@@ -140,6 +169,8 @@ public:
   virtual void MapPostOrder(const MapFunctor, void*) = 0;
 
 };
+
+/* ************************************************************************** */
 
 template <typename Data>
 class FoldableContainer : virtual public TestableContainer<Data>{ // Must extend TestableContainer
@@ -153,19 +184,25 @@ public:
   // Destructor
   virtual ~FoldableContainer() = default;
 
+  /* ************************************************************************ */
+
   // Copy assignment
   FoldableContainer& operator=(const FoldableContainer&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
   FoldableContainer& operator=(FoldableContainer&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
+  /* ************************************************************************ */
+
   // Comparison operators
-  bool operator==(FoldableContainer&) const noexcept = delete; // Comparison of abstract types might not be possible.
-  bool operator!=(FoldableContainer&) const noexcept = delete; // Comparison of abstract types might not be possible.
+  bool operator==(const FoldableContainer&) const noexcept = delete; // Comparison of abstract types might not be possible.
+  bool operator!=(const FoldableContainer&) const noexcept = delete; // Comparison of abstract types might not be possible.
+
+  /* ************************************************************************ */
 
   // Specific member functions
 
-   typedef std::function<void(const Data&, const void*, void*) noexcept> FoldFunctor;
+  typedef std::function<void(const Data&, const void*, void*) noexcept> FoldFunctor;
 
   virtual void FoldPreOrder(const FoldFunctor, const void*, void*) const = 0;
   virtual void FoldPostOrder(const FoldFunctor, const void*, void*) const = 0;

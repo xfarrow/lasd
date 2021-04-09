@@ -2,15 +2,9 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
-/* ************************************************************************** */
-
 #include "../container/container.hpp"
 
-/* ************************************************************************** */
-
 namespace lasd {
-
-/* ************************************************************************** */
 
 template <typename Data>
 class Vector : virtual public LinearContainer<Data>,
@@ -19,20 +13,14 @@ class Vector : virtual public LinearContainer<Data>,
 
 private:
 
-
 protected:
 
    using LinearContainer<Data>::size;
    Data* Elements = nullptr;
-
-  // ...
-
 public:
 
   // Default constructor
-  // Vector() specifiers;
-    Vector() = default;
-
+  Vector() = default;
 
   /* ************************************************************************ */
 
@@ -43,20 +31,20 @@ public:
   /* ************************************************************************ */
 
   // Copy constructor
-   Vector(const Vector&);
+  Vector(const Vector&);
 
   // Move constructor
-   Vector(Vector&&)noexcept;
+  Vector(Vector&&) noexcept;
 
   /* ************************************************************************ */
 
   // Destructor
-   ~Vector();
+  ~Vector();
 
   /* ************************************************************************ */
 
   // Copy assignment
-   Vector& operator=(const Vector&);
+  Vector& operator=(const Vector&);
 
   // Move assignment
   Vector& operator=(Vector&&) noexcept;
@@ -92,19 +80,20 @@ public:
 
   // Specific member functions (inherited from MappableContainer)
 
-   using typename MappableContainer<Data>::MapFunctor;
+  using typename MappableContainer<Data>::MapFunctor;
 
-   void MapPreOrder(const MapFunctor, void*) override; // Override MappableContainer member
-   void MapPostOrder(const MapFunctor, void*) override; // Override MappableContainer member
+  void MapPreOrder(const MapFunctor, void*) override; // Override MappableContainer member
+  void MapPostOrder(const MapFunctor, void*) override; // Override MappableContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from FoldableContainer)
 
-   using typename FoldableContainer<Data>::FoldFunctor;
+  using typename FoldableContainer<Data>::FoldFunctor;
 
   void FoldPreOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
   void FoldPostOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
+
 };
 
 /* ************************************************************************** */

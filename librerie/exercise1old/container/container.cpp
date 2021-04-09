@@ -14,5 +14,4 @@ bool FoldableContainer<Data>::Exists(const Data& dat) const noexcept{
   FoldPreOrder(&AuxFoldExists<Data>, &dat, &exists);
   return exists;
 }
-
 }

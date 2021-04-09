@@ -13,9 +13,9 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class List : virtual public LinearContainer<Data>,
-             virtual public MappableContainer<Data>,
-             virtual public FoldableContainer<Data>{ // Must extend LinearContainer<Data>, MappableContainer<Data>, and FoldableContainer<Data>
+class List :  virtual public LinearContainer<Data>,
+              virtual public MappableContainer<Data>,
+              virtual public FoldableContainer<Data>  { // Must extend LinearContainer<Data>, MappableContainer<Data>, and FoldableContainer<Data>
 
 private:
 
@@ -26,12 +26,12 @@ protected:
   struct Node
   {
     Data value;
-    Node*  next = nullptr;
+    Node* next = nullptr;
 
     /* ********************************************************************** */
 
     // Specific constructors
-     Node(Data);
+    Node(Data);
 
     /* ********************************************************************** */
 
@@ -52,11 +52,6 @@ protected:
     // Comparison operators
     bool operator==(const Node&) const noexcept;
     bool operator!=(const Node&) const noexcept;
-
-    /* ********************************************************************** */
-
-    // Specific member functions
-
   };
 
   struct Node* head = nullptr;
@@ -77,7 +72,7 @@ public:
   // Copy constructor
   List(const List&);
 
-  // Move constructor
+  //Move constructor
   List(List&&);
 
   /* ************************************************************************ */
@@ -88,16 +83,16 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-   List& operator=(const List&);
+  List& operator=(const List&);
 
   // Move assignment
-   List& operator=(List&&) noexcept;
+  List& operator=(List&&) noexcept;
 
   /* ************************************************************************ */
 
   // Comparison operators
-   bool operator==(const List&) const noexcept;
-   bool operator!=(const List&) const noexcept;
+  bool operator==(const List&) const noexcept;
+  bool operator!=(const List&) const noexcept;
 
   /* ************************************************************************ */
 
@@ -115,7 +110,7 @@ public:
 
   // Specific member functions (inherited from Container)
 
-   void Clear() override; // Override Container member
+  void Clear() override; // Override Container member
 
   /* ************************************************************************ */
 
@@ -148,15 +143,15 @@ protected:
 
   // Auxiliary member functions (for MappableContainer)
 
-  void MapPreOrder(const MapFunctor, void* , struct Node*); // Accessory function executing from one point of the list onwards
-  void MapPostOrder(const MapFunctor, void* , struct Node*); // Accessory function executing from one point of the list onwards
+  void MapPreOrder(const MapFunctor, void*, struct Node*); // Accessory function executing from one point of the list onwards
+  void MapPostOrder(const MapFunctor, void*, struct Node*); // Accessory function executing from one point of the list onwards
 
   /* ************************************************************************ */
 
   // Auxiliary member functions (for FoldableContainer)
 
   void FoldPreOrder(const FoldFunctor, const void*, void*, struct Node*) const; // Accessory function executing from one point of the list onwards
-  void FoldPostOrder(const FoldFunctor, const void*, void*, struct Node*) const;; // Accessory function executing from one point of the list onwards
+  void FoldPostOrder(const FoldFunctor, const void*, void*, struct Node*) const; // Accessory function executing from one point of the list onwards
 
 };
 
