@@ -27,7 +27,6 @@ List<Data>::Node::Node(Node&& moveFrom){
 template <typename Data>
 List<Data>::Node::Node(Data&& moveFrom){
   std::swap(value, moveFrom);
-
 }
 
 
