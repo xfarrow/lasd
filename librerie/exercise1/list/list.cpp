@@ -148,6 +148,10 @@ bool List<Data>::operator!=(const List<Data>& list) const noexcept{
       tmp->next = nullptr;
       delete tmp;
       size--;
+
+      if(head==nullptr){
+        tail=nullptr;
+      }
     }
   }
 
