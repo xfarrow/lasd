@@ -609,11 +609,11 @@ lasd::List<std::string> generateListOfStrings(){
   for(unsigned long i = 0; i < dim; ++i){
      mylist.InsertAtFront(generateRandomString(dist(gen)));
   }
-  std::cout<<"Elements of the list:"<<std::endl;
+  std::cout<<std::endl<<"Elements of the list:"<<std::endl;
   for(unsigned long i = 0 ; i<dim ; ++i){
     std::cout<<mylist[i]<<" ";
   }
-  std::cout<<std::endl;
+  std::cout<<std::endl<<std::endl;
   return mylist;
 }
 lasd::List<float> generateListOfFloat(){
@@ -625,11 +625,11 @@ lasd::List<float> generateListOfFloat(){
   for(unsigned long i = 0; i < dim; ++i){
     mylist.InsertAtFront((round(distr(gen)*10000))/100);
   }
-  std::cout<<"Elements of the list:"<<std::endl;
+  std::cout<<std::endl<<"Elements of the list:"<<std::endl;
   for(unsigned long i = 0 ; i<dim ; ++i){
     std::cout<<mylist[i]<<" ";
   }
-  std::cout<<std::endl;
+  std::cout<<std::endl<<std::endl;
   return mylist;
 }
 lasd::List<int> generateListOfIntegers(){
@@ -640,11 +640,11 @@ lasd::List<int> generateListOfIntegers(){
   for(ulong i=0 ; i<dim ; ++i){
     mylist.InsertAtFront(dist(gen));
   }
-  std::cout<<"Elements of the list:"<<std::endl;
+  std::cout<<std::endl<<"Elements of the list:"<<std::endl;
   for(unsigned long i = 0 ; i<dim ; ++i){
     std::cout<<mylist[i]<<" ";
   }
-  std::cout<<std::endl;
+  std::cout<<std::endl<<std::endl;
   return mylist;
 }
 lasd::Vector<int> generateVectorOfIntegers(){
@@ -657,11 +657,11 @@ lasd::Vector<int> generateVectorOfIntegers(){
   for(ulong i = 0 ; i<dim ; ++i){
     myvec[i] = dist(gen);
   }
-  std::cout<<std::endl<<"Elements of the vector:"<<std::endl;
+  std::cout<<std::endl<<std::endl<<"Elements of the vector:"<<std::endl;
   for(unsigned long i = 0 ; i<dim ; ++i){
     std::cout<<myvec[i]<<" ";
   }
-  std::cout<<std::endl;
+  std::cout<<std::endl<<std::endl;
   return myvec;
 }
 lasd::Vector<float> generateVectorOfFloat(){
@@ -673,11 +673,11 @@ lasd::Vector<float> generateVectorOfFloat(){
   for(unsigned long i = 0; i < dim; ++i){
     myvec[i] = (round(distr(gen)*10000))/100;
   }
-  std::cout<<std::endl<<"Elements of the vector:"<<std::endl;
+  std::cout<<std::endl<<std::endl<<"Elements of the vector:"<<std::endl;
   for(unsigned long i = 0 ; i<dim ; ++i){
     std::cout<<myvec[i]<<" ";
   }
-  std::cout<<std::endl;
+  std::cout<<std::endl<<std::endl;
   return myvec;
 }
 lasd::Vector<std::string> generateVectorOfStrings(){
@@ -690,7 +690,7 @@ lasd::Vector<std::string> generateVectorOfStrings(){
   for(unsigned long i = 0; i < dim; ++i){
     myvec[i] = generateRandomString(dist(gen));
   }
-  std::cout<<std::endl<<"Elements of the vector:"<<std::endl;
+  std::cout<<std::endl<<std::endl<<"Elements of the vector:"<<std::endl;
   for(unsigned long i = 0 ; i<dim ; ++i){
     std::cout<<myvec[i]<<" ";
   }
