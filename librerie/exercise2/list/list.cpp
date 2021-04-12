@@ -129,7 +129,7 @@ bool List<Data>::operator!=(const List<Data>& list) const noexcept{
   void List<Data>::InsertAtFront(Data&& data){
     struct Node* tmp = new Node(data);
     tmp->next = head;
-    head =tmp;
+    head=tmp;
     size++;
 
     if(size == 1){
