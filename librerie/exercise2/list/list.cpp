@@ -56,7 +56,7 @@ template <typename Data>
 List<Data>::List(const List<Data>& copyFrom){
   for(ulong i = 0; i<copyFrom.Size(); ++i){
     InsertAtBack(copyFrom[i]);
-    }
+  }
 }
 
 // Move constructor

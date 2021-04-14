@@ -10,12 +10,23 @@ StackLst(const LinearContainer<Data>& linear){
     Push(linear[i]);
   }
 }
+/*
+PROVARE
+template <typename Data>
+StackLst(const LinearContainer<Data>& linear) : List<Data>(linear){
+return;
+}
+*/
 
 StackLst(const StackLst& stcklist){
   for(ulong i=stcklist.Size()-1 ; i>=0 ; --i){
     Push(stcklist[i]);
   }
 }
+/*
+PROVARE
+StackLst(const StackLst& stcklist) : List<Data>(stcklist){}
+*/
 
 template <typename Data>
 StackLst<Data>::StackLst(StackLst&& stcklist) noexcept{

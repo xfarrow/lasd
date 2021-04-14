@@ -21,7 +21,7 @@ private:
 
 protected:
 
-  ulong stackSize = 0; // Actual stack dimension
+  ulong stackSize = 0; // first empty cell
   using Vector<Data>::Elements;
   using Vector<Data>::size;
 
@@ -52,7 +52,7 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  StackVec& operator=(const StackVec&)
+  StackVec& operator=(const StackVec&);
 
   // Move assignment
   StackVec& operator=(StackVec&&) noexcept;
@@ -79,7 +79,7 @@ public:
 
   bool Empty() const noexcept override; // Override Container member
 
-  ulong Size() const noexcept override; specifiers; // Override Container member
+  ulong Size() const noexcept override; // Override Container member
 
   void Clear() override;// Override Container member
 
