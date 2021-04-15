@@ -79,7 +79,7 @@ public:
 
   bool Empty() const noexcept override; // Override Container member
 
-  unsigned long Size() const noexcept override; // Override Container member
+  ulong Size() const noexcept override; // Override Container member
 
   void Clear() override; // Override Container member
 
