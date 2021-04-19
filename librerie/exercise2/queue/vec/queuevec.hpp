@@ -22,7 +22,7 @@ private:
 protected:
 
   using Vector<Data>::Elements;
-  using Vector<Data>::size;
+  using Vector<Data>::size; // dimension of the array
   ulong front = 0;
   ulong rear = 0;
 
@@ -89,6 +89,7 @@ protected:
 
   void Expand();
   void Reduce();
+
   //void SwapVectors(arguments) specifiers;
 
 };

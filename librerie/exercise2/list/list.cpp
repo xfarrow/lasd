@@ -118,7 +118,6 @@ bool List<Data>::operator!=(const List<Data>& list) const noexcept{
    tmp->next = head;
    head =tmp;
    size++;
-
    if(size == 1){
       tail = head;
     }
@@ -158,7 +157,7 @@ bool List<Data>::operator!=(const List<Data>& list) const noexcept{
   template <typename Data>
   Data List<Data>::FrontNRemove(){
     if(head == nullptr){
-      throw std::length_error("List is empty!");
+      throw std::length_error("List is empty! (head=null)");
     }
     else{
       Data value = head->value;

@@ -11,19 +11,19 @@ QueueVec<Data>::QueueVec(){
 }
 
 template <typename Data>
-QueueVec(const LinearContainer<Data>& linear){
+QueueVec<Data>::QueueVec(const LinearContainer<Data>& linear){
   size = linear.Size();
   Elements = new Data[size+1]; //forse da espandere
   for(ulong i=0 ; i<linear.Size() ; ++i){
     Elements[i] = linear[i];
   }
   front = 0;
-  rear = size;
+  rear = size; // the vector will be full
 }
 
 template <typename Data>
 QueueVec<Data>::QueueVec(const QueueVec& toCopy){
-  size = toCopy.Size();
+  size = toCopy.size;
   ulong index_of_the_element = toCopy.front , i=0;
   Elements = new Data[size];
 
@@ -33,11 +33,16 @@ QueueVec<Data>::QueueVec(const QueueVec& toCopy){
     index_of_the_element = (index_of_the_element+1)%size;
   }
   front = 0;
-  rear = toCopy.rear;
+  rear = i;
 }
 
 template <typename Data>
 QueueVec<Data>::QueueVec(QueueVec&& toMove) noexcept{
+    /*
+      we initialize size=4 so the swapped vector won't be in an
+      inconsistent state (size=0 can never be accettable)
+    */
+    size = 4;
     std::swap(Elements, toMove.Elements);
     std::swap(rear, toMove.rear);
     std::swap(front, toMove.front);
@@ -45,9 +50,8 @@ QueueVec<Data>::QueueVec(QueueVec&& toMove) noexcept{
 }
 
 template <typename Data>
-virtual QueueVec<Data>::~QueueVec(){
-  //vector destructor will be called
-  // TEST IT!
+QueueVec<Data>::~QueueVec(){
+  //vector destructor will be called automatically i hope
 }
 
 template <typename Data>
@@ -118,7 +122,7 @@ Data& QueueVec<Data>::Head() const{
 
 template <typename Data>
 void QueueVec<Data>::Dequeue(){
-  if(Size() == 0){
+  if(Size() <= 0){
     throw std::length_error("Queuevec is empty!");
   }
   front = (front + 1) % size;
@@ -140,13 +144,53 @@ bool QueueVec<Data>::Empty() const noexcept{
 }
 
 template <typename Data>
-ulong Size() const noexcept{
+ulong QueueVec<Data>::Size() const noexcept{
   return ((rear + size) - front) % size;
 }
 
 template <typename Data>
-void Clear(){
+void QueueVec<Data>::Clear(){
+  if(size!=4){
+    delete[] Elements;
+    Elements = new Data[4];
+    size = 4;
+  }
+  front = 0;
+  rear = 0;
+}
 
+template <typename Data>
+void QueueVec<Data>::Expand(){
+  Data* tmp = new Data[size * 2];
+  ulong current_index = front , i=0;
+  while(current_index != rear){
+    tmp[i] = Elements[current_index];
+    current_index = (current_index+1)%size;
+    ++i;
+  }
+  delete[] Elements;
+  Elements = tmp;
+  front = 0;
+  rear = i;
+  size *= 2;
+}
+
+template <typename Data>
+void QueueVec<Data>::Reduce(){
+  if(size<=4) return; // we are not going to have vectors with less than 4 Elements
+  ulong newsize = (ulong)size/2;
+  Data* tmp = new Data[newsize];
+  ulong current_index = front , i=0;
+  while(i < newsize){
+    tmp[i] = Elements[current_index];
+    current_index = (current_index+1)%size;
+    ++i;
+  }
+  delete[] Elements;
+  Elements = tmp;
+  front = 0;
+  rear = i;
+  size *= 2;
 }
 /* ************************************************************************** */
 

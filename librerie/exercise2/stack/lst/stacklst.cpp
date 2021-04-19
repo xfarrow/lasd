@@ -5,8 +5,8 @@ namespace lasd {
 
 // Constructors
 template <typename Data>
-StackLst(const LinearContainer<Data>& linear){
-  for(ulong i=linear.Size()-1 ; i>=0 ; --i){ // è possibile usare il costruttore di List?
+StackLst<Data>::StackLst(const LinearContainer<Data>& linear){
+  for(long int i=(long int)linear.Size()-1 ; i>=0 ; --i){ // è possibile usare il costruttore di List?
     Push(linear[i]);
   }
 }
@@ -17,9 +17,9 @@ StackLst(const LinearContainer<Data>& linear) : List<Data>(linear){
 return;
 }
 */
-
-StackLst(const StackLst& stcklist){
-  for(ulong i=stcklist.Size()-1 ; i>=0 ; --i){
+template <typename Data>
+StackLst<Data>::StackLst(const StackLst& stcklist){
+for(long int i=(long int)stcklist.Size()-1 ; i>=0 ; i--){
     Push(stcklist[i]);
   }
 }
@@ -35,62 +35,67 @@ StackLst<Data>::StackLst(StackLst&& stcklist) noexcept{
 }
 
 // Destructor
-virtual ~StackLst(){
+template <typename Data>
+StackLst<Data>::~StackLst(){
   Clear();
 }
 
-StackLst& operator=(const StackLst& copyFrom){
+template <typename Data>
+StackLst<Data>& StackLst<Data>::operator=(const StackLst& copyFrom){
   if(*this != copyFrom){
     Clear();
-    for(ulong i=copyFrom.Size()-1 ; i>=0 ; --i){
+    for(long int i=(long int)copyFrom.Size()-1 ; i>=0 ; --i){
       Push(copyFrom[i]);
     }
   }
   return *this;
 }
 
-StackLst& operator=(StackLst&& moveFrom){
+template <typename Data>
+StackLst<Data>& StackLst<Data>::operator=(StackLst&& moveFrom) noexcept{
   std::swap(size, moveFrom.size);
   std::swap(head, moveFrom.head);
   return *this;
 }
 
-bool operator==(const StackLst& stcklist) const noexcept{
+template <typename Data>
+bool StackLst<Data>::operator==(const StackLst& stcklist) const noexcept{
   return List<Data>::operator==(stcklist);
 }
 
-bool operator!=(const StackLst& stcklist) const noexcept{
+template <typename Data>
+bool StackLst<Data>::operator!=(const StackLst& stcklist) const noexcept{
   return List<Data>::operator!=(stcklist);
 }
 
 // Specific member functions (inherited from Stack)
 template <typename Data>
-void Push(const Data& element){
+void StackLst<Data>::Push(const Data& element){
   List<Data>::InsertAtFront(element);
 }
 
 template <typename Data>
-void Push(Data&& element){
+void StackLst<Data>::Push(Data&& element) noexcept{
   List<Data>::InsertAtFront(element);
 }
 
 template <typename Data>
-Data& Top() const{
+Data& StackLst<Data>::Top() const{
   return List<Data>::Front();
 }
 
 template <typename Data>
-void Pop(){
+void StackLst<Data>::Pop(){
   List<Data>::RemoveFromFront();
 }
 
 template <typename Data>
-Data TopNPop(){
+Data StackLst<Data>::TopNPop(){
   return List<Data>::FrontNRemove();
 }
 
 template <typename Data>
-void Clear(){
+void StackLst<Data>::Clear(){
   List<Data>::Clear();
 }
 

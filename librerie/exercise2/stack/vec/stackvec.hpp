@@ -23,7 +23,7 @@ protected:
 
   ulong stackSize = 0; // first empty cell
   using Vector<Data>::Elements;
-  using Vector<Data>::size;
+  using Vector<Data>::size; // dimension of the vector
 
 
 public:
