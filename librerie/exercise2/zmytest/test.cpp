@@ -37,13 +37,21 @@ void menu(){
 
 
 
-  QueueLst<int> q2;
-  q2 = std::move(q1);
+  // QueueLst<int> q2;
+  // q2 = std::move(q1);
+  //
+  // q2.HeadNDequeue();
+  // q2.HeadNDequeue();
+  // q2.HeadNDequeue();
+  // q2.HeadNDequeue();
+  // q2.HeadNDequeue();
 
-  q2.HeadNDequeue();
-  q2.HeadNDequeue();
-  q2.HeadNDequeue();
-  q2.HeadNDequeue();
-  q2.HeadNDequeue();
+
+  QueueVec<int> quevec;
+  quevec.Enqueue(0);
+  quevec.Enqueue(1);
+  QueueVec<int> newquevec = quevec;
+
+  if(quevec == newquevec) std::cout<<"uguali";
 
 }

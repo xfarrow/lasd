@@ -12,13 +12,13 @@ QueueVec<Data>::QueueVec(){
 
 template <typename Data>
 QueueVec<Data>::QueueVec(const LinearContainer<Data>& linear){
-  size = linear.Size();
-  Elements = new Data[size+1]; //forse da espandere
+  size = linear.Size()+1;
+  Elements = new Data[size]; //forse da espandere
   for(ulong i=0 ; i<linear.Size() ; ++i){
     Elements[i] = linear[i];
   }
   front = 0;
-  rear = size; // the vector will be full
+  rear = size-1; // the vector will be full
 }
 
 template <typename Data>
