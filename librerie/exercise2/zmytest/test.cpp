@@ -6,32 +6,6 @@
 using namespace lasd;
 
 void menu(){
-  /*
-      !!! BUG !!!
-  */
-  /*
-  Vector<int> v(5);
-  v[0] = 0;
-  v[1] = 1;
-  v[2] = 2;
-  v[3] = 3;
-
-  StackVec<int> sv;
-  sv.Push(0);
-  sv.Push(1);
-  sv.Push(2);
-  sv.Push(3);
-
-  StackVec<int> sv2(sv);
-
-  if(sv2 == v) std::cout<<"OK";
-  else std::cout<<"NO";
-*/
-
- QueueLst<int> q;
- int a =3;
- q.Enqueue(std::move(a));
-
 }
 
 /*

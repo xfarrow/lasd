@@ -15,42 +15,23 @@ StackVec<Data>::StackVec(const LinearContainer<Data>& linear)
   : Vector<Data>(linear){
   stackSize = linear.Size(); // the array is full
 }
-/*
-template <typename Data>
-StackVec<Data>::StackVec(const LinearContainer<Data>& linear){ // si può richiamare il costruttore della classe Vector
-  Elements = new Data[linear.Size()]; // espandere di un po' forse
-  for(ulong i=0 ; i<linear.Size() ; ++i){
-    Elements[i] = linear[i];
-  }
-  size = linear.Size();
-  stackSize = linear.Size();
-}
-*/
 
 template <typename Data>
-StackVec<Data>::StackVec(const StackVec& stckvec){// si può richiamare il costruttore della classe Vector
-  Elements = new Data[stckvec.size]; // espandere di un po' forse
-  for(ulong i=0 ; i<stckvec.size ; ++i){
-    Elements[i] = stckvec[i];
-  }
-  size = stckvec.size;
-  stackSize = stckvec.Size();
+StackVec<Data>::StackVec(const StackVec& stckvec)
+  : Vector<Data>(stckvec){
+  stackSize = stckvec.Size(); // the array is full
 }
-/*
-StackVec(const StackVec& stckvec) : Vector<Data>(copyFrom)
-*/
+
 
 template <typename Data>
-StackVec<Data>::StackVec(StackVec&& toMove) noexcept{
-  std::swap(Elements, toMove.Elements);
-  std::swap(size, toMove.size);
+StackVec<Data>::StackVec(StackVec&& toMove) noexcept
+  : Vector<Data>(std::move(toMove)){
   std::swap(stackSize, toMove.stackSize);
 }
 
 template <typename Data>
 StackVec<Data>::~StackVec(){
   // Vector destructor will be called automatically
-  // (TEST IT)
 }
 
 template <typename Data>
@@ -62,8 +43,9 @@ StackVec<Data>& StackVec<Data>::operator=(const StackVec<Data>& copyFrom){
 
 template <typename Data>
 StackVec<Data>& StackVec<Data>::operator=(StackVec<Data>&& moveFrom) noexcept{
-  Vector<Data>::operator=(std::move(moveFrom)); // espandere di un po' forse
+  Vector<Data>::operator=(std::move(moveFrom));
   stackSize = moveFrom.Size();
+  return *this;
 }
 
 template <typename Data>
@@ -107,7 +89,7 @@ void StackVec<Data>::Push(Data&& data){
 template <typename Data>
 Data& StackVec<Data>::Top() const{
   if(stackSize == 0){
-    throw std::length_error("Empty Stack! (TOP)");
+    throw std::length_error("Empty Stack!");
   }
   return Elements[stackSize-1];
 }
@@ -115,7 +97,7 @@ Data& StackVec<Data>::Top() const{
 template <typename Data>
 void StackVec<Data>::Pop(){
   if(stackSize==0){
-    throw std::length_error("Empty Stack! (POP)");
+    throw std::length_error("Empty Stack!");
   }
   --stackSize;
   if(stackSize < (int)(size/4)){
@@ -157,6 +139,4 @@ void StackVec<Data>::Clear(){
   stackSize = 0;
   Elements = new Data[size];
 }
-/* ************************************************************************** */
-
 }

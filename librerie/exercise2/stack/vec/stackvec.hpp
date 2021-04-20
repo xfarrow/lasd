@@ -21,7 +21,7 @@ private:
 
 protected:
 
-  ulong stackSize = 0; // first empty cell
+  ulong stackSize = 0; // first empty cell and # of elements in the vector
   using Vector<Data>::Elements;
   using Vector<Data>::size; // dimension of the vector
 
