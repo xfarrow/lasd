@@ -11,8 +11,13 @@
 #include"../stack/lst/stacklst.hpp"
 #include"../stack/vec/stackvec.hpp"
 /* ************************************************************************** */
-
+enum class DataStructure{stack,queue};
+enum class DataType{integer,ffloat,sstring};
+enum class Implementation{vector,list};
 void menu();
+DataType ChooseDataType(); //choose data type
+DataStructure ChooseDataStructure();
+void UseChosenType(DataStructure, DataType);
 
 /* ************************************************************************** */
 #include"test.cpp"

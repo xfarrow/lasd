@@ -11,6 +11,12 @@ StackVec<Data>::StackVec(){
 }
 
 template <typename Data>
+StackVec<Data>::StackVec(const LinearContainer<Data>& linear)
+  : Vector<Data>(linear){
+  stackSize = linear.Size(); // the array is full
+}
+/*
+template <typename Data>
 StackVec<Data>::StackVec(const LinearContainer<Data>& linear){ // si può richiamare il costruttore della classe Vector
   Elements = new Data[linear.Size()]; // espandere di un po' forse
   for(ulong i=0 ; i<linear.Size() ; ++i){
@@ -19,6 +25,7 @@ StackVec<Data>::StackVec(const LinearContainer<Data>& linear){ // si può richia
   size = linear.Size();
   stackSize = linear.Size();
 }
+*/
 
 template <typename Data>
 StackVec<Data>::StackVec(const StackVec& stckvec){// si può richiamare il costruttore della classe Vector

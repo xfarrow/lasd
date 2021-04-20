@@ -5,34 +5,16 @@ namespace lasd {
 
 // Constructors
 template <typename Data>
-StackLst<Data>::StackLst(const LinearContainer<Data>& linear){
-  for(long int i=(long int)linear.Size()-1 ; i>=0 ; --i){ // è possibile usare il costruttore di List?
-    Push(linear[i]);
-  }
-}
-/*
-PROVARE
-template <typename Data>
-StackLst(const LinearContainer<Data>& linear) : List<Data>(linear){
-return;
-}
-*/
-template <typename Data>
-StackLst<Data>::StackLst(const StackLst& stcklist){
-for(long int i=(long int)stcklist.Size()-1 ; i>=0 ; i--){
-    Push(stcklist[i]);
-  }
-}
-/*
-PROVARE
-StackLst(const StackLst& stcklist) : List<Data>(stcklist){}
-*/
+StackLst<Data>::StackLst(const LinearContainer<Data>& linear)
+  : List<Data>(linear){}
 
 template <typename Data>
-StackLst<Data>::StackLst(StackLst&& stcklist) noexcept{
-    std::swap(size, stcklist.size);
-    std::swap(head, stcklist.head);
-}
+StackLst<Data>::StackLst(const StackLst& stcklist)
+  : List<Data>(stcklist){}
+
+template <typename Data>
+StackLst<Data>::StackLst(StackLst&& stcklist) noexcept
+  : List<Data>(std::move(stcklist)){}
 
 // Destructor
 template <typename Data>
@@ -42,19 +24,13 @@ StackLst<Data>::~StackLst(){
 
 template <typename Data>
 StackLst<Data>& StackLst<Data>::operator=(const StackLst& copyFrom){
-  if(*this != copyFrom){
-    Clear();
-    for(long int i=(long int)copyFrom.Size()-1 ; i>=0 ; --i){
-      Push(copyFrom[i]);
-    }
-  }
+  List<Data>::operator=(copyFrom);
   return *this;
 }
 
 template <typename Data>
 StackLst<Data>& StackLst<Data>::operator=(StackLst&& moveFrom) noexcept{
-  std::swap(size, moveFrom.size);
-  std::swap(head, moveFrom.head);
+  List<Data>::operator=(std::move(moveFrom));
   return *this;
 }
 

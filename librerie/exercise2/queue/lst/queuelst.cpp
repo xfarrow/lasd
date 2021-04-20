@@ -1,27 +1,17 @@
 
 namespace lasd {
 
-/* ************************************************************************** */
 template <typename Data>
-QueueLst<Data>::QueueLst(const LinearContainer<Data>& linear){
-  for(ulong i=0; i<linear.Size() ; ++i){
-    Enqueue(linear[i]);
-  }
-}
+QueueLst<Data>::QueueLst(const LinearContainer<Data>& linear)
+  : List<Data>(linear) {}
 
 template <typename Data>
-QueueLst<Data>::QueueLst(const QueueLst& copyFrom){
-  for(ulong i=0; i<copyFrom.Size() ; ++i){
-    Enqueue(copyFrom[i]);
-  }
-}
+QueueLst<Data>::QueueLst(const QueueLst& copyFrom)
+  : List<Data>(copyFrom) {}
 
 template <typename Data>
-QueueLst<Data>::QueueLst(QueueLst&& moveFrom) noexcept{
-    std::swap(head,moveFrom.head);
-    std::swap(tail,moveFrom.tail);
-    std::swap(size,moveFrom.size);
-}
+QueueLst<Data>::QueueLst(QueueLst&& moveFrom) noexcept
+  : List<Data>(std::move(moveFrom)) {}
 
 template <typename Data>
 QueueLst<Data>::~QueueLst(){
@@ -30,11 +20,6 @@ QueueLst<Data>::~QueueLst(){
 
 template <typename Data>
 QueueLst<Data>& QueueLst<Data>::operator=(const QueueLst& toCopy){
-  // QueueLst<Data>* tmp = new QueueLst<Data>(toCopy);
-  // std::swap(*this, *tmp);
-  // delete tmp;
-  // return *this;
-
   List<Data>::operator=(toCopy);
   return *this;
 }
@@ -62,7 +47,7 @@ template <typename Data>
 
 template <typename Data>
 void QueueLst<Data>::Enqueue(Data&& data){
-    List<Data>::InsertAtBack(data);
+    List<Data>::InsertAtBack(std::move(data));
   }
 
 template <typename Data>
@@ -84,6 +69,5 @@ template <typename Data>
 void QueueLst<Data>::Clear(){
   List<Data>::Clear();
 }
-/* ************************************************************************** */
 
 }

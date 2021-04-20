@@ -1,7 +1,6 @@
 
 namespace lasd {
 
-/* ************************************************************************** */
 template <typename Data>
 QueueVec<Data>::QueueVec(){
   size = 4;
@@ -12,7 +11,7 @@ QueueVec<Data>::QueueVec(){
 
 template <typename Data>
 QueueVec<Data>::QueueVec(const LinearContainer<Data>& linear){
-  size = linear.Size()+1;
+  size = linear.Size()+1; // 1 free cell
   Elements = new Data[size]; //forse da espandere
   for(ulong i=0 ; i<linear.Size() ; ++i){
     Elements[i] = linear[i];
@@ -38,10 +37,8 @@ QueueVec<Data>::QueueVec(const QueueVec& toCopy){
 
 template <typename Data>
 QueueVec<Data>::QueueVec(QueueVec&& toMove) noexcept{
-    /*
-      we initialize size=4 so the swapped vector won't be in an
-      inconsistent state (size=0 can never be accettable)
-    */
+    /* we initialize size=4 so the swapped vector won't be in an
+      inconsistent state (size=0 can never be acceptable) */
     size = 4;
     std::swap(Elements, toMove.Elements);
     std::swap(rear, toMove.rear);
@@ -51,7 +48,7 @@ QueueVec<Data>::QueueVec(QueueVec&& toMove) noexcept{
 
 template <typename Data>
 QueueVec<Data>::~QueueVec(){
-  //vector destructor will be called automatically i hope
+  //vector destructor will be automatically called I hope
 }
 
 template <typename Data>
@@ -64,6 +61,8 @@ QueueVec<Data>& QueueVec<Data>::operator=(const QueueVec& toCopy){
 
 template <typename Data>
 QueueVec<Data>& QueueVec<Data>::operator=(QueueVec&& toMove) noexcept{
+  /* here we do not need size=4 since the QueueVec with at least size=4
+  exists already */
   std::swap(Elements, toMove.Elements);
   std::swap(size, toMove.size);
   std::swap(rear, toMove.rear);
@@ -115,7 +114,7 @@ void QueueVec<Data>::Enqueue(Data&& data){
 template <typename Data>
 Data& QueueVec<Data>::Head() const{
   if(Size()<=0){
-    throw std::length_error("Queuevec is empty!");
+    throw std::length_error("Queue is empty!");
   }
   return Elements[front];
 }
@@ -123,7 +122,7 @@ Data& QueueVec<Data>::Head() const{
 template <typename Data>
 void QueueVec<Data>::Dequeue(){
   if(Size() <= 0){
-    throw std::length_error("Queuevec is empty!");
+    throw std::length_error("Queue is empty!");
   }
   front = (front + 1) % size;
   if(Size() < size/4){
@@ -192,6 +191,5 @@ void QueueVec<Data>::Reduce(){
   rear = i;
   size *= 2;
 }
-/* ************************************************************************** */
 
 }
