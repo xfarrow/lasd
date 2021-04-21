@@ -85,6 +85,7 @@ void UseChosenType(DataStructure chosenDataStructure, DataType chosenDataType, I
       if(chosenDataType == DataType::integer){
         StackVec<int> stckvec;
         stckvec = generateRandomStackVecInt();
+        StackIntFunctions(stckvec);
       }
       else if(chosenDataType == DataType::ffloat){
         StackVec<float> stckvec;
@@ -142,6 +143,93 @@ void UseChosenType(DataStructure chosenDataStructure, DataType chosenDataType, I
   }
 }
 
+template <typename T>
+void StackIntFunctions(T& stk){
+  unsigned short int choice;
+  do{
+    std::cout<<std::endl<<std::endl;
+    std::cout<<"Choose one of the following options:"<<std::endl;
+    std::cout<<"1. Inserimento di un elemento (Push)"<<std::endl;
+    std::cout<<"2. Rimozione di un elemento (Pop)"<<std::endl;
+    std::cout<<"3. Rimozione con lettura (TopNPop)"<<std::endl;
+    std::cout<<"4. Lettura non distruttiva (Top)"<<std::endl;
+    std::cout<<"5. Test di vuotezza"<<std::endl;
+    std::cout<<"6. Dimensione"<<std::endl;
+    std::cout<<"7. Clear Stack"<<std::endl;
+    std::cout<<"8. Vai indietro"<<std::endl;
+    std::cout<<"9. Esci"<<std::endl;
+    std::cin>>std::ws;
+    std::cin>>choice;
+    std::cout<<std::endl;
+    switch(choice){
+      case 1:
+        PushInt(stk);
+        break;
+      case 2:
+        Pop(stk);
+        break;
+      case 3:
+        TopNPop(stk);
+        break;
+      case 4:
+        Top(stk);
+        break;
+      case 5:
+        Empty(stk);
+        break;
+      case 6:
+        Size(stk);
+        break;
+      case 7:
+        Clear(stk);
+        break;
+    }
+  }while(choice!=9 && choice!=8);
+}
+
+template <typename T>
+void PushInt(T& stk){
+  int element;
+  std::cout<<"Element to push: ";
+  std::cin>>std::ws;
+  std::cin>>element;
+  stk.Push(element);
+}
+
+template <typename T>
+void Pop(T& stk){
+  stk.Pop();
+}
+
+template <typename T>
+void TopNPop(T& stk){
+  std::cout<<"Element top & popped is: "<<stk.TopNPop();
+}
+
+template <typename T>
+void Top(T& stk){
+  std::cout<<"Element on top is: "<<stk.Top();
+}
+
+template <typename T>
+void Empty(T& stk){
+  std::cout<<"Stack is ";
+  stk.Empty()? std::cout<<"" : std::cout<<"not ";
+  std::cout<<"empty";
+}
+
+template <typename T>
+void Size(T& stk){
+  std::cout<<"Size is "<<stk.Size();
+}
+
+template <typename T>
+void Clear(T& stk){
+  stk.Clear();
+  std::cout<<"Stack has been cleared.";
+}
+
+
 lasd::QueueLst<int> generateRandomQueueListInt(){
   ulong dim = getDimension();
   int tmp;
@@ -154,7 +242,6 @@ lasd::QueueLst<int> generateRandomQueueListInt(){
     myqueue.Enqueue(tmp);
     std::cout<<tmp<<" ";
   }
-  std::cout<<std::endl<<std::endl;
   return myqueue;
 }
 lasd::QueueLst<float> generateRandomQueueListFloat(){
@@ -169,7 +256,6 @@ lasd::QueueLst<float> generateRandomQueueListFloat(){
     myqueue.Enqueue(tmp);
     std::cout<<tmp<<" ";
   }
-  std::cout<<std::endl<<std::endl;
   return myqueue;
 }
 lasd::QueueLst<std::string> generateRandomQueueListString(){
@@ -184,7 +270,6 @@ lasd::QueueLst<std::string> generateRandomQueueListString(){
     myqueue.Enqueue(tmp);
     std::cout<<tmp<<" ";
   }
-  std::cout<<std::endl<<std::endl;
   return myqueue;
 }
 
@@ -200,7 +285,6 @@ lasd::QueueVec<int> generateRandomQueueVecInt(){
     myqueue.Enqueue(tmp);
     std::cout<<tmp<<" ";
   }
-  std::cout<<std::endl<<std::endl;
   return myqueue;
   }
 lasd::QueueVec<float> generateRandomQueueVecFloat(){
@@ -215,7 +299,6 @@ lasd::QueueVec<float> generateRandomQueueVecFloat(){
     myqueue.Enqueue(tmp);
     std::cout<<tmp<<" ";
   }
-  std::cout<<std::endl<<std::endl;
   return myqueue;
 }
 lasd::QueueVec<std::string> generateRandomQueueVecString(){
@@ -230,7 +313,6 @@ lasd::QueueVec<std::string> generateRandomQueueVecString(){
     myqueue.Enqueue(tmp);
     std::cout<<tmp<<" ";
   }
-  std::cout<<std::endl<<std::endl;
   return myqueue;
   }
 
@@ -244,7 +326,6 @@ lasd::StackLst<int> generateRandomStackLstInt(){
     myvec.Push(dist(gen));
     std::cout<<myvec.Top()<<" ";
   }
-  std::cout<<std::endl<<std::endl;
   return myvec;
 }
 lasd::StackLst<float> generateRandomStackLstFloat(){
@@ -257,7 +338,6 @@ lasd::StackLst<float> generateRandomStackLstFloat(){
     myvec.Push( float((round(distr(gen)*10000))/100) );
     std::cout<<myvec.Top()<<" ";
   }
-  std::cout<<std::endl<<std::endl;
   return myvec;
 }
 lasd::StackLst<std::string> generateRandomStackLstString(){
@@ -270,7 +350,6 @@ lasd::StackLst<std::string> generateRandomStackLstString(){
     myvec.Push( generateRandomString(dist(gen)) );
     std::cout<<myvec.Top()<<" ";
   }
-  std::cout<<std::endl<<std::endl;
   return myvec;
 }
 
@@ -285,7 +364,6 @@ lasd::StackVec<int> generateRandomStackVecInt(){
     myvec.Push(dist(gen));
     std::cout<<myvec.Top()<<" ";
   }
-  std::cout<<std::endl<<std::endl;
   return myvec;
 }
 lasd::StackVec<float> generateRandomStackVecFloat(){
@@ -298,8 +376,7 @@ lasd::StackVec<float> generateRandomStackVecFloat(){
     myvec.Push( (round(distr(gen)*10000))/100 );
     std::cout<<myvec.Top()<<" ";
   }
-  std::cout<<std::endl<<std::endl;
-    return myvec;
+  return myvec;
 }
 lasd::StackVec<std::string> generateRandomStackVecString(){
   ulong dim = getDimension();
@@ -311,7 +388,6 @@ lasd::StackVec<std::string> generateRandomStackVecString(){
     myvec.Push(generateRandomString(dist(gen)));
     std::cout<<myvec.Top()<<" ";
   }
-  std::cout<<std::endl<<std::endl;
   return myvec;
 }
 
