@@ -19,7 +19,6 @@
 
 int main() {
   std::cout << "Lasd Libraries 2020" << std::endl;
-  lasdtest();
   menu();
   return 0;
 }

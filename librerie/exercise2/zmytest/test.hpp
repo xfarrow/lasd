@@ -14,10 +14,29 @@
 enum class DataStructure{stack,queue};
 enum class DataType{integer,ffloat,sstring};
 enum class Implementation{vector,list};
+
 void menu();
+
 DataType ChooseDataType(); //choose data type
 DataStructure ChooseDataStructure();
-void UseChosenType(DataStructure, DataType);
+Implementation ChooseImplementation();
+void UseChosenType(DataStructure, DataType, Implementation);
+
+lasd::QueueLst<int> generateRandomQueueListInt();
+lasd::QueueLst<float> generateRandomQueueListFloat();
+lasd::QueueLst<std::string> generateRandomQueueListString();
+lasd::QueueVec<int> generateRandomQueueVecInt();
+lasd::QueueVec<float> generateRandomQueueVecFloat();
+lasd::QueueVec<std::string> generateRandomQueueVecString();
+lasd::StackLst<int> generateRandomStackLstInt();
+lasd::StackLst<float> generateRandomStackLstFloat();
+lasd::StackLst<std::string> generateRandomStackLstString();
+lasd::StackVec<int> generateRandomStackVecInt();
+lasd::StackVec<float> generateRandomStackVecFloat();
+lasd::StackVec<std::string> generateRandomStackVecString();
+
+std::string generateRandomString(ulong);
+ulong getDimension();
 
 /* ************************************************************************** */
 #include"test.cpp"
