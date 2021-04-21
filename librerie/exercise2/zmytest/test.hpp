@@ -36,10 +36,10 @@ lasd::StackVec<float> generateRandomStackVecFloat();
 lasd::StackVec<std::string> generateRandomStackVecString();
 
 template <typename T>
-void StackIntFunctions(T&);
+void StackFunctions(T&);
 
-template <typename T>
-void PushInt(T&);
+template <template <typename...> class C, typename T>
+void Push(C<T>&);
 template <typename T>
 void Pop(T&);
 template <typename T>
@@ -52,6 +52,18 @@ template <typename T>
 void Size(T&);
 template <typename T>
 void Clear(T&);
+
+template <typename T>
+void QueueFunctions(T&);
+template <template <typename...> class C, typename T>
+void Enqueue(C<T>&);
+template <typename T>
+void Dequeue(T&);
+template <typename T>
+void HeadNDequeue(T&);
+template <typename T>
+void Head(T&);
+
 std::string generateRandomString(ulong);
 ulong getDimension();
 
