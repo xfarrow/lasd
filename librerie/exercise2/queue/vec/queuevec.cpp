@@ -180,7 +180,7 @@ void QueueVec<Data>::Reduce(){
   ulong newsize = (ulong)size/2;
   Data* tmp = new Data[newsize];
   ulong current_index = front , i=0;
-  while(i < newsize){
+  while(current_index != rear){
     tmp[i] = Elements[current_index];
     current_index = (current_index+1)%size;
     ++i;
@@ -189,7 +189,7 @@ void QueueVec<Data>::Reduce(){
   Elements = tmp;
   front = 0;
   rear = i;
-  size *= 2;
+  size = newsize;
 }
 
 }

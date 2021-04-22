@@ -68,5 +68,4 @@ std::string generateRandomString(ulong);
 ulong getDimension();
 
 /* ************************************************************************** */
-#include"test.cpp"
 #endif

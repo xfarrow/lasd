@@ -213,7 +213,7 @@ void QueueFunctions(T& queue){
     std::cout<<"4. Lettura non distruttiva (Head)"<<std::endl;
     std::cout<<"5. Test di vuotezza"<<std::endl;
     std::cout<<"6. Dimensione"<<std::endl;
-    std::cout<<"7. Clear Stack"<<std::endl;
+    std::cout<<"7. Clear Queue"<<std::endl;
     std::cout<<"8. Vai indietro"<<std::endl;
     std::cout<<"9. Esci"<<std::endl;
     std::cin>>std::ws;
