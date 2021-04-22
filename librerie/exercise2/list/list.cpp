@@ -123,7 +123,6 @@ bool List<Data>::operator!=(const List<Data>& list) const noexcept{
     }
  }
 
-
   template <typename Data>
   void List<Data>::InsertAtFront(Data&& data){
     struct Node* tmp = new Node(data);

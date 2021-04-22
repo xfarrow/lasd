@@ -104,6 +104,7 @@ void StackVec<Data>::Pop(){
     Reduce();
   }
 }
+
 template <typename Data>
 Data StackVec<Data>::TopNPop(){
   Data data = Top();

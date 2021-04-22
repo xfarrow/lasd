@@ -5,7 +5,6 @@
 
 using namespace lasd;
 
-
 void menu(){
   unsigned short int choice;
   DataStructure chosenDataStructure;
@@ -31,6 +30,7 @@ void menu(){
   }
 }
 
+// Chooser functions
 DataStructure ChooseDataStructure(){
   unsigned short int choice;
   do{
@@ -45,7 +45,6 @@ DataStructure ChooseDataStructure(){
   else if(choice == 2)
     return DataStructure::queue;
 }
-
 DataType ChooseDataType(){
   unsigned short int choice;
   do{
@@ -63,7 +62,6 @@ DataType ChooseDataType(){
   else if(choice==3)
     return DataType::sstring;
 }
-
 Implementation ChooseImplementation(){
   unsigned short int choice;
   do{
@@ -248,6 +246,7 @@ void QueueFunctions(T& queue){
   }while(choice!=9 && choice!=8);
 }
 
+/* ----- Queue functions ----- */
 template <template <typename...> class C, typename T>
 void Enqueue(C<T>& queue){
   T element;
@@ -259,19 +258,33 @@ void Enqueue(C<T>& queue){
 
 template <typename T>
 void Dequeue(T& queue){
-  queue.Dequeue();
+  try{
+    queue.Dequeue();
+  }catch(std::length_error exc){
+    std::cout<<"Caught length_error exception!"<<std::endl<<" what(): "<<exc.what();
+  }
 }
 
 template <typename T>
 void HeadNDequeue(T& queue){
-  std::cout<<"The head and dequeued element is "<<queue.HeadNDequeue();
+  try{
+    std::cout<<"The head and dequeued element is "<<queue.HeadNDequeue();
+  }catch(std::length_error exc){
+    std::cout<<"Caught length_error exception!"<<std::endl<<" what(): "<<exc.what();
+  }
 }
 
 template <typename T>
 void Head(T& queue){
-  std::cout<<"The head is "<<queue.Head();
+  try{
+    std::cout<<"The head is "<<queue.Head();
+  }catch(std::length_error exc){
+    std::cout<<"Caught length_error exception!"<<std::endl<<" what(): "<<exc.what();
+  }
 }
 
+
+/* ----- Stack functions ----- */
 template <template <typename...> class C, typename T>
 void Push(C<T>& stk){
   T element;
@@ -283,38 +296,51 @@ void Push(C<T>& stk){
 
 template <typename T>
 void Pop(T& stk){
-  stk.Pop();
+  try{
+    stk.Pop();
+  }catch(std::length_error exc){
+    std::cout<<"Caught length_error exception!"<<std::endl<<" what(): "<<exc.what();
+  }
 }
 
 template <typename T>
 void TopNPop(T& stk){
-  std::cout<<"Element top & popped is: "<<stk.TopNPop();
+  try{
+    std::cout<<"Element top & popped is: "<<stk.TopNPop();
+  }catch(std::length_error exc){
+    std::cout<<"Caught length_error exception!"<<std::endl<<" what(): "<<exc.what();
+  }
 }
 
 template <typename T>
 void Top(T& stk){
-  std::cout<<"Element on top is: "<<stk.Top();
+  try{
+    std::cout<<"The element on top is: "<<stk.Top();
+  }catch(std::length_error exc){
+    std::cout<<"Caught length_error exception!"<<std::endl<<" what(): "<<exc.what();
+  }
 }
 
+/* ----- Shared functions ----- */
 template <typename T>
-void Empty(T& stk){
+void Empty(T& str){
   std::cout<<"It is ";
-  stk.Empty()? std::cout<<"" : std::cout<<"not ";
+  str.Empty()? std::cout<<"" : std::cout<<"not ";
   std::cout<<"empty";
 }
 
 template <typename T>
-void Size(T& stk){
-  std::cout<<"Size is "<<stk.Size();
+void Size(T& str){
+  std::cout<<"Size is "<<str.Size();
 }
 
 template <typename T>
-void Clear(T& stk){
-  stk.Clear();
+void Clear(T& str){
+  str.Clear();
   std::cout<<"It has been cleared.";
 }
 
-
+/* ----- Generator functions ----- */
 lasd::QueueLst<int> generateRandomQueueListInt(){
   ulong dim = getDimension();
   int tmp;
