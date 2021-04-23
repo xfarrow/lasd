@@ -93,7 +93,6 @@ template <typename Data>
      }
    }
 
-
    template <typename Data>
    void Vector<Data>::Clear(){
       delete[] Elements;

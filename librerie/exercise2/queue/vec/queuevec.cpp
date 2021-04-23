@@ -37,9 +37,7 @@ QueueVec<Data>::QueueVec(const QueueVec& toCopy){
 
 template <typename Data>
 QueueVec<Data>::QueueVec(QueueVec&& toMove) noexcept{
-    /* we initialize size=4 so the swapped vector won't be in an
-      inconsistent state (size=0 can never be acceptable) */
-    size = 4;
+    Clear();
     std::swap(Elements, toMove.Elements);
     std::swap(rear, toMove.rear);
     std::swap(front, toMove.front);
@@ -61,8 +59,6 @@ QueueVec<Data>& QueueVec<Data>::operator=(const QueueVec& toCopy){
 
 template <typename Data>
 QueueVec<Data>& QueueVec<Data>::operator=(QueueVec&& toMove) noexcept{
-  /* here we do not need size=4 since the QueueVec with at least size=4
-  exists already */
   std::swap(Elements, toMove.Elements);
   std::swap(size, toMove.size);
   std::swap(rear, toMove.rear);
@@ -144,6 +140,7 @@ bool QueueVec<Data>::Empty() const noexcept{
 
 template <typename Data>
 ulong QueueVec<Data>::Size() const noexcept{
+  if(size == 0) return 0; // this won't ever get executed, it's here just in case  
   return ((rear + size) - front) % size;
 }
 
