@@ -31,7 +31,6 @@ public:
    bool operator!=(const Container&&) const noexcept = delete; // Comparison of abstract types might not be possible.
 
   // Specific member functions
-
    virtual bool Empty() const noexcept {
      return (size == 0);
    } // (concrete function should not throw exceptions)
@@ -42,10 +41,6 @@ public:
 
    virtual void Clear() = 0;
 };
-
-/* ************************************************************************** */
-
-
 
 template <typename Data>
 class LinearContainer : virtual public Container{ // Must extend Container
@@ -72,7 +67,6 @@ public:
   /* ************************************************************************ */
 
   // Specific member functions
-
   virtual Data& Front() const = 0; // (concrete function must throw std::length_error when empty)
   virtual Data& Back() const = 0; // (concrete function must throw std::length_error when empty)
 
@@ -105,7 +99,6 @@ public:
   /* ************************************************************************ */
 
   // Specific member functions
-
   virtual bool Exists(const Data&) const noexcept = 0; // (concrete function should not throw exceptions)
 
 };
