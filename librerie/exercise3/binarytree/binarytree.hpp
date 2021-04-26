@@ -54,12 +54,8 @@ public:
 
     friend class BinaryTree<Data>;
 
-    /* ********************************************************************** */
-
     // Destructor
     virtual ~Node() = default;
-
-    /* ********************************************************************** */
 
     // Copy assignment
     Node& operator=(const Node&) = delete; // Copy assignment of abstract types should not be possible.
@@ -67,12 +63,7 @@ public:
     // Move assignment
     Node& operator=(Node&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
-    /* ********************************************************************** */
-
-    /* ********************************************************************** */
-
     // Specific member functions
-
     Data& Element(); // Mutable access to the element (concrete function should not throw exceptions)
     const Data& Element() const; // Immutable access to the element (concrete function should not throw exceptions)
 
@@ -85,12 +76,8 @@ public:
 
   };
 
-  /* ************************************************************************ */
-
   // Destructor
   virtual ~BinaryTree() = default;
-
-  /* ************************************************************************ */
 
   // Copy assignment
   BinaryTree& operator=(const BinaryTree&) = delete; // Copy assignment of abstract types should not be possible.
@@ -98,98 +85,43 @@ public:
   // Move assignment
   BinaryTree& operator=(BinaryTree&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
-  /* ************************************************************************ */
-
   // Comparison operators
   bool operator==(const BinaryTree&) const noexcept; // Comparison of abstract binary tree is possible.
   bool operator!=(const BinaryTree&) const noexcept; // Comparison of abstract binary tree is possible.
 
-  /* ************************************************************************ */
-
-  // Specific member functions
+  /* ----- Specific member functions ----- */
 
   virtual Node& Root() const = 0; // (concrete function must throw std::length_error when empty)
 
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from MappableContainer)
+  /* ----- Map and fold functions ----- */
 
   using typename MappableContainer<Data>::MapFunctor;
+  using typename FoldableContainer<Data>::FoldFunctor;
 
   void MapPreOrder(const MapFunctor, void*) override; // Override MappableContainer member
   void MapPostOrder(const MapFunctor, void*) override; // Override MappableContainer member
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from FoldableContainer)
-
-  using typename FoldableContainer<Data>::FoldFunctor;
+  void MapInOrder(const MapFunctor, void*) override; // Override InOrderMappableContainer member
+  void MapBreadth(const MapFunctor, void*) override; // Override BreadthMappableContainer member
 
   void FoldPreOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
   void FoldPostOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from InOrderMappableContainer)
-
-  void MapInOrder(const MapFunctor, void*) override; // Override InOrderMappableContainer member
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from InOrderFoldableContainer)
-
   void FoldInOrder(const FoldFunctor, const void*, void*) const override; // Override InOrderFoldableContainer member
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from BreadthMappableContainer)
-
-  MapBreadth(const MapFunctor, void*) override; // Override BreadthMappableContainer member
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from BreadthFoldableContainer)
-
   void FoldBreadth(const FoldFunctor, const void*, void*) const override; // Override BreadthFoldableContainer member
+
 
 protected:
 
-  // Auxiliary member functions (for MappableContainer)
+  /* ----- Auxiliary map and fold functions ----- */
 
   void MapPreOrder(const MapFunctor, void*, Node*) override; // Accessory function executing from one node of the tree
   void MapPostOrder(const MapFunctor, void*, Node*) override; // Accessory function executing from one node of the tree
-
-  /* ************************************************************************ */
-
-  // Auxiliary member functions (for FoldableContainer)
+  void MapInOrder(const MapFunctor, void*, Node*) override; // Accessory function executing from one node of the tree
+  void MapBreadth(const MapFunctor, void*, Node*) override; // Accessory function executing from one node of the tree
 
   void FoldPreOrder(const FoldFunctor, const void*, void*, const Node*) const override; // Accessory function executing from one node of the tree
   void FoldPostOrder(const FoldFunctor, const void*, void*, const Node*) const override; // Accessory function executing from one node of the tree
-
-  /* ************************************************************************ */
-
-  // Auxiliary member functions (for InOrderMappableContainer)
-
-  void MapInOrder(const MapFunctor, void*, Node*) override; // Accessory function executing from one node of the tree
-
-  /* ************************************************************************ */
-
-  // Auxiliary member functions (for InOrderFoldableContainer)
-
   void FoldInOrder(const FoldFunctor, const void*, void*, const Node*) const override; // Accessory function executing from one node of the tree
-
-  /* ************************************************************************ */
-
-  // Auxiliary member functions (for BreadthMappableContainer)
-
-  void MapBreadth(const MapFunctor, void*, Node*) override; // Accessory function executing from one node of the tree
-
-  /* ************************************************************************ */
-
-  // Auxiliary member functions (for BreadthFoldableContainer)
-
   void FoldBreadth(const FoldFunctor, const void*, void*, const Node*) const override; // Accessory function executing from one node of the tree
-
 };
 
 /* ************************************************************************** */

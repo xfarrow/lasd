@@ -11,13 +11,17 @@ bool BinaryTree<Data>::Node::operator==(const Node& toEvaluate){
   return EqualNodes(this, &toEvaluate);
 }
 
+/* given two nodes, checks if the subtree is the same */
 bool BinaryTree<Data>::Node::EqualNodes(Node* n1, Node* n2){
-  if(n1->IsLeaf() && n2->IsLeaf() && n1->data == n2->data) return true;
-  if( (n1->HasLeftChild() && !n2->HasLeftChild()) || (n1->HasRightChild() && !n2->HasRightChild()) ) return false;
-  return( n1->data == n2->data &&
-          EqualNodes(n1->LeftChild(),n2->LeftChild()) &&
-          EqualNodes(n1->RightChild(),n2->RightChild())
-        )
+  if(n1->data == n2->data){
+    if(n1->IsLeaf() && n2->IsLeaf()) return true;
+    if( (n1->HasLeftChild() && !n2->HasLeftChild()) || (n1->HasRightChild() && !n2->HasRightChild()) ) return false;
+    return( EqualNodes(n1->LeftChild(),n2->LeftChild()) &&
+            EqualNodes(n1->RightChild(),n2->RightChild())
+          )
+  }else{
+    return false;
+  }
 }
 
 template <typename Data>
@@ -45,6 +49,8 @@ bool BinaryTree<Data>::operator!=(const BinaryTree& toCompare) const noexcept{
   return(Root() != toCompare.Root());
 }
 
+/* ----- Map and fold functions ----- */
+
 template <typename Data>
 void BinaryTree<Data>::MapPreOrder(const MapFunctor function, void* par){
   MapPreOrder(function, par, &Root());
@@ -53,6 +59,16 @@ void BinaryTree<Data>::MapPreOrder(const MapFunctor function, void* par){
 template <typename Data>
 void BinaryTree<Data>::MapPostOrder(const MapFunctor function, void* par){
   MapPostOrder(function, par, &Root());
+}
+
+template <typename Data>
+void BinaryTree<Data>::MapInOrder(const MapFunctor function, void* par){
+  MapInOrder(function, par, &Root());
+}
+
+template <typename Data>
+void BinaryTree<Data>::MapBreadth(const MapFunctor function, void* par){
+  MapBreadth(function, par, &Root());
 }
 
 template <typename Data>
@@ -66,18 +82,8 @@ void BinaryTree<Data>::FoldPostOrder(const FoldFunctor function, const void* par
 }
 
 template <typename Data>
-void BinaryTree<Data>::MapInOrder(const MapFunctor function, void* par){
-  MapInOrder(function, par, &Root());
-}
-
-template <typename Data>
 void BinaryTree<Data>::FoldInOrder(const MapFunctor function, const void* par, void* acc) const{
   FoldInOrder(function, par, acc, &Root());
-}
-
-template <typename Data>
-void BinaryTree<Data>::MapBreadth(const MapFunctor function, void* par){
-  MapBreadth(function, par, &Root());
 }
 
 template <typename Data>
@@ -85,7 +91,7 @@ void BinaryTree<Data>::FoldBreadth(const FoldFunctor function, const void* par, 
   FoldBreadth(function, par, acc, &Root());
 }
 
-/* ----- AUX ----- */
+/* ----- Auxiliary map and fold functions ----- */
 
 template <typename Data>
 void BinaryTree<Data>::MapPreOrder(const MapFunctor function, void* par, Node* node){
@@ -138,6 +144,7 @@ void BinaryTree<Data>::FoldPostOrder(const FoldFunctor function, const void* par
     function(node->Element(), par, acc);
   }
 }
+
 template <typename Data>
 void BinaryTree<Data>::MapInOrder(const MapFunctor function, void* par, Node* node){
   if(node != nullptr){
@@ -178,7 +185,7 @@ void MapBreadth(const MapFunctor function, void* par, Node* node){
       if(toVisit.Head()->HasRightChild()){
         toVisit.Enqueue(&(toVisit.Head()->RightChild()));
       }
-      ql.Dequeue();
+      toVisit.Dequeue();
     }
   }
 }
