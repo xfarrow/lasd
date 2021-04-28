@@ -133,7 +133,7 @@ private:
 
 protected:
   struct BinaryTree<Data>::Node* curr;
-  StackLst<Data> stack;
+  StackLst<BinaryTree<Data>::Node*> stack(); // default constructor for stacklst
 
 public:
 
@@ -192,8 +192,8 @@ private:
 
 protected:
   struct BinaryTree<Data>::Node* curr;
-  StackLst<Data> stack;
-
+  StackLst<BinaryTree<Data>::Node*> stack;
+  struct BinaryTree<Data>::Node* DeepestLeftLeaf(struct BinaryTree<Data>::Node*);
 public:
 
   // Specific constructors
@@ -251,8 +251,8 @@ private:
 
 protected:
   struct BinaryTree<Data>::Node* curr;
-  StackLst<Data> stack;
-
+  StackLst<BinaryTree<Data>::Node*> stack;
+  struct BinaryTree<Data>::Node* MostLeftNode(struct BinaryTree<Data>::Node*);
 public:
 
   // Specific constructors
@@ -311,7 +311,7 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* curr;
-  QueueVec<Data> queue;
+  QueueVec<BinaryTree<Data>::Node*> queue;
 
 public:
 
