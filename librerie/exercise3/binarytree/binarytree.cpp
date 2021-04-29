@@ -1,5 +1,11 @@
 
-// #include "..."
+#include "../queue/queue.hpp"
+#include "../queue/vec/queuevec.hpp"
+#include "../queue/lst/queuelst.hpp"
+
+#include "../stack/stack.hpp"
+#include "../stack/lst/stacklst.hpp"
+#include "../stack/vec/stackvec.hpp"
 
 namespace lasd {
 
@@ -364,23 +370,18 @@ bool BTPostOrderIterator<Data>::Terminated() noexcept{
 template <typename Data>
 void BTPostOrderIterator<Data>::operator++(){
   if(Terminated()) throw std::out_of_range("Iterator is terminated!");
-
-  if(curr == &stack.Top().LeftChild()){
-    if(stack.Top().HasRightChild()){
-      curr = DeepestLeftLeaf(&stack.Top().RightChild());
-    }else{
-      try{
+  try{
+    if(curr == &stack.Top().LeftChild()){
+      if(stack.Top().HasRightChild()){
+        curr = DeepestLeftLeaf(&stack.Top().RightChild());
+      }else{
         curr = &stack.TopNPop();
-      }catch(std::length_error exc){
-        curr = nullptr;
       }
-    }
-  }else{
-    try{
+    }else{
       curr = &stack.TopNPop();
-    }catch(std::length_error exc){
-      curr = nullptr;
     }
+  }catch(std::length_error exc){
+    curr = nullptr;
   }
 }
 
@@ -466,18 +467,78 @@ void BTInOrdertOrderIterator<Data>::operator++(){
   }
 }
 
+template <typename Data>
+BTBreadthIterator<Data>::BTBreadthIterator(const BinaryTree<Data>& tree){
+  curr = &(tree.Root());
+}
 
+template <typename Data>
+BTBreadthIterator<Data>::BTBreadthIterator(const BTBreadthIterator& itr){
+  curr = itr.curr;
+  queue = itr.queue;
+}
 
+template <typename Data>
+BTBreadthIterator<Data>::BTBreadthIterator(BTBreadthIterator&& itr) noexcept{
+  std::swap(curr, itr.curr);
+  std::swap(queue, itr.queue);
+}
 
+template <typename Data>
+BTBreadthIterator<Data>::~BTBreadthIterator(){
+  curr = nullptr;
+  queue.Clear();
+}
 
+template <typename Data>
+BTBreadthIterator& BTBreadthIterator<Data>::operator=(const BTBreadthIterator& itr){
+  curr = itr.curr;
+  queue = itr.queue;
+  return *this;
+}
 
+template <typename Data>
+BTBreadthIterator& BTBreadthIterator<Data>::operator=(BTBreadthIterator&& itr) noexcept{
+  std::swap(curr, itr.curr);
+  std::swap(queue, itr.queue);
+  return *this;
+}
 
+template <typename Data>
+bool BTBreadthIterator<Data>::operator==(const BTBreadthIterator& itr) const noexcept{
+  return ( curr==itr.curr && queue==itr.queue );
+}
 
+template <typename Data>
+bool BTBreadthIterator<Data>::operator!=(const BTBreadthIterator& itr) const noexcept{
+  return !(*this == itr);
+}
 
+template <typename Data>
+struct BinaryTree<Data>::Node BTBreadthIterator<Data>::operator*() const{
+  return *curr;
+}
 
+template <typename Data>
+bool BTBreadthIterator<Data>::Terminated() noexcept{
+  return curr == nullptr;
+}
 
-
-
+template <typename Data>
+void BTBreadthIterator<Data>::operator++(){
+  if(Terminated()) throw std::out_of_range("Iterator is terminated!");
+  if(curr->HasLeftChild()){
+    queue.Enqueue(&(curr->LeftChild()));
+  }
+  if(curr->HasRightChild()){
+    queue.Enqueue(&(curr->RightChild()));
+  }
+  if(!queue.Empty()){
+    curr = queue.HeadNDequeue();
+  }else{
+    curr = nullptr;
+  }
+}
 
 /* ************************************************************************** */
 
