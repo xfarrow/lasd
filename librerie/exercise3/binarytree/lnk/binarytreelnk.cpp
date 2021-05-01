@@ -34,18 +34,13 @@ bool BinaryTreeLnk<Data>::NodeLnk::HasRightChild() const noexcept{
 }
 
 template <typename Data>
-NodeLnk& BinaryTreeLnk<Data>::NodeLnk::LeftChild() const{
+Node& BinaryTreeLnk<Data>::NodeLnk::LeftChild() const{
   return *left;
 }
 
 template <typename Data>
-NodeLnk& BinaryTreeLnk<Data>::NodeLnk::RightChild() const{
+Node& BinaryTreeLnk<Data>::NodeLnk::RightChild() const{
   return *right;
-}
-
-template <typename Data>
-BinaryTreeLnk<Data>::BinaryTreeLnk(){
-  size = 0;
 }
 
 // creates a tree from a linear container in breadth
@@ -85,15 +80,17 @@ BinaryTreeLnk<Data>::BinaryTreeLnk(const BinaryTreeLnk<Data>& tree){
 }
 
 BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::CopyTree(struct BinaryTreeLnk<Data>::NodeLnk* nodeToCopy){
+  if(nodeToCopy==nullptr) return nullptr;
+
   struct BinaryTreeLnk<Data>::NodeLnk* tmp = CreateNode(nodeToCopy.Element());
 
   if(nodeToCopy.HasLeftChild())
-    tmp->left = copyTrees(&(nodeToCopy.LeftChild()));
+    tmp->left = copyTree(&(nodeToCopy.LeftChild()));
   else
     tmp->left = nullptr;
 
   if(nodeToCopy.HasRightChild())
-    tmp->right = copyTrees(&(nodeToCopy.RightChild()));
+    tmp->right = copyTree(&(nodeToCopy.RightChild()));
   else
     tmp->right = nullptr;
 

@@ -31,13 +31,11 @@ protected:
 
     using BinaryTree<Data>::Node::data;
     struct NodeLnk* left;
-    struct* NodeLnk* right;
+    struct NodeLnk* right;
 
   public:
-    NodeLnk& operator=(const NodeLnk&); // Copy assignment of abstract types should not be possible.
-
-    // Move assignment
-    Node& operator=(Node&&) noexcept override; // Move assignment of abstract types should not be possible.
+    Node& operator=(const NodeLnk&); // Copy assignment of abstract types should not be possible.
+    Node& operator=(NodeLnk&&) noexcept override; // Move assignment of abstract types should not be possible.
     bool IsLeaf() const noexcept override; // (concrete function should not throw exceptions)
     bool HasLeftChild() const noexcept override; // (concrete function should not throw exceptions)
     bool HasRightChild() const noexcept override; // (concrete function should not throw exceptions)
@@ -52,7 +50,7 @@ protected:
 public:
 
   // Default constructor
-  BinaryTreeLnk();
+  BinaryTreeLnk() = default;
 
   /* ************************************************************************ */
 
@@ -75,10 +73,10 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  BinaryTreeLnk<Data>& operator=(const BinaryTreeLnk<Data>&);
+  BinaryTreeLnk& operator=(const BinaryTreeLnk<Data>&);
 
   // Move assignment
-  BinaryTreeLnk<Data> operator=(BinaryTreeLnk<Data>&&) noexcept;
+  BinaryTreeLnk& operator=(BinaryTreeLnk<Data>&&) noexcept;
 
   /* ************************************************************************ */
 
