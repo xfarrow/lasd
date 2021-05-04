@@ -6,7 +6,7 @@
 #include "../stack/stack.hpp"
 #include "../stack/lst/stacklst.hpp"
 #include "../stack/vec/stackvec.hpp"
-
+#include<iostream>
 namespace lasd {
 
 /* ************************************************************************** */
@@ -21,11 +21,22 @@ bool BinaryTree<Data>::Node::operator==(const Node& toEvaluate) const noexcept{
 template <typename Data>
 bool BinaryTree<Data>::Node::EqualNodes(const Node& n1, const Node& n2) const{
   if(n1.data == n2.data){
-    if(n1.IsLeaf() && n2.IsLeaf()) return true;
+
     if( (n1.HasLeftChild() && !n2.HasLeftChild()) || (n1.HasRightChild() && !n2.HasRightChild()) ) return false;
-    return( EqualNodes(n1.LeftChild(),n2.LeftChild()) &&
-            EqualNodes(n1.RightChild(),n2.RightChild())
-          );
+
+    if(n1.HasLeftChild() && n1.HasRightChild()){
+      return( EqualNodes(n1.LeftChild(),n2.LeftChild()) && EqualNodes(n1.RightChild(),n2.RightChild()));
+    }
+    else if(n1.HasLeftChild() && !n1.HasRightChild()){
+      return( EqualNodes(n1.LeftChild(),n2.LeftChild()));
+    }
+    else if(!n1.HasLeftChild() && n1.HasRightChild()){
+      return( EqualNodes(n1.RightChild(),n2.RightChild()));
+    }
+    else if(n1.IsLeaf()) {
+      return true;
+    }
+
   }else{
     return false;
   }
@@ -48,6 +59,7 @@ const Data& BinaryTree<Data>::Node::Element() const{
 
 template <typename Data>
 bool BinaryTree<Data>::operator==(const BinaryTree& toCompare) const noexcept{
+  if(size!=toCompare.size) return false;
   return(Root() == toCompare.Root());
 }
 

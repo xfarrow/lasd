@@ -32,7 +32,7 @@ bool BinaryTreeVec<Data>::NodeVec::IsLeaf() const noexcept{
 
 template <typename Data>
 bool BinaryTreeVec<Data>::NodeVec::HasLeftChild() const noexcept{
-  if(index*2+1 < ReferenceToTree->size){
+  if( (index*2)+1 < ReferenceToTree->size){
     return true;
   }else{
     return false;
@@ -41,7 +41,7 @@ bool BinaryTreeVec<Data>::NodeVec::HasLeftChild() const noexcept{
 
 template <typename Data>
 bool BinaryTreeVec<Data>::NodeVec::HasRightChild() const noexcept{
-  if(index*2+2 < ReferenceToTree->size){
+  if((index*2)+2 < ReferenceToTree->size){
     return true;
   }else{
     return false;
