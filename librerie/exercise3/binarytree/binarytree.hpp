@@ -47,7 +47,7 @@ public:
     bool operator==(const Node&) const noexcept; // Comparison of abstract types is possible, but should not be visible.
     bool operator!=(const Node&) const noexcept; // Comparison of abstract types is possible, but should not be visible.
 
-    bool EqualNodes(Node*, Node*);
+    bool EqualNodes(const Node&, const Node&) const;
 
 
   public:
@@ -95,33 +95,30 @@ public:
 
   /* ----- Map and fold functions ----- */
 
-  using typename MappableContainer<Data>::MapFunctor;
-  using typename FoldableContainer<Data>::FoldFunctor;
+  virtual void MapPreOrder(const typename MappableContainer<Data>::MapFunctor, void*) override; // Override MappableContainer member
+  virtual void MapPostOrder(const typename MappableContainer<Data>::MapFunctor, void*) override; // Override MappableContainer member
+  virtual void MapInOrder(const typename MappableContainer<Data>::MapFunctor, void*) override; // Override InOrderMappableContainer member
+  virtual void MapBreadth(const typename MappableContainer<Data>::MapFunctor, void*) override; // Override BreadthMappableContainer member
 
-  void MapPreOrder(const MapFunctor, void*) override; // Override MappableContainer member
-  void MapPostOrder(const MapFunctor, void*) override; // Override MappableContainer member
-  void MapInOrder(const MapFunctor, void*) override; // Override InOrderMappableContainer member
-  void MapBreadth(const MapFunctor, void*) override; // Override BreadthMappableContainer member
-
-  void FoldPreOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
-  void FoldPostOrder(const FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
-  void FoldInOrder(const FoldFunctor, const void*, void*) const override; // Override InOrderFoldableContainer member
-  void FoldBreadth(const FoldFunctor, const void*, void*) const override; // Override BreadthFoldableContainer member
+  virtual void FoldPreOrder(const typename FoldableContainer<Data>::FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
+  virtual void FoldPostOrder(const typename FoldableContainer<Data>::FoldFunctor, const void*, void*) const override; // Override FoldableContainer member
+  virtual void FoldInOrder(const typename FoldableContainer<Data>::FoldFunctor, const void*, void*) const override; // Override InOrderFoldableContainer member
+  virtual void FoldBreadth(const typename FoldableContainer<Data>::FoldFunctor, const void*, void*) const override; // Override BreadthFoldableContainer member
 
 
 protected:
 
   /* ----- Auxiliary map and fold functions ----- */
 
-  void MapPreOrder(const MapFunctor, void*, Node*) override; // Accessory function executing from one node of the tree
-  void MapPostOrder(const MapFunctor, void*, Node*) override; // Accessory function executing from one node of the tree
-  void MapInOrder(const MapFunctor, void*, Node*) override; // Accessory function executing from one node of the tree
-  void MapBreadth(const MapFunctor, void*, Node*) override; // Accessory function executing from one node of the tree
+  void MapPreOrder(const typename MappableContainer<Data>::MapFunctor, void*, Node*); // Accessory function executing from one node of the tree
+  void MapPostOrder(const typename MappableContainer<Data>::MapFunctor, void*, Node*); // Accessory function executing from one node of the tree
+  void MapInOrder(const typename MappableContainer<Data>::MapFunctor, void*, Node*); // Accessory function executing from one node of the tree
+  void MapBreadth(const typename MappableContainer<Data>::MapFunctor, void*, Node*); // Accessory function executing from one node of the tree
 
-  void FoldPreOrder(const FoldFunctor, const void*, void*, const Node*) const override; // Accessory function executing from one node of the tree
-  void FoldPostOrder(const FoldFunctor, const void*, void*, const Node*) const override; // Accessory function executing from one node of the tree
-  void FoldInOrder(const FoldFunctor, const void*, void*, const Node*) const override; // Accessory function executing from one node of the tree
-  void FoldBreadth(const FoldFunctor, const void*, void*, const Node*) const override; // Accessory function executing from one node of the tree
+  void FoldPreOrder(const typename FoldableContainer<Data>::FoldFunctor, const void*, void*, const Node*) const; // Accessory function executing from one node of the tree
+  void FoldPostOrder(const typename FoldableContainer<Data>::FoldFunctor, const void*, void*, const Node*) const; // Accessory function executing from one node of the tree
+  void FoldInOrder(const typename FoldableContainer<Data>::FoldFunctor, const void*, void*, const Node*) const; // Accessory function executing from one node of the tree
+  void FoldBreadth(const typename FoldableContainer<Data>::FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one node of the tree
 };
 
 /* ************************************************************************** */
@@ -133,7 +130,7 @@ private:
 
 protected:
   struct BinaryTree<Data>::Node* curr;
-  StackLst<BinaryTree<Data>::Node*> stack(); // default constructor for stacklst
+  StackLst<struct BinaryTree<Data>::Node*> stack;
 
 public:
 
@@ -171,9 +168,9 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  struct BinaryTree<Data>::Node operator*() const; // (throw std::out_of_range when terminated)
+  Data& operator*() const; // (throw std::out_of_range when terminated)
 
-  bool Terminated() noexcept; // (should not throw exceptions)
+  bool Terminated() const noexcept; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
@@ -192,7 +189,7 @@ private:
 
 protected:
   struct BinaryTree<Data>::Node* curr;
-  StackLst<BinaryTree<Data>::Node*> stack;
+  StackLst<struct BinaryTree<Data>::Node*> stack;
   struct BinaryTree<Data>::Node* DeepestLeftLeaf(struct BinaryTree<Data>::Node*);
 public:
 
@@ -230,9 +227,9 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  struct BinaryTree<Data>::Node operator*() const; // (throw std::out_of_range when terminated)
+  Data& operator*() const; // (throw std::out_of_range when terminated)
 
-  bool Terminated() noexcept; // (should not throw exceptions)
+  bool Terminated() const noexcept; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
@@ -251,8 +248,8 @@ private:
 
 protected:
   struct BinaryTree<Data>::Node* curr;
-  StackLst<BinaryTree<Data>::Node*> stack;
-  struct BinaryTree<Data>::Node* MostLeftNode(struct BinaryTree<Data>::Node*);
+  StackLst<struct BinaryTree<Data>::Node*> stack;
+  struct BinaryTree<Data>::Node* MostLeftNode(struct BinaryTree<Data>::Node&);
 public:
 
   // Specific constructors
@@ -289,9 +286,9 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  struct BinaryTree<Data>::Node operator*() const; // (throw std::out_of_range when terminated)
+  Data& operator*() const; // (throw std::out_of_range when terminated)
 
-  bool Terminated() noexcept; // (should not throw exceptions)
+  bool Terminated() const noexcept; // (should not throw exceptions)
 
   /* ************************************************************************ */
 
@@ -311,7 +308,7 @@ private:
 protected:
 
   struct BinaryTree<Data>::Node* curr;
-  QueueVec<BinaryTree<Data>::Node*> queue;
+  QueueVec<struct BinaryTree<Data>::Node*> queue;
 
 public:
 
@@ -349,9 +346,9 @@ public:
 
   // Specific member functions (inherited from Iterator)
 
-  struct BinaryTree<Data>::Node operator*() const; // (throw std::out_of_range when terminated)
+  Data& operator*() const; // (throw std::out_of_range when terminated)
 
-  bool Terminated() noexcept; // (should not throw exceptions)
+  bool Terminated() const noexcept; // (should not throw exceptions)
 
   /* ************************************************************************ */
 

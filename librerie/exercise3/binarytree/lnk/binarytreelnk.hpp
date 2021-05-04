@@ -13,16 +13,14 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class BinaryTreeLnk : virtual protected BinaryTree<Data>{ // Must extend BinaryTree<Data>
+class BinaryTreeLnk : virtual public BinaryTree<Data>{ // Must extend BinaryTree<Data>
 
 private:
 
 protected:
 
   using BinaryTree<Data>::size;
-  struct NodeLnk* root = nullptr;
 
-  // Node
   struct NodeLnk : virtual protected BinaryTree<Data>::Node { // Must extend Node
 
   private:
@@ -34,19 +32,22 @@ protected:
     struct NodeLnk* right;
 
   public:
-    Node& operator=(const NodeLnk&); // Copy assignment of abstract types should not be possible.
-    Node& operator=(NodeLnk&&) noexcept override; // Move assignment of abstract types should not be possible.
+    struct NodeLnk& operator=(const NodeLnk&); // Copy assignment of abstract types should not be possible.
+    struct NodeLnk& operator=(NodeLnk&&) noexcept; // Move assignment of abstract types should not be possible.
     bool IsLeaf() const noexcept override; // (concrete function should not throw exceptions)
     bool HasLeftChild() const noexcept override; // (concrete function should not throw exceptions)
     bool HasRightChild() const noexcept override; // (concrete function should not throw exceptions)
 
-    Node& LeftChild() const override; // (concrete function must throw std::out_of_range when not existent)
-    Node& RightChild() const override; // (concrete function must throw std::out_of_range when not existent)
+    struct BinaryTree<Data>::Node& LeftChild() const override; // (concrete function must throw std::out_of_range when not existent)
+    struct BinaryTree<Data>::Node& RightChild() const override; // (concrete function must throw std::out_of_range when not existent)
 
-    struct BinaryTreeLnk<Data>::NodeLnk* CreateNode(const Data& data);
+    friend class BinaryTreeLnk<Data>;
 
   };
 
+protected:
+    struct BinaryTreeLnk<Data>::NodeLnk* root = nullptr;
+    struct BinaryTreeLnk<Data>::NodeLnk* CreateNode(const Data& data);
 public:
 
   // Default constructor
@@ -88,7 +89,7 @@ public:
 
   // Specific member functions (inherited from BinaryTree)
 
-  struct NodeLnk& Root() override; // Override BinaryTree member (throw std::length_error when empty)
+  struct BinaryTree<Data>::Node& Root() const override; // Override BinaryTree member (throw std::length_error when empty)
 
   /* ************************************************************************ */
 
@@ -97,8 +98,8 @@ public:
   void Clear() override; // Override Container member
 
   struct BinaryTreeLnk<Data>::NodeLnk* CreateTreeFromLinearContainerInBreadth(const LinearContainer<Data>&,ulong);
-  struct BinaryTreeLnk<Data>::NodeLnk* CopyTree(struct BinaryTreeLnk<Data>::NodeLnk*);
-  void DeleteTree(BinaryTreeLnk<Data>::NodeLnk* node)
+  struct BinaryTreeLnk<Data>::NodeLnk* CopyTree(struct BinaryTreeLnk<Data>::Node*);
+  void DeleteTree(BinaryTreeLnk<Data>::NodeLnk* node);
 };
 
 /* ************************************************************************** */

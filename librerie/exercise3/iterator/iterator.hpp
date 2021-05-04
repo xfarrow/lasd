@@ -38,9 +38,9 @@ public:
 
   // Specific member functions
 
-  virtual Data& operator*() = 0; // (concrete function must throw std::out_of_range when terminated)
+  virtual Data& operator*() const = 0; // (concrete function must throw std::out_of_range when terminated)
 
-  virtual bool Terminated() noexcept = 0; // (concrete function should not throw exceptions)
+  virtual bool Terminated() const noexcept = 0; // (concrete function should not throw exceptions)
 
 };
 
@@ -76,7 +76,7 @@ public:
 
   // Specific member functions
 
-  virtual ForwardIterator& operator++() = 0; // (concrete function must throw std::out_of_range when terminated)
+  virtual void operator++() = 0; // (concrete function must throw std::out_of_range when terminated)
 
 };
 

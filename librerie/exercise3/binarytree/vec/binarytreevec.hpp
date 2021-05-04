@@ -22,7 +22,6 @@ protected:
 
   using BinaryTree<Data>::size;
   // using BinaryTree<Data>::Node;
-  Vector<struct NodeVec*> tree;
 
   struct NodeVec : virtual protected BinaryTree<Data>::Node { // Must extend Node
 
@@ -34,16 +33,23 @@ protected:
     BinaryTreeVec<Data>* ReferenceToTree = nullptr;
 
   public:
-    struct BinaryTree<Data>::Node& operator=(const NodeVec&) override; // Copy assignment of abstract types should not be possible.
-    struct BinaryTree<Data>::Node& operator=(NodeVec&&) noexcept override; // Move assignment of abstract types should not be possible.
+    NodeVec(Data&, ulong, BinaryTreeVec<Data>*);
+    struct NodeVec& operator=(const NodeVec&); // Copy assignment of abstract types should not be possible.
+    struct NodeVec& operator=(NodeVec&&) noexcept; // Move assignment of abstract types should not be possible.
     bool IsLeaf() const noexcept override; // (concrete function should not throw exceptions)
     bool HasLeftChild() const noexcept override; // (concrete function should not throw exceptions)
     bool HasRightChild() const noexcept override; // (concrete function should not throw exceptions)
     struct BinaryTree<Data>::Node& LeftChild() const override; // (concrete function must throw std::out_of_range when not existent)
     struct BinaryTree<Data>::Node& RightChild() const override; // (concrete function must throw std::out_of_range when not existent)
+
+    friend class BinaryTreeVec<Data>;
   };
 
+protected:
+    Vector<struct BinaryTreeVec<Data>::NodeVec*> tree;
+
 public:
+
 
   // Default constructor
   BinaryTreeVec() = default;
@@ -84,7 +90,7 @@ public:
 
   // Specific member functions (inherited from BinaryTree)
 
-  struct BinaryTreeVec<Data>::NodeVec& Root() override; // Override BinaryTree member (throw std::length_error when empty)
+  struct BinaryTree<Data>::Node& Root() const override; // Override BinaryTree member (throw std::length_error when empty)
 
   /* ************************************************************************ */
 

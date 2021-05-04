@@ -2,9 +2,15 @@
 namespace lasd {
 
 /* ************************************************************************** */
+template <typename Data>
+BinaryTreeVec<Data>::NodeVec::NodeVec(Data& dat, ulong idx, BinaryTreeVec<Data>* ref){
+  data = dat;
+  index = idx;
+  ReferenceToTree = ref;
+}
 
 template <typename Data>
-struct BinaryTree<Data>:Node& BinaryTreeVec<Data>::NodeVec::operator=(const BinaryTreeVec<Data>::NodeVec& node){
+struct BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(const BinaryTreeVec<Data>::NodeVec& node){
   ReferenceToTree = node.ReferenceToTree;
   data = node.data;
   index = node.index;
@@ -12,7 +18,7 @@ struct BinaryTree<Data>:Node& BinaryTreeVec<Data>::NodeVec::operator=(const Bina
 }
 
 template <typename Data>
-struct BinaryTree<Data>:Node& BinaryTreeVec<Data>::NodeVec::operator=(BinaryTreeVec<Data>::NodeVec&& node) noexcept{
+struct BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(BinaryTreeVec<Data>::NodeVec&& node) noexcept{
   std::swap(data, node.data);
   std::swap(index, node.index);
   std::swap(ReferenceToTree, node.ReferenceToTree);
@@ -63,10 +69,7 @@ BinaryTreeVec<Data>::BinaryTreeVec(const LinearContainer<Data>& lc){
   tree.Resize(lc.Size());
   size = lc.Size();
   for(ulong i=0 ; i<size ; ++i){
-    struct NodeVec* tmp = new BinaryTreeVec<Data>::NodeVec;
-    tmp->data = lc[i];
-    tmp->index = i;
-    tmp->ReferenceToTree = this;
+    struct BinaryTreeVec<Data>::NodeVec* tmp = new BinaryTreeVec<Data>::NodeVec(lc[i], i, this);
     tree[i] = tmp;
   }
 }
@@ -76,10 +79,7 @@ BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec<Data>& bt){
   size = bt.size;
   tree.Resize(size);
   for(ulong i=0 ; i<size ; ++i){
-    struct NodeVec* tmp = new BinaryTreeVec<Data>::NodeVec;
-    tmp->data = bt[i];
-    tmp->index = i;
-    tmp->ReferenceToTree = this;
+    struct BinaryTreeVec<Data>::NodeVec* tmp = new BinaryTreeVec<Data>::NodeVec( (bt.tree[i])->data , i, this);
     tree[i] = tmp;
   }
 }
@@ -88,6 +88,9 @@ template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec<Data>&& bt) noexcept{
   std::swap(size,bt.size);
   std::swap(tree,bt.tree);
+  for(ulong i=0 ; i<size ; ++i){
+    tree[i]->ReferenceToTree = this;
+  }
 }
 
 template <typename Data>
@@ -96,23 +99,23 @@ BinaryTreeVec<Data>::~BinaryTreeVec(){
 }
 
 template <typename Data>
-bool BinaryTreeVec<Data>::operator=(const BinaryTreeVec<Data>& bt){
+BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(const BinaryTreeVec<Data>& bt){
   size = bt.size;
   tree.Resize(size);
   for(ulong i=0 ; i<size ; ++i){
-    struct NodeVec* tmp = new BinaryTreeVec<Data>::NodeVec;
-    tmp->data = bt[i];
-    tmp->index = i;
-    tmp->ReferenceToTree = this;
+    struct NodeVec* tmp = new BinaryTreeVec<Data>::NodeVec((bt.tree[i])->data,i,this);
     tree[i] = tmp;
   }
   return *this;
 }
 
 template <typename Data>
-bool BinaryTreeVec<Data>::operator=(BinaryTreeVec<Data>&& bt) noexcept{
+BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(BinaryTreeVec<Data>&& bt) noexcept{
   std::swap(size, bt.size);
   std::swap(tree, bt.tree);
+  for(ulong i=0 ; i<size ; ++i){
+    tree[i]->ReferenceToTree = this;
+  }
   return *this;
 }
 
@@ -120,7 +123,7 @@ template <typename Data>
 bool BinaryTreeVec<Data>::operator==(const BinaryTreeVec& bt) const noexcept{
   if(size==bt.size){
     for(ulong i=0 ; i<size ; ++i){
-      if((tree[i])->data != ((bt.tree)[i])->data ) return false;
+      if( tree[i]->data != (bt.tree[i])->data ) return false;
     }
     return true;
   }
@@ -133,7 +136,7 @@ bool BinaryTreeVec<Data>::operator!=(const BinaryTreeVec& bt) const noexcept{
 }
 
 template <typename Data>
-struct BinaryTreeVec<Data>::Node& BinaryTreeVec<Data>::Root(){
+struct BinaryTree<Data>::Node& BinaryTreeVec<Data>::Root() const{
   return *(tree.Front());
 }
 
@@ -141,22 +144,22 @@ template <typename Data>
 void BinaryTreeVec<Data>::Clear(){
   for(ulong i=0 ; i<size ; ++i){
     delete tree[i];
-    tree[i] = nullptr
+    tree[i] = nullptr;
   }
   size = 0;
 }
 
 template <typename Data>
-void BinaryTreeVec<Data>::MapBreadth(const MapFunctor func, void* par) override{
+void BinaryTreeVec<Data>::MapBreadth(const MapFunctor func, void* par){
   for(ulong i=0 ; i<size ; ++i){
-    func( *(tree[i]), par);
+    func( (tree[i])->data, par);
   }
 }
 
 template <typename Data>
-void BinaryTreeVec<Data>::FoldBreadth(const MapFunctor func, const void* par, void* acc) override{
+void BinaryTreeVec<Data>::FoldBreadth(const FoldFunctor func, const void* par, void* acc) const{
   for(ulong i=0 ; i<size ; ++i){
-    func( *(tree[i]), par, acc);
+    func( (tree[i])->data, par, acc);
   }
 }
 

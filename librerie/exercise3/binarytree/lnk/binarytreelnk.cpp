@@ -3,7 +3,7 @@ namespace lasd {
 
 /* ************************************************************************** */
 template <typename Data>
-struct BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::operator=(const NodeLnk& node){
+struct BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::operator=(const BinaryTreeLnk<Data>::NodeLnk& node){
   data = node.data;
   left = node.left;
   right = node.right;
@@ -34,12 +34,12 @@ bool BinaryTreeLnk<Data>::NodeLnk::HasRightChild() const noexcept{
 }
 
 template <typename Data>
-Node& BinaryTreeLnk<Data>::NodeLnk::LeftChild() const{
+struct BinaryTree<Data>::Node& BinaryTreeLnk<Data>::NodeLnk::LeftChild() const{
   return *left;
 }
 
 template <typename Data>
-Node& BinaryTreeLnk<Data>::NodeLnk::RightChild() const{
+struct BinaryTree<Data>::Node& BinaryTreeLnk<Data>::NodeLnk::RightChild() const{
   return *right;
 }
 
@@ -50,7 +50,8 @@ BinaryTreeLnk<Data>::BinaryTreeLnk(const LinearContainer<Data>& lc){
   size = lc.Size();
 }
 
-struct BinaryTreeLnk<Data>::NodeLnk* CreateTreeFromLinearContainerInBreadth(const LinearContainer<Data>& lc, ulong position){
+template <typename Data>
+struct BinaryTreeLnk<Data>::NodeLnk*  BinaryTreeLnk<Data>::CreateTreeFromLinearContainerInBreadth(const LinearContainer<Data>& lc, ulong position){
   if(position >= lc.Size()) return nullptr;
 
   struct BinaryTreeLnk<Data>::NodeLnk* tmp = CreateNode(lc[position]);
@@ -64,7 +65,7 @@ struct BinaryTreeLnk<Data>::NodeLnk* CreateTreeFromLinearContainerInBreadth(cons
 }
 
 template <typename Data>
-struct BinaryTreeLnk<Data>::NodeLnk* CreateNode(const Data& data){
+struct BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::CreateNode(const Data& data){
     struct BinaryTreeLnk<Data>::NodeLnk* newNode = new struct BinaryTreeLnk<Data>::NodeLnk();
     newNode->data = data;
     newNode->left = nullptr;
@@ -79,18 +80,19 @@ BinaryTreeLnk<Data>::BinaryTreeLnk(const BinaryTreeLnk<Data>& tree){
   root = CopyTree(&tree.Root());
 }
 
-BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::CopyTree(struct BinaryTreeLnk<Data>::NodeLnk* nodeToCopy){
+template <typename Data>
+struct BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::CopyTree(struct BinaryTreeLnk<Data>::Node* nodeToCopy){
   if(nodeToCopy==nullptr) return nullptr;
 
-  struct BinaryTreeLnk<Data>::NodeLnk* tmp = CreateNode(nodeToCopy.Element());
+  struct BinaryTreeLnk<Data>::NodeLnk* tmp = CreateNode(nodeToCopy->Element());
 
-  if(nodeToCopy.HasLeftChild())
-    tmp->left = copyTree(&(nodeToCopy.LeftChild()));
+  if(nodeToCopy->HasLeftChild())
+    tmp->left = CopyTree(&(nodeToCopy->LeftChild()));
   else
     tmp->left = nullptr;
 
-  if(nodeToCopy.HasRightChild())
-    tmp->right = copyTree(&(nodeToCopy.RightChild()));
+  if(nodeToCopy->HasRightChild())
+    tmp->right = CopyTree(&(nodeToCopy->RightChild()));
   else
     tmp->right = nullptr;
 
@@ -144,12 +146,12 @@ bool BinaryTreeLnk<Data>::operator!=(const BinaryTreeLnk<Data>& tree) const noex
 }
 
 template <typename Data>
-struct NodeLnk& Root() override{
+struct BinaryTree<Data>::Node& BinaryTreeLnk<Data>::Root() const{
   return *root;
 }
 
 template <typename Data>
-void Clear() override{
+void BinaryTreeLnk<Data>::Clear(){
   DeleteTree(root);
 }
 

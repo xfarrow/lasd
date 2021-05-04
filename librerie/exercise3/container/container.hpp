@@ -203,10 +203,7 @@ public:
   /* ************************************************************************ */
 
   // Specific member functions
-
-  using typename MappableContainer<Data>::MapFunctor;
-
-  virtual void MapInOrder(const MapFunctor, void*) = 0;
+  virtual void MapInOrder(const typename MappableContainer<Data>::MapFunctor, void*) = 0;
 
 };
 
@@ -230,7 +227,7 @@ public:
   InOrderFoldableContainer& operator=(const InOrderFoldableContainer&) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  InOrderFoldableContainer operator=(InOrderFoldableContainer&&) noexcept = delete; // Move assignment of abstract types should not be possible.
+  InOrderFoldableContainer& operator=(InOrderFoldableContainer&&) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   /* ************************************************************************ */
 
@@ -242,9 +239,7 @@ public:
 
   // Specific member functions
 
-  using typename MappableContainer<Data>::MapFunctor;
-
-  virtual void FoldInOrder(const MapFunctor, const void*, void*) const = 0;
+  virtual void FoldInOrder(const typename FoldableContainer<Data>::FoldFunctor, const void*, void*) const = 0;
 
 };
 
@@ -280,9 +275,7 @@ public:
 
   // Specific member functions
 
-  using typename MappableContainer<Data>::MapFunctor;
-
-  void MapBreadth(const MapFunctor, void*) = 0;
+  virtual void MapBreadth(const typename MappableContainer<Data>::MapFunctor, void*) = 0;
 
 };
 
