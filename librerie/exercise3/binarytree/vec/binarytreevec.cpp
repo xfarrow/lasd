@@ -1,7 +1,8 @@
 
 namespace lasd {
 
-/* ************************************************************************** */
+/* ----- begin of struct NodeVec ----- */
+
 template <typename Data>
 BinaryTreeVec<Data>::NodeVec::NodeVec(Data& dat, ulong idx, BinaryTreeVec<Data>* ref){
   data = dat;
@@ -63,6 +64,10 @@ struct BinaryTree<Data>::Node& BinaryTreeVec<Data>::NodeVec::RightChild() const{
   else
     throw std::out_of_range("Right child does not exist!");
 }
+
+/* ----- end of struct NodeVec ----- */
+
+/* ----- begin of class BinaryTreeVec ----- */
 
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const LinearContainer<Data>& lc){
@@ -137,6 +142,7 @@ bool BinaryTreeVec<Data>::operator!=(const BinaryTreeVec& bt) const noexcept{
 
 template <typename Data>
 struct BinaryTree<Data>::Node& BinaryTreeVec<Data>::Root() const{
+  if(size==0) throw std::length_error("Empty tree!");
   return *(tree.Front());
 }
 

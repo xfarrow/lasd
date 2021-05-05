@@ -11,7 +11,7 @@
 
 int main() {
   std::cout << "Lasd Libraries 2020" << std::endl;
-  //menu();
+  menu();
   lasdtest(); // To call in the menu of your library test!
   return 0;
 }

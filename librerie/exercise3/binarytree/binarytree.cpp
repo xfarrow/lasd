@@ -2,19 +2,25 @@
 #include "../queue/queue.hpp"
 #include "../queue/vec/queuevec.hpp"
 #include "../queue/lst/queuelst.hpp"
-
 #include "../stack/stack.hpp"
 #include "../stack/lst/stacklst.hpp"
 #include "../stack/vec/stackvec.hpp"
 #include<iostream>
+
 namespace lasd {
 
-/* ************************************************************************** */
+/* ----- begin of class BinaryTree ----- */
 
-// checks if two trees which have the same root node are identical
+/* ----- begin of struct Node ----- */
+
 template <typename Data>
 bool BinaryTree<Data>::Node::operator==(const Node& toEvaluate) const noexcept{
   return EqualNodes(*this, toEvaluate);
+}
+
+template <typename Data>
+bool BinaryTree<Data>::Node::operator!=(const Node& toEvaluate) const noexcept{
+  return !(*this == toEvaluate);
 }
 
 /* given two nodes, checks if the subtree is the same */
@@ -43,11 +49,6 @@ bool BinaryTree<Data>::Node::EqualNodes(const Node& n1, const Node& n2) const{
 }
 
 template <typename Data>
-bool BinaryTree<Data>::Node::operator!=(const Node& toEvaluate) const noexcept{
-  return !(*this == toEvaluate);
-}
-
-template <typename Data>
 Data& BinaryTree<Data>::Node::Element(){
   return this->data;
 }
@@ -57,6 +58,8 @@ const Data& BinaryTree<Data>::Node::Element() const{
   return this->data;
 }
 
+/* ----- end of struct Node ----- */
+
 template <typename Data>
 bool BinaryTree<Data>::operator==(const BinaryTree& toCompare) const noexcept{
   if(size!=toCompare.size) return false;
@@ -65,7 +68,7 @@ bool BinaryTree<Data>::operator==(const BinaryTree& toCompare) const noexcept{
 
 template <typename Data>
 bool BinaryTree<Data>::operator!=(const BinaryTree& toCompare) const noexcept{
-  return(Root() != toCompare.Root());
+  return !(*this == toCompare);
 }
 
 /* ----- Map and fold functions ----- */
@@ -129,12 +132,44 @@ template <typename Data>
 void BinaryTree<Data>::MapPostOrder(const typename MappableContainer<Data>::MapFunctor function, void* par, Node* node){
   if(node != nullptr){
     if(node->HasLeftChild()){
-        MapPreOrder(function, par, &(node->LeftChild()));
+        MapPostOrder(function, par, &(node->LeftChild()));
     }
     if(node->HasRightChild()){
-        MapPreOrder(function, par, &(node->RightChild()));
+        MapPostOrder(function, par, &(node->RightChild()));
     }
     function(node->Element(), par);
+  }
+}
+
+template <typename Data>
+void BinaryTree<Data>::MapInOrder(const typename MappableContainer<Data>::MapFunctor function, void* par, Node* node){
+  if(node != nullptr){
+    if(node->HasLeftChild()){
+      MapInOrder(function, par, &(node->LeftChild()));
+    }
+    function(node->Element(), par);
+    if(node->HasRightChild()){
+      MapInOrder(function, par, &(node->RightChild()));
+    }
+  }
+}
+
+template <typename Data>
+void BinaryTree<Data>::MapBreadth(const typename MappableContainer<Data>::MapFunctor function, void* par, Node* node){
+  QueueLst<struct Node*> toVisit;
+  if(node != nullptr){
+    toVisit.Enqueue(node);
+    while(!toVisit.Empty()){
+      function(toVisit.Head()->Element(), par);
+
+      if(toVisit.Head()->HasLeftChild()){
+        toVisit.Enqueue(&(toVisit.Head()->LeftChild()));
+      }
+      if(toVisit.Head()->HasRightChild()){
+        toVisit.Enqueue(&(toVisit.Head()->RightChild()));
+      }
+      toVisit.Dequeue();
+    }
   }
 }
 
@@ -165,19 +200,6 @@ void BinaryTree<Data>::FoldPostOrder(const typename FoldableContainer<Data>::Fol
 }
 
 template <typename Data>
-void BinaryTree<Data>::MapInOrder(const typename MappableContainer<Data>::MapFunctor function, void* par, Node* node){
-  if(node != nullptr){
-    if(node->HasLeftChild()){
-      MapInOrder(function, par, &(node->LeftChild()));
-    }
-    function(node->Element(), par);
-    if(node->HasRightChild()){
-      MapInOrder(function, par, &(node->RightChild()));
-    }
-  }
-}
-
-template <typename Data>
 void BinaryTree<Data>::FoldInOrder(const typename FoldableContainer<Data>::FoldFunctor function, const void* par, void* acc, const Node* node) const{
   if(node != nullptr){
     if(node->HasLeftChild()){
@@ -185,26 +207,7 @@ void BinaryTree<Data>::FoldInOrder(const typename FoldableContainer<Data>::FoldF
     }
     function(node->Element(), par, acc);
     if(node->HasRightChild()){
-        FoldPreOrder(function, par, acc, &(node->RightChild()));
-    }
-  }
-}
-
-template <typename Data>
-void BinaryTree<Data>::MapBreadth(const typename MappableContainer<Data>::MapFunctor function, void* par, Node* node){
-  QueueLst<struct Node*> toVisit;
-  if(node != nullptr){
-    toVisit.Enqueue(node);
-    while(!toVisit.Empty()){
-      function(toVisit.Head()->Element(), par);
-
-      if(toVisit.Head()->HasLeftChild()){
-        toVisit.Enqueue(&(toVisit.Head()->LeftChild()));
-      }
-      if(toVisit.Head()->HasRightChild()){
-        toVisit.Enqueue(&(toVisit.Head()->RightChild()));
-      }
-      toVisit.Dequeue();
+        FoldInOrder(function, par, acc, &(node->RightChild()));
     }
   }
 }
@@ -228,6 +231,10 @@ void BinaryTree<Data>::FoldBreadth(const typename FoldableContainer<Data>::FoldF
   }
 }
 
+/* ----- end of class BinaryTree ----- */
+
+/* ----- begin of class BTPreOrderIterator ----- */
+
 template <typename Data>
 BTPreOrderIterator<Data>::BTPreOrderIterator(const BinaryTree<Data>& tree){
   curr = &tree.Root();
@@ -235,7 +242,6 @@ BTPreOrderIterator<Data>::BTPreOrderIterator(const BinaryTree<Data>& tree){
 
 template <typename Data>
 BTPreOrderIterator<Data>::BTPreOrderIterator(const BTPreOrderIterator& itr){
-  //curr = &(*itr);
   curr = itr.curr;
   stack = itr.stack;
 }
@@ -254,7 +260,6 @@ BTPreOrderIterator<Data>::~BTPreOrderIterator(){
 
 template <typename Data>
 BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator=(const BTPreOrderIterator& itr){
-  //curr = &(*itr);
   curr = itr.curr;
   stack = itr.stack;
   return *this;
@@ -279,6 +284,7 @@ bool BTPreOrderIterator<Data>::operator!=(const BTPreOrderIterator& itr) const n
 
 template <typename Data>
 Data& BTPreOrderIterator<Data>::operator*() const{
+  if(Terminated()) throw std::out_of_range("Iterator is terminated!");
   return curr->Element();
 }
 
@@ -310,6 +316,10 @@ void BTPreOrderIterator<Data>::operator++(){
     }
   }
 }
+
+/* ----- end of class BTPreOrderIterator ----- */
+
+/* ----- begin of class BTPostOrderIterator ----- */
 
 template <typename Data>
 struct BinaryTree<Data>::Node* BTPostOrderIterator<Data>::DeepestLeftLeaf(struct BinaryTree<Data>::Node* node){
@@ -374,6 +384,7 @@ bool BTPostOrderIterator<Data>::operator!=(const BTPostOrderIterator& itr) const
 
 template <typename Data>
 Data& BTPostOrderIterator<Data>::operator*() const{
+  if(Terminated()) throw std::out_of_range("Iterator is terminated!");
   return curr->Element();
 }
 
@@ -384,8 +395,16 @@ bool BTPostOrderIterator<Data>::Terminated() const noexcept{
 
 template <typename Data>
 void BTPostOrderIterator<Data>::operator++(){
+  /*
+  * If we're coming from the left then we have to analyze the tree on the right
+  * (if existent). Otherwise we just top 'n' pop.
+  */
+
   if(Terminated()) throw std::out_of_range("Iterator is terminated!");
-  try{
+
+  if(stack.Empty()){
+    curr = nullptr;
+  }else{
     if( curr == &((stack.Top())->LeftChild()) ){
       if( (stack.Top())->HasRightChild()   ){
         curr = DeepestLeftLeaf(&((stack.Top())->RightChild()));
@@ -395,10 +414,12 @@ void BTPostOrderIterator<Data>::operator++(){
     }else{
       curr = stack.TopNPop();
     }
-  }catch(std::length_error exc){
-    curr = nullptr;
   }
 }
+
+/* ----- end of class BTPostOrderIterator ----- */
+
+/* ----- begin of class BTInOrderIterator ----- */
 
 template <typename Data>
 struct BinaryTree<Data>::Node* BTInOrderIterator<Data>::MostLeftNode(struct BinaryTree<Data>::Node& root){
@@ -459,6 +480,7 @@ bool BTInOrderIterator<Data>::operator!=(const BTInOrderIterator& itr) const noe
 
 template <typename Data>
 Data& BTInOrderIterator<Data>::operator*() const{
+  if(Terminated()) throw std::out_of_range("Iterator is terminated!");
   return curr->Element();
 }
 
@@ -474,13 +496,17 @@ void BTInOrderIterator<Data>::operator++(){
   if(curr->HasRightChild()){
     curr = MostLeftNode(curr->RightChild());
   }else{
-    try{
-      curr = stack.TopNPop();
-    }catch(std::length_error exc){
+    if(stack.Empty()){
       curr = nullptr;
+    }else{
+      curr = stack.TopNPop();
     }
   }
 }
+
+/* ----- end of class BTInOrderIterator ----- */
+
+/* ----- begin of class BTBreadthIteratorOrderIterator ----- */
 
 template <typename Data>
 BTBreadthIterator<Data>::BTBreadthIterator(const BinaryTree<Data>& tree){
@@ -531,6 +557,7 @@ bool BTBreadthIterator<Data>::operator!=(const BTBreadthIterator& itr) const noe
 
 template <typename Data>
 Data& BTBreadthIterator<Data>::operator*() const{
+  if(Terminated()) throw std::out_of_range("Iterator is terminated!");
   return curr->Element();
 }
 
@@ -542,6 +569,7 @@ bool BTBreadthIterator<Data>::Terminated() const noexcept{
 template <typename Data>
 void BTBreadthIterator<Data>::operator++(){
   if(Terminated()) throw std::out_of_range("Iterator is terminated!");
+
   if(curr->HasLeftChild()){
     queue.Enqueue(&(curr->LeftChild()));
   }

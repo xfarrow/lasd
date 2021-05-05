@@ -2,30 +2,17 @@
 #ifndef BINARYTREEVEC_HPP
 #define BINARYTREEVEC_HPP
 
-/* ************************************************************************** */
-
 #include "../binarytree.hpp"
 #include "../../vector/vector.hpp"
 
-/* ************************************************************************** */
-
 namespace lasd {
-
-/* ************************************************************************** */
 
 template <typename Data>
 class BinaryTreeVec : virtual public BinaryTree<Data>{ // Must extend BinaryTree<Data>
 
-private:
-
 protected:
 
-  using BinaryTree<Data>::size;
-  // using BinaryTree<Data>::Node;
-
   struct NodeVec : virtual protected BinaryTree<Data>::Node { // Must extend Node
-
-  private:
 
   protected:
     using BinaryTree<Data>::Node::data;
@@ -46,67 +33,41 @@ protected:
   };
 
 protected:
-    Vector<struct BinaryTreeVec<Data>::NodeVec*> tree;
+  
+  using BinaryTree<Data>::size;
+  Vector<struct BinaryTreeVec<Data>::NodeVec*> tree;
 
 public:
 
-
-  // Default constructor
   BinaryTreeVec() = default;
-
-  /* ************************************************************************ */
-
-  // Specific constructors
   BinaryTreeVec(const LinearContainer<Data>&); // A binary tree obtained from a LinearContainer
-
-  /* ************************************************************************ */
-
-  // Copy constructor
   BinaryTreeVec(const BinaryTreeVec<Data>&);
-
-  // Move constructor
   BinaryTreeVec(BinaryTreeVec<Data>&&) noexcept;
 
-  /* ************************************************************************ */
-
-  // Destructor
   virtual ~BinaryTreeVec();
 
-  /* ************************************************************************ */
-
-  // Copy assignment
   BinaryTreeVec& operator=(const BinaryTreeVec<Data>&);
-
-  // Move assignment
   BinaryTreeVec& operator=(BinaryTreeVec<Data>&&) noexcept;
 
-  /* ************************************************************************ */
-
-  // Comparison operators
   bool operator==(const BinaryTreeVec&) const noexcept;
   bool operator!=(const BinaryTreeVec&) const noexcept;
-
-  /* ************************************************************************ */
 
   // Specific member functions (inherited from BinaryTree)
 
   struct BinaryTree<Data>::Node& Root() const override; // Override BinaryTree member (throw std::length_error when empty)
-
-  /* ************************************************************************ */
 
   // Specific member functions (inherited from Container)
 
   void Clear() override; // Override Container member
 
   /* ----- override of map and fold in breadth ----- */
+
   using typename BinaryTree<Data>::MapFunctor;
   using typename BinaryTree<Data>::FoldFunctor;
   void MapBreadth(const MapFunctor, void*) override;
   void FoldBreadth(const FoldFunctor, const void*, void*) const override;
 
 };
-
-/* ************************************************************************** */
 
 }
 

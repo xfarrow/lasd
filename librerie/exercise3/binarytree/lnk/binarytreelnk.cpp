@@ -1,7 +1,8 @@
 
 namespace lasd {
 
-/* ************************************************************************** */
+/* ----- begin of struct NodeLnk ----- */
+
 template <typename Data>
 struct BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::operator=(const BinaryTreeLnk<Data>::NodeLnk& node){
   data = node.data;
@@ -43,6 +44,10 @@ struct BinaryTree<Data>::Node& BinaryTreeLnk<Data>::NodeLnk::RightChild() const{
   return *right;
 }
 
+/* ----- end of struct NodeLnk ----- */
+
+/* ----- begin of class BinaryTreeLnk ----- */
+
 // creates a tree from a linear container in breadth
 template <typename Data>
 BinaryTreeLnk<Data>::BinaryTreeLnk(const LinearContainer<Data>& lc){
@@ -55,7 +60,6 @@ struct BinaryTreeLnk<Data>::NodeLnk*  BinaryTreeLnk<Data>::CreateTreeFromLinearC
   if(position >= lc.Size()) return nullptr;
 
   struct BinaryTreeLnk<Data>::NodeLnk* tmp = CreateNode(lc[position]);
-  // if(position == 0) root = tmp;
 
   tmp->left = CreateTreeFromLinearContainerInBreadth(lc, (2*position)+1);
   tmp->right = CreateTreeFromLinearContainerInBreadth(lc, (2*position)+2);
@@ -130,6 +134,7 @@ BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(const BinaryTreeLnk<Data>& t
 
 template <typename Data>
 BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(BinaryTreeLnk<Data>&& tree) noexcept{
+  Clear();
   std::swap(size, tree.size);
   std::swap(root, tree.root);
   return *this;
