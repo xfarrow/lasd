@@ -155,10 +155,10 @@ template <typename Data>
 void BinaryTree<Data>::FoldPostOrder(const typename FoldableContainer<Data>::FoldFunctor function, const void* par, void* acc, const Node* node) const{
   if(node != nullptr){
     if(node->HasLeftChild()){
-      FoldPreOrder(function, par, acc, &(node->LeftChild()));
+      FoldPostOrder(function, par, acc, &(node->LeftChild()));
     }
     if(node->HasRightChild()){
-      FoldPreOrder(function, par, acc, &(node->RightChild()));
+      FoldPostOrder(function, par, acc, &(node->RightChild()));
     }
     function(node->Element(), par, acc);
   }
