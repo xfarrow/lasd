@@ -292,19 +292,21 @@ void BTPreOrderIterator<Data>::operator++(){
   if(Terminated()) throw std::out_of_range("Iterator is terminated!");
 
   if(curr->HasLeftChild()){
-    curr = &(curr->LeftChild());
 
-    if( curr->HasRightChild() )
-      stack.Push(&curr->RightChild());
+    if( curr->HasRightChild() ){
+      stack.Push(&(curr->RightChild()));
+    }
+
+    curr = &(curr->LeftChild());
 
   }else if(curr->HasRightChild()){
     curr = &curr->RightChild();
   }
-  else{
-    try{
-      curr = stack.TopNPop();
-    }catch(std:: length_error exc){
+  else{ // is leaf
+    if(stack.Empty()){
       curr = nullptr;
+    }else{
+      curr = stack.TopNPop();
     }
   }
 }

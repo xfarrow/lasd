@@ -147,12 +147,15 @@ bool BinaryTreeLnk<Data>::operator!=(const BinaryTreeLnk<Data>& tree) const noex
 
 template <typename Data>
 struct BinaryTree<Data>::Node& BinaryTreeLnk<Data>::Root() const{
+  if(size==0) throw std::length_error("Empty tree!");
   return *root;
 }
 
 template <typename Data>
 void BinaryTreeLnk<Data>::Clear(){
   DeleteTree(root);
+  root = nullptr;
+  size = 0;
 }
 
 }
