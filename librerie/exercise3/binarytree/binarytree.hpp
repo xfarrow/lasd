@@ -30,13 +30,11 @@ public:
 
   protected:
     Data data;
-
     // Comparison operators
     bool operator==(const Node&) const noexcept; // Comparison of abstract types is possible, but should not be visible.
     bool operator!=(const Node&) const noexcept; // Comparison of abstract types is possible, but should not be visible.
 
     bool EqualNodes(const Node&, const Node&) const;
-
 
   public:
 

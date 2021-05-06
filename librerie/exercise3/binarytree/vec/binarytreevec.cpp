@@ -141,7 +141,7 @@ bool BinaryTreeVec<Data>::operator!=(const BinaryTreeVec& bt) const noexcept{
 }
 
 template <typename Data>
-struct BinaryTree<Data>::Node& BinaryTreeVec<Data>::Root() const{
+struct BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::Root() const{
   if(size==0) throw std::length_error("Empty tree!");
   return *(tree.Front());
 }

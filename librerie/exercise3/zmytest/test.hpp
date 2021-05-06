@@ -36,8 +36,8 @@ void menu(){
 
   BinaryTreeLnk<string> bt1(vec);
   BinaryTreeLnk<string> bt2(vec);
-//  if(bt1 == bt2) cout<<"uguali";
-
+  if(bt1 == bt2) cout<<"uguali";
+  else cout<<"NON UGUALI!";
 }
 
 

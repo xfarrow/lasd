@@ -10,13 +10,13 @@ class BinaryTreeLnk : virtual public BinaryTree<Data>{ // Must extend BinaryTree
 
 protected:
 
-  struct NodeLnk : virtual protected BinaryTree<Data>::Node { // Must extend Node
+  struct NodeLnk : virtual public BinaryTree<Data>::Node { // Must extend Node
 
   protected:
 
     using BinaryTree<Data>::Node::data;
-    struct NodeLnk* left;
-    struct NodeLnk* right;
+    struct NodeLnk* left = nullptr;
+    struct NodeLnk* right = nullptr;
 
   public:
     struct NodeLnk& operator=(const NodeLnk&); // Copy assignment of abstract types should not be possible.
@@ -56,14 +56,14 @@ public:
 
   // Specific member functions (inherited from BinaryTree)
 
-  struct BinaryTree<Data>::Node& Root() const override; // Override BinaryTree member (throw std::length_error when empty)
+  NodeLnk& Root() const override; // Override BinaryTree member (throw std::length_error when empty)
 
   // Specific member functions (inherited from Container)
 
   void Clear() override; // Override Container member
 
   // Specific functions
-  
+
   struct BinaryTreeLnk<Data>::NodeLnk* CreateTreeFromLinearContainerInBreadth(const LinearContainer<Data>&,ulong);
   struct BinaryTreeLnk<Data>::NodeLnk* CopyTree(struct BinaryTreeLnk<Data>::Node*);
   void DeleteTree(BinaryTreeLnk<Data>::NodeLnk* node);

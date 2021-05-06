@@ -12,7 +12,7 @@ class BinaryTreeVec : virtual public BinaryTree<Data>{ // Must extend BinaryTree
 
 protected:
 
-  struct NodeVec : virtual protected BinaryTree<Data>::Node { // Must extend Node
+  struct NodeVec : virtual public BinaryTree<Data>::Node { // Must extend Node
 
   protected:
     using BinaryTree<Data>::Node::data;
@@ -33,7 +33,7 @@ protected:
   };
 
 protected:
-  
+
   using BinaryTree<Data>::size;
   Vector<struct BinaryTreeVec<Data>::NodeVec*> tree;
 
@@ -54,7 +54,7 @@ public:
 
   // Specific member functions (inherited from BinaryTree)
 
-  struct BinaryTree<Data>::Node& Root() const override; // Override BinaryTree member (throw std::length_error when empty)
+  NodeVec& Root() const override; // Override BinaryTree member (throw std::length_error when empty)
 
   // Specific member functions (inherited from Container)
 

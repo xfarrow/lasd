@@ -151,7 +151,7 @@ bool BinaryTreeLnk<Data>::operator!=(const BinaryTreeLnk<Data>& tree) const noex
 }
 
 template <typename Data>
-struct BinaryTree<Data>::Node& BinaryTreeLnk<Data>::Root() const{
+struct BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::Root() const{
   if(size==0) throw std::length_error("Empty tree!");
   return *root;
 }
