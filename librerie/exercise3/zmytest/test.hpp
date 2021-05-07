@@ -2,7 +2,6 @@
 #ifndef MYTEST_HPP
 #define MYTEST_HPP
 
-
 #include"../vector/vector.hpp"
 #include"../list/list.hpp"
 #include"../queue/queue.hpp"
@@ -20,26 +19,64 @@ using namespace std;
 using namespace lasd;
 /* ************************************************************************** */
 
-void menu(){
-  cout<<"MY TESTS\n";
-  Vector<string> vec(10);
-  vec[0] = "A";
-  vec[1] = "B";
-  vec[2] = "C";
-  vec[3] = "D";
-  vec[4] = "E";
-  vec[5] = "F";
-  vec[6] = "G";
-  vec[7] = "H";
-  vec[8] = "I";
-  vec[9] = "L";
+enum class DataType{integer,ffloat,sstring};
+enum class Implementation{vector,pointers};
 
-  BinaryTreeLnk<string> bt1(vec);
-  BinaryTreeLnk<string> bt2(vec);
-  if(bt1 == bt2) cout<<"uguali";
-  else cout<<"NON UGUALI!";
-}
+void menu();
 
+template <typename T>
+void IntegerFunctions(T&);
+template <typename T>
+void FloatFunctions(T& bt);
+template <typename T>
+void StringFunctions(T&);
+
+/* ----- integer functions ----- */
+template <typename T>
+void ProductsElementsLessThan(T&);
+void AccumulateProduct(const int&, const void*, void*);
+template <typename T>
+void MultiplyByThree(T&);
+void MultiplyAnElement(int&, void*);
+
+/* ----- float functions ----- */
+template <typename T>
+void SumElementsGreaterThan(T&);
+void AccumulateSum(const float&, const void*, void*);
+
+/* ----- string functions ----- */
+template <typename T>
+void ConcatLessThan(T&);
+void ConcatAString(const string&, const void*, void*);
+
+template <typename T>
+void HeadConcat(T&);
+void HeadConcatMapAux(string&, void*);
+
+template <typename T>
+void CubeElements(T&);
+void Exponentiation(float&, void*);
+
+/* ----- shared functions ----- */
+template <template <typename...> class Tree, typename DTType>
+void PrintTree(Tree<DTType>&);
+template <typename Data>
+void PrintSingleElement(Data&, void*);
+template <template <typename...> class Tree, typename DTType>
+void CheckExistence(Tree<DTType>&);
+
+/* ----- Generator functions ----- */
+DataType ChooseDataType(); //choose data type
+Implementation ChooseImplementation();
+void UseChosenType(Implementation, DataType);
+template <typename T>
+T GenerateIntegerBT(T&);
+template <typename T>
+T GenerateFloatBT(T&);
+template <typename T>
+T GenerateStringsBT(T&);
+std::string generateRandomString(ulong);
+ulong getDimension();
 
 
 #endif
