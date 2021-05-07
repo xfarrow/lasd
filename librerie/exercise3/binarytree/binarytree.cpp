@@ -75,41 +75,49 @@ bool BinaryTree<Data>::operator!=(const BinaryTree& toCompare) const noexcept{
 
 template <typename Data>
 void BinaryTree<Data>::MapPreOrder(const typename MappableContainer<Data>::MapFunctor function, void* par){
+  if(size == 0) return;
   MapPreOrder(function, par, &Root());
 }
 
 template <typename Data>
 void BinaryTree<Data>::MapPostOrder(const typename MappableContainer<Data>::MapFunctor function, void* par){
+  if(size == 0) return;
   MapPostOrder(function, par, &Root());
 }
 
 template <typename Data>
 void BinaryTree<Data>::MapInOrder(const typename MappableContainer<Data>::MapFunctor function, void* par){
+  if(size == 0) return;
   MapInOrder(function, par, &Root());
 }
 
 template <typename Data>
 void BinaryTree<Data>::MapBreadth(const typename MappableContainer<Data>::MapFunctor function, void* par){
+  if(size == 0) return;
   MapBreadth(function, par, &Root());
 }
 
 template <typename Data>
 void BinaryTree<Data>::FoldPreOrder(const typename FoldableContainer<Data>::FoldFunctor function, const void* par, void* acc) const{
+  if(size == 0) return;
   FoldPreOrder(function, par, acc, &Root());
 }
 
 template <typename Data>
 void BinaryTree<Data>::FoldPostOrder(const typename FoldableContainer<Data>::FoldFunctor function, const void* par, void* acc) const{
+  if(size == 0) return;
   FoldPostOrder(function, par, acc, &Root());
 }
 
 template <typename Data>
 void BinaryTree<Data>::FoldInOrder(const typename FoldableContainer<Data>::FoldFunctor function, const void* par, void* acc) const{
+  if(size == 0) return;
   FoldInOrder(function, par, acc, &Root());
 }
 
 template <typename Data>
 void BinaryTree<Data>::FoldBreadth(const typename FoldableContainer<Data>::FoldFunctor function, const void* par, void* acc) const{
+  if(size == 0) return;
   FoldBreadth(function, par, acc, &Root());
 }
 
