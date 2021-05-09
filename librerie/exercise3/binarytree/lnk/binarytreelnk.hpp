@@ -25,8 +25,8 @@ protected:
     bool HasLeftChild() const noexcept override; // (concrete function should not throw exceptions)
     bool HasRightChild() const noexcept override; // (concrete function should not throw exceptions)
 
-    struct BinaryTree<Data>::Node& LeftChild() const override; // (concrete function must throw std::out_of_range when not existent)
-    struct BinaryTree<Data>::Node& RightChild() const override; // (concrete function must throw std::out_of_range when not existent)
+    struct NodeLnk& LeftChild() const override; // (concrete function must throw std::out_of_range when not existent)
+    struct NodeLnk& RightChild() const override; // (concrete function must throw std::out_of_range when not existent)
 
     friend class BinaryTreeLnk<Data>;
 

@@ -65,6 +65,12 @@ void PrintSingleElement(Data&, void*);
 template <template <typename...> class Tree, typename DTType>
 void CheckExistence(Tree<DTType>&);
 
+template <template <typename...> class Tree, typename DTType>
+void Iterators(Tree<DTType>&);
+
+template <template <typename...> class Iter, typename ItrType>
+void NavigateWithIterator(Iter<ItrType>&);
+
 /* ----- Generator functions ----- */
 DataType ChooseDataType(); //choose data type
 Implementation ChooseImplementation();

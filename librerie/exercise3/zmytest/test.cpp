@@ -15,8 +15,10 @@ void menu(){
   Implementation chosenImplementation;
 
   do{
-    std::cout<<"1. Use your tests (to be used by the professor)"<<std::endl;
-    std::cout<<"2. Use the library demo"<<std::endl;
+    std::cout<<std::endl;
+    std::cout<<" 1. Use your tests (to be used by the professor)"<<std::endl;
+    std::cout<<" 2. Use the library demo"<<std::endl;
+    cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
   }while(choice!=1 && choice!=2);
@@ -36,9 +38,10 @@ DataType ChooseDataType(){
   unsigned short int choice;
   do{
     std::cout<<"\nChoose a data type:"<<std::endl;
-    std::cout<<"1. Integer"<<std::endl;
-    std::cout<<"2. Float"<<std::endl;
-    std::cout<<"3. String"<<std::endl;
+    std::cout<<" 1. Integer"<<std::endl;
+    std::cout<<" 2. Float"<<std::endl;
+    std::cout<<" 3. String"<<std::endl;
+    cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
   }while(!(choice>0 && choice<4));
@@ -53,8 +56,9 @@ Implementation ChooseImplementation(){
   unsigned short int choice;
   do{
     std::cout<<"\nChoose an implementation for the binary tree:"<<std::endl;
-    std::cout<<"1. Vector"<<std::endl;
-    std::cout<<"2. Pointers"<<std::endl;
+    std::cout<<" 1. Vector"<<std::endl;
+    std::cout<<" 2. Pointers"<<std::endl;
+    cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
   }while(!(choice>0 && choice<3));
@@ -107,12 +111,14 @@ void IntegerFunctions(T& bt){
   do{
     std::cout<<std::endl<<std::endl;
     std::cout<<"Choose one of the following options:"<<std::endl;
-    std::cout<<"1. Print tree"<<std::endl;
-    std::cout<<"2. Check exsistence of an element"<<std::endl;
-    std::cout<<"3. Product of integers less than 'n' "<<std::endl;
-    std::cout<<"4. Multiply each element by 3"<<std::endl;
-    std::cout<<"5. Go back"<<std::endl;
-    std::cout<<"6. Quit"<<std::endl;
+    std::cout<<" 1. Print tree"<<std::endl;
+    std::cout<<" 2. Check exsistence of an element"<<std::endl;
+    std::cout<<" 3. Product of integers less than 'n' "<<std::endl;
+    std::cout<<" 4. Multiply each element by 3"<<std::endl;
+    std::cout<<" 5. Iterate over the tree"<<std::endl;
+    std::cout<<" 6. Go back"<<std::endl;
+    std::cout<<" 7. Quit"<<std::endl;
+    cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
     std::cout<<std::endl;
@@ -130,10 +136,13 @@ void IntegerFunctions(T& bt){
         MultiplyByThree(bt);
         break;
       case 5:
+        Iterators(bt);
+        break;
+      case 6:
         menu();
         break;
     }
-  }while(choice!=5 && choice!=6);
+  }while(choice!=6 && choice!=7);
 }
 
 template <typename T>
@@ -142,12 +151,14 @@ void FloatFunctions(T& bt){
   do{
     std::cout<<std::endl<<std::endl;
     std::cout<<"Choose one of the following options:"<<std::endl;
-    std::cout<<"1. Print tree"<<std::endl;
-    std::cout<<"2. Check exsistence of an element"<<std::endl;
-    std::cout<<"3. Sum of floats greater than 'n' "<<std::endl;
-    std::cout<<"4. Cube elements"<<std::endl;
-    std::cout<<"5. Go back"<<std::endl;
-    std::cout<<"6. Quit"<<std::endl;
+    std::cout<<" 1. Print tree"<<std::endl;
+    std::cout<<" 2. Check exsistence of an element"<<std::endl;
+    std::cout<<" 3. Sum of floats greater than 'n' "<<std::endl;
+    std::cout<<" 4. Cube elements"<<std::endl;
+    std::cout<<" 5. Iterate over the tree"<<std::endl;
+    std::cout<<" 6. Go back"<<std::endl;
+    std::cout<<" 7. Quit"<<std::endl;
+    cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
     std::cout<<std::endl;
@@ -165,10 +176,13 @@ void FloatFunctions(T& bt){
         CubeElements(bt);
         break;
       case 5:
+        Iterators(bt);
+        break;
+      case 6:
         menu();
         break;
     }
-  }while(choice!=5 && choice!=6);
+  }while(choice!=6 && choice!=7);
 }
 
 template <typename T>
@@ -177,12 +191,14 @@ void StringFunctions(T& bt){
   do{
     std::cout<<std::endl<<std::endl;
     std::cout<<"Choose one of the following options:"<<std::endl;
-    std::cout<<"1. Print tree"<<std::endl;
-    std::cout<<"2. Check exsistence of an element"<<std::endl;
-    std::cout<<"3. Concatenate strings whose dimension is less or equal than 'n' "<<std::endl;
-    std::cout<<"4. Head concatenation of a string"<<std::endl;
-    std::cout<<"5. Go back"<<std::endl;
-    std::cout<<"6. Quit"<<std::endl;
+    std::cout<<" 1. Print tree"<<std::endl;
+    std::cout<<" 2. Check exsistence of an element"<<std::endl;
+    std::cout<<" 3. Concatenate strings whose dimension is less or equal than 'n' "<<std::endl;
+    std::cout<<" 4. Head concatenation of a string"<<std::endl;
+    std::cout<<" 5. Iterate over the tree"<<std::endl;
+    std::cout<<" 6. Go back"<<std::endl;
+    std::cout<<" 7. Quit"<<std::endl;
+    cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
     std::cout<<std::endl;
@@ -200,10 +216,13 @@ void StringFunctions(T& bt){
         HeadConcat(bt);
         break;
       case 5:
+        Iterators(bt);
+        break;
+      case 6:
         menu();
         break;
     }
-  }while(choice!=5 && choice!=6);
+  }while(choice!=6 && choice!=7);
 }
 
 /* ----- integer functions ----- */
@@ -328,6 +347,73 @@ void PrintTree(Tree<DTType>& tree){
 template <typename Data>
 void PrintSingleElement(Data& data, void* _){
   std::cout << data << " ";
+}
+
+template <template <typename...> class Tree, typename DTType>
+void Iterators(Tree<DTType>& tree){
+  uint choice;
+  cout<<endl<<"Choose a type of iterator:"<<endl;
+  cout<<" 1. Pre order"<<endl;
+  cout<<" 2. Post order"<<endl;
+  cout<<" 3. In order"<<endl;
+  cout<<" 4. Breadth order"<<endl;
+  cout<<" Press any other key to go back"<<endl;
+  cout<<endl<<" -> ";
+  cin>>ws;
+  cin>>choice;
+  switch(choice){
+    case 1:
+    {
+      BTPreOrderIterator<DTType> preitr(tree);
+      NavigateWithIterator(preitr);
+    }
+      break;
+    case 2:
+    {
+      BTPostOrderIterator<DTType> postitr(tree);
+      NavigateWithIterator(postitr);
+    }
+      break;
+    case 3:
+    {
+      BTInOrderIterator<DTType> initr(tree);
+      NavigateWithIterator(initr);
+    }
+      break;
+    case 4:
+    {
+      BTBreadthIterator<DTType> breadthitr(tree);
+      NavigateWithIterator(breadthitr);
+    }
+      break;
+  }
+}
+
+template <template <typename...> class Iter, typename ItrType>
+void NavigateWithIterator(Iter<ItrType>& itr){
+  uint choice=0;
+  ItrType element;
+
+  while(!itr.Terminated() && choice!=3){
+    cout<<endl<<" *** Current position: "<<*itr<<" *** "<<endl<<endl;
+
+    cout<<" 1. Go ahead (++)\n";
+    cout<<" 2. Edit the value\n";
+    cout<<" 3. Go to main menu\n";
+    cout<<endl<<" -> ";
+    cin>>ws;
+    cin>>choice;
+
+    if(choice == 1){
+      ++itr;
+    }
+    else if(choice == 2){
+      cout<<"\n Overwrite with: ";
+      cin>>ws;
+      cin>>*itr;
+    }
+  }
+  if(itr.Terminated()) cout<<"\n *** Iterator is terminated ***\n";
 }
 
 template <template <typename...> class Tree, typename DTType>

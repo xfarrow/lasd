@@ -35,12 +35,12 @@ bool BinaryTreeLnk<Data>::NodeLnk::HasRightChild() const noexcept{
 }
 
 template <typename Data>
-struct BinaryTree<Data>::Node& BinaryTreeLnk<Data>::NodeLnk::LeftChild() const{
+struct BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::LeftChild() const{
   return *left;
 }
 
 template <typename Data>
-struct BinaryTree<Data>::Node& BinaryTreeLnk<Data>::NodeLnk::RightChild() const{
+struct BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::RightChild() const{
   return *right;
 }
 

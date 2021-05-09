@@ -50,7 +50,7 @@ bool BinaryTreeVec<Data>::NodeVec::HasRightChild() const noexcept{
 }
 
 template <typename Data>
-struct BinaryTree<Data>::Node& BinaryTreeVec<Data>::NodeVec::LeftChild() const{
+struct BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::LeftChild() const{
   if(index*2+1 < ReferenceToTree->size)
     return *((ReferenceToTree->tree)[index*2+1]);
   else
@@ -58,7 +58,7 @@ struct BinaryTree<Data>::Node& BinaryTreeVec<Data>::NodeVec::LeftChild() const{
 }
 
 template <typename Data>
-struct BinaryTree<Data>::Node& BinaryTreeVec<Data>::NodeVec::RightChild() const{
+struct BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::RightChild() const{
   if(index*2+2 < ReferenceToTree->size)
     return *((ReferenceToTree->tree)[index*2+2]);
   else
