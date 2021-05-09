@@ -68,8 +68,11 @@ void CheckExistence(Tree<DTType>&);
 template <template <typename...> class Tree, typename DTType>
 void Iterators(Tree<DTType>&);
 
-template <template <typename...> class Iter, typename ItrType>
-void NavigateWithIterator(Iter<ItrType>&);
+template <typename Iter>
+void NavigateWithIterator(Iter&);
+
+template <typename T>
+void NodeOperations(T&);
 
 /* ----- Generator functions ----- */
 DataType ChooseDataType(); //choose data type

@@ -116,8 +116,9 @@ void IntegerFunctions(T& bt){
     std::cout<<" 3. Product of integers less than 'n' "<<std::endl;
     std::cout<<" 4. Multiply each element by 3"<<std::endl;
     std::cout<<" 5. Iterate over the tree"<<std::endl;
-    std::cout<<" 6. Go back"<<std::endl;
-    std::cout<<" 7. Quit"<<std::endl;
+    std::cout<<" 6. Node-level operations"<<std::endl;
+    std::cout<<" 7. Go back"<<std::endl;
+    std::cout<<" 8. Quit"<<std::endl;
     cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
@@ -138,11 +139,17 @@ void IntegerFunctions(T& bt){
       case 5:
         Iterators(bt);
         break;
-      case 6:
+        case 6:
+          if(bt.Size() > 0)
+            NodeOperations(bt.Root());
+          else
+            cout<<"\nThe tree does not have any nodes...";
+          break;
+      case 7:
         menu();
         break;
     }
-  }while(choice!=6 && choice!=7);
+  }while(choice!=7 && choice!=8);
 }
 
 template <typename T>
@@ -156,8 +163,9 @@ void FloatFunctions(T& bt){
     std::cout<<" 3. Sum of floats greater than 'n' "<<std::endl;
     std::cout<<" 4. Cube elements"<<std::endl;
     std::cout<<" 5. Iterate over the tree"<<std::endl;
-    std::cout<<" 6. Go back"<<std::endl;
-    std::cout<<" 7. Quit"<<std::endl;
+    std::cout<<" 6. Node-level operations"<<std::endl;
+    std::cout<<" 7. Go back"<<std::endl;
+    std::cout<<" 8. Quit"<<std::endl;
     cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
@@ -178,11 +186,17 @@ void FloatFunctions(T& bt){
       case 5:
         Iterators(bt);
         break;
-      case 6:
+        case 6:
+          if(bt.Size() > 0)
+            NodeOperations(bt.Root());
+          else
+            cout<<"\nThe tree does not have any nodes...";
+          break;
+      case 7:
         menu();
         break;
     }
-  }while(choice!=6 && choice!=7);
+  }while(choice!=7 && choice!=8);
 }
 
 template <typename T>
@@ -196,8 +210,9 @@ void StringFunctions(T& bt){
     std::cout<<" 3. Concatenate strings whose dimension is less or equal than 'n' "<<std::endl;
     std::cout<<" 4. Head concatenation of a string"<<std::endl;
     std::cout<<" 5. Iterate over the tree"<<std::endl;
-    std::cout<<" 6. Go back"<<std::endl;
-    std::cout<<" 7. Quit"<<std::endl;
+    std::cout<<" 6. Node-level operations"<<std::endl;
+    std::cout<<" 7. Go back"<<std::endl;
+    std::cout<<" 8. Quit"<<std::endl;
     cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
@@ -219,10 +234,16 @@ void StringFunctions(T& bt){
         Iterators(bt);
         break;
       case 6:
+        if(bt.Size() > 0)
+          NodeOperations(bt.Root());
+        else
+          cout<<"\nThe tree does not have any nodes...";
+        break;
+      case 7:
         menu();
         break;
     }
-  }while(choice!=6 && choice!=7);
+  }while(choice!=7 && choice!=8);
 }
 
 /* ----- integer functions ----- */
@@ -388,29 +409,29 @@ void Iterators(Tree<DTType>& tree){
       break;
   }
 }
-
-template <template <typename...> class Iter, typename ItrType>
-void NavigateWithIterator(Iter<ItrType>& itr){
+template <typename Iter>
+void NavigateWithIterator(Iter& itr){
   uint choice=0;
-  ItrType element;
 
   while(!itr.Terminated() && choice!=3){
     cout<<endl<<" *** Current position: "<<*itr<<" *** "<<endl<<endl;
 
     cout<<" 1. Go ahead (++)\n";
-    cout<<" 2. Edit the value\n";
+    cout<<" 2. Edit value\n";
     cout<<" 3. Go to main menu\n";
     cout<<endl<<" -> ";
     cin>>ws;
     cin>>choice;
 
-    if(choice == 1){
-      ++itr;
-    }
-    else if(choice == 2){
-      cout<<"\n Overwrite with: ";
-      cin>>ws;
-      cin>>*itr;
+    switch(choice){
+      case 1:
+        ++itr;
+        break;
+      case 2:
+        cout<<"\n Overwrite with: ";
+        cin>>ws;
+        cin>>*itr;
+        break;
     }
   }
   if(itr.Terminated()) cout<<"\n *** Iterator is terminated ***\n";
@@ -423,6 +444,51 @@ void CheckExistence(Tree<DTType>& tree){
   cin>>ws;
   cin>>elementToLookFor;
   cout<<"The element " << ( (!tree.Exists(elementToLookFor))? "does not " : "") << "exists\n\n";
+}
+
+template <typename T>
+void NodeOperations(T& currentNode){
+  uint choice;
+  cout<<endl<<endl;
+  cout<<" *** Element in the current node: "<<currentNode.Element()<<" ***"<<endl;
+  cout<<" 1. Go left"<<endl;
+  cout<<" 2. Go Right"<<endl;
+  cout<<" 3. Is this a leaf?"<<endl;
+  cout<<" 4. Edit value"<<endl;
+  cout<<" 5. Go back"<<endl;
+  cout<<endl<<" -> ";
+  cin>>ws;
+  cin>>choice;
+  switch(choice){
+    case 1:
+      if(currentNode.HasLeftChild()) NodeOperations(currentNode.LeftChild());
+      else{
+        cout<<"\nThe node does not have a left child, operation aborted.";
+        NodeOperations(currentNode);
+      }
+      break;
+
+    case 2:
+      if(currentNode.HasRightChild()) NodeOperations(currentNode.RightChild());
+      else {
+        cout<<"\nThe node does not have a right child, operation aborted.";
+        NodeOperations(currentNode);
+      }
+      break;
+
+    case 3:
+      if(currentNode.IsLeaf()) cout<<"\n Yes, the current node is a leaf";
+      else cout<<"\n No, the current node is not a leaf";
+      NodeOperations(currentNode);
+      break;
+
+    case 4:
+      cout<<"Overwrite with: ";
+      cin>>ws;
+      cin>>currentNode.Element();
+      NodeOperations(currentNode);
+      break;
+    }
 }
 
 
