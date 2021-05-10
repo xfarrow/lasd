@@ -39,7 +39,7 @@ bool BinaryTree<Data>::Node::EqualNodes(const Node& n1, const Node& n2) const{
     else if(!n1.HasLeftChild() && n1.HasRightChild()){
       return( EqualNodes(n1.RightChild(),n2.RightChild()));
     }
-    else if(n1.IsLeaf()) {
+    else{ //if leaf
       return true;
     }
 
@@ -336,11 +336,11 @@ template <typename Data>
 struct BinaryTree<Data>::Node* BTPostOrderIterator<Data>::DeepestLeftLeaf(struct BinaryTree<Data>::Node* node){
   if(node->HasLeftChild()){
     stack.Push(node);
-    DeepestLeftLeaf(&(node->LeftChild()));
+    return DeepestLeftLeaf(&(node->LeftChild()));
   }
   else if(node->HasRightChild()){
     stack.Push(node);
-    DeepestLeftLeaf(&(node->RightChild()));
+    return DeepestLeftLeaf(&(node->RightChild()));
   }
   else
     return node;
@@ -439,7 +439,7 @@ template <typename Data>
 struct BinaryTree<Data>::Node* BTInOrderIterator<Data>::MostLeftNode(struct BinaryTree<Data>::Node& root){
   if(root.HasLeftChild()){
     stack.Push(&root);
-    MostLeftNode(root.LeftChild());
+    return MostLeftNode(root.LeftChild());
   }else{
     return &root;
   }
