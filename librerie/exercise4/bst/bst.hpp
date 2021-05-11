@@ -13,22 +13,18 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class BST { // Must extend BinaryTreeLnk<Data>
-
-private:
-
-  // ...
+class BST : virtual public BinaryTreeLnk<Data> { // Must extend BinaryTreeLnk<Data>
 
 protected:
 
-  // using BinaryTreeLnk<Data>::???;
+  using BinaryTreeLnk<Data>::size;
+  using BinaryTreeLnk<Data>::root;
+  using typename BinaryTreeLnk<Data>::NodeLnk;
 
-  // ...
 
 public:
 
-  // Default constructor
-  // BST() specifiers;
+  BST() = default;
 
   /* ************************************************************************ */
 
@@ -38,23 +34,23 @@ public:
   /* ************************************************************************ */
 
   // Copy constructor
-  // BST(argument) specifiers;
+  BST(const BST<Data>&);
 
   // Move constructor
-  // BST(argument) specifiers;
+  BST(BST<Data>&&) noexcept;
 
   /* ************************************************************************ */
 
   // Destructor
-  // ~BST() specifiers;
+  ~BST();
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument) specifiers;
+  BST& operator=(const BST<Data>&);
 
   // Move assignment
-  // type operator=(argument) specifiers;
+  BST& operator=(BST<Data>&&) noexcept;
 
   /* ************************************************************************ */
 
