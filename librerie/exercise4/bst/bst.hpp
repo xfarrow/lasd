@@ -29,7 +29,7 @@ public:
   /* ************************************************************************ */
 
   // Specific constructors
-  // BST(argument) specifiers; // A bst obtained from a LinearContainer
+  BST(const LinearContainer<Data>&); // A bst obtained from a LinearContainer
 
   /* ************************************************************************ */
 
@@ -42,7 +42,7 @@ public:
   /* ************************************************************************ */
 
   // Destructor
-  ~BST();
+  virtual ~BST();
 
   /* ************************************************************************ */
 
@@ -55,60 +55,66 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
+  bool operator==(const BST<Data>&) const noexcept;
+  bool operator!=(const BST<Data>&) const noexcept;
 
   /* ************************************************************************ */
 
   // Specific member functions
 
-  // type Insert(argument) specifiers; // Copy of the value
-  // type Insert(argument) specifiers; // Move of the value
-  // type Remove(argument) specifiers;
+  void Insert(const Data&) noexcept; // Copy of the value
+  void Insert(Data&&) noexcept; // Move of the value
+  void Remove(const Data&) noexcept;
 
-  // type Min(argument) specifiers; // (concrete function must throw std::length_error when empty)
-  // type MinNRemove(argument) specifiers; // (concrete function must throw std::length_error when empty)
-  // type RemoveMin(argument) specifiers; // (concrete function must throw std::length_error when empty)
+  const Data& Min() const; // (concrete function must throw std::length_error when empty)
+  Data MinNRemove(); // (concrete function must throw std::length_error when empty)
+  void RemoveMin(); // (concrete function must throw std::length_error when empty)
 
-  // type Max(argument) specifiers; // (concrete function must throw std::length_error when empty)
-  // type MaxNRemove(argument) specifiers; // (concrete function must throw std::length_error when empty)
-  // type RemoveMax(argument) specifiers; // (concrete function must throw std::length_error when empty)
+  const Data& Max() const; // (concrete function must throw std::length_error when empty)
+  Data MaxNRemove(); // (concrete function must throw std::length_error when empty)
+  void RemoveMax(); // (concrete function must throw std::length_error when empty)
 
-  // type Predecessor(argument) specifiers; // (concrete function must throw std::length_error when empty)
-  // type PredecessorNRemove(argument) specifiers; // (concrete function must throw std::length_error when empty)
-  // type RemovePredecessor(argument) specifiers; // (concrete function must throw std::length_error when empty)
+  const Data& Predecessor(const Data&) const; // (concrete function must throw std::length_error when empty)
+  Data PredecessorNRemove(const Data&); // (concrete function must throw std::length_error when empty)
+  void RemovePredecessor(const Data&); // (concrete function must throw std::length_error when empty)
 
-  // type Successor(argument) specifiers; // (concrete function must throw std::length_error when empty)
-  // type SuccessorNRemove(argument) specifiers; // (concrete function must throw std::length_error when empty)
-  // type RemoveSuccessor(argument) specifiers; // (concrete function must throw std::length_error when empty)
+  const Data& Successor(const Data&) const; // (concrete function must throw std::length_error when empty)
+  Data SuccessorNRemove(const Data&); // (concrete function must throw std::length_error when empty)
+  void RemoveSuccessor(const Data&); // (concrete function must throw std::length_error when empty)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from TestableContainer)
 
-  // type Exists(argument) specifiers; // Override TestableContainer member
+  bool Exists(const Data&) const noexcept override; // Override TestableContainer member
 
 protected:
 
   // Auxiliary member functions
 
-  // type DataNDelete(argument) specifiers;
+  Data DataNDelete(NodeLnk*);
 
-  // type Detach(argument) specifiers;
+  NodeLnk* Detach(NodeLnk*&) noexcept;
 
-  // type DetachMin(argument) specifiers;
-  // type DetachMax(argument) specifiers;
+  NodeLnk* DetachMin(NodeLnk*&) noexcept;
+  NodeLnk* DetachMax(NodeLnk*&) noexcept;
 
-  // type SkipOnLeft(argument) specifiers;
-  // type SkipOnRight(argument) specifiers;
+  NodeLnk* SkipOnLeft(NodeLnk*&) noexcept;
+  NodeLnk* SkipOnRight(NodeLnk*&) noexcept;
 
-  // type FindPointerToMin(argument) specifiers;
-  // type FindPointerToMax(argument) specifiers;
+  NodeLnk* const& FindPointerToMin(NodeLnk* const&) const noexcept;
+  NodeLnk*& FindPointerToMin(NodeLnk*&) noexcept;
+  NodeLnk* const& FindPointerToMax(NodeLnk* const&) const noexcept;
+  NodeLnk*& FindPointerToMax(NodeLnk*&) noexcept;
 
-  // type FindPointerTo(argument) specifiers;
+  NodeLnk* const& FindPointerTo(NodeLnk* const&) const noexcept;
+  NodeLnk*& FindPointerTo(NodeLnk*&) noexcept;
 
-  // type FindPointerToPredecessor(argument) specifiers;
-  // type FindPointerToSuccessor(argument) specifiers;
+  NodeLnk* const& FindPointerToPredecessor(NodeLnk* const&) const noexcept;
+  NodeLnk*& FindPointerToPredecessor(NodeLnk*&) noexcept;
+
+  NodeLnk* const& FindPointerToSuccessor(NodeLnk* const&) const noexcept;
+  NodeLnk*& FindPointerToSuccessor(NodeLnk*&) noexcept;
 
 };
 
