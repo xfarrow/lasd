@@ -47,10 +47,10 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  BST& operator=(const BST<Data>&);
+  BST<Data>& operator=(const BST<Data>&);
 
   // Move assignment
-  BST& operator=(BST<Data>&&) noexcept;
+  BST<Data>& operator=(BST<Data>&&) noexcept;
 
   /* ************************************************************************ */
 
@@ -107,14 +107,14 @@ protected:
   NodeLnk* const& FindPointerToMax(NodeLnk* const&) const noexcept;
   NodeLnk*& FindPointerToMax(NodeLnk*&) noexcept;
 
-  NodeLnk* const& FindPointerTo(NodeLnk* const&) const noexcept;
-  NodeLnk*& FindPointerTo(NodeLnk*&) noexcept;
+  NodeLnk* const& FindPointerTo(NodeLnk* const&, Data) const noexcept;
+  NodeLnk*& FindPointerTo(NodeLnk*&, Data) noexcept;
 
-  NodeLnk* const& FindPointerToPredecessor(NodeLnk* const&) const noexcept;
-  NodeLnk*& FindPointerToPredecessor(NodeLnk*&) noexcept;
+  NodeLnk* const* FindPointerToPredecessor(NodeLnk* const&, Data) const noexcept;
+  NodeLnk** FindPointerToPredecessor(NodeLnk*&, Data) noexcept;
+  NodeLnk* const* FindPointerToSuccessor(NodeLnk* const&, Data) const noexcept;
+  NodeLnk** FindPointerToSuccessor(NodeLnk*&, Data) noexcept;
 
-  NodeLnk* const& FindPointerToSuccessor(NodeLnk* const&) const noexcept;
-  NodeLnk*& FindPointerToSuccessor(NodeLnk*&) noexcept;
 
 };
 

@@ -419,7 +419,7 @@ void BTPostOrderIterator<Data>::operator++(){
   if(stack.Empty()){
     curr = nullptr;
   }else{
-    if( curr == &((stack.Top())->LeftChild()) ){
+    if((stack.Top())->HasLeftChild() && curr == &((stack.Top())->LeftChild()) ){
       if( (stack.Top())->HasRightChild()   ){
         curr = DeepestLeftLeaf(&((stack.Top())->RightChild()));
       }else{

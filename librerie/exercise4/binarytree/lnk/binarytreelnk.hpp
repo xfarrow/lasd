@@ -15,10 +15,11 @@ protected:
   protected:
 
     using BinaryTree<Data>::Node::data;
+
+  public:
     struct NodeLnk* left = nullptr;
     struct NodeLnk* right = nullptr;
 
-  public:
     struct NodeLnk& operator=(const NodeLnk&); // Copy assignment of abstract types should not be possible.
     struct NodeLnk& operator=(NodeLnk&&) noexcept; // Move assignment of abstract types should not be possible.
     bool IsLeaf() const noexcept override; // (concrete function should not throw exceptions)
