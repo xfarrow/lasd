@@ -78,21 +78,18 @@ void BST<Data>::Remove(const Data& data) noexcept{
 template <typename Data>
 const Data& BST<Data>::Min() const{
   if(root == nullptr) throw std::length_error("Empty tree!");
-
   return FindPointerToMin(root)->Element();
 }
 
 template <typename Data>
 Data BST<Data>::MinNRemove(){
   if(root == nullptr) throw std::length_error("Empty tree!");
-
   return DataNDelete(DetachMin(root));
 }
 
 template <typename Data>
 void BST<Data>::RemoveMin(){
   if(root == nullptr) throw std::length_error("Empty tree!");
-
   delete DetachMin(root);
 }
 
@@ -100,21 +97,18 @@ void BST<Data>::RemoveMin(){
 template <typename Data>
 const Data& BST<Data>::Max() const{
   if(root == nullptr) throw std::length_error("Empty tree!");
-
   return FindPointerToMax(root)->Element();
 }
 
 template <typename Data>
 Data BST<Data>::MaxNRemove(){
   if(root == nullptr) throw std::length_error("Empty tree!");
-
   return DataNDelete(DetachMax(root));
 }
 
 template <typename Data>
 void BST<Data>::RemoveMax(){
   if(root == nullptr) throw std::length_error("Empty tree!");
-
   delete DetachMax(root);
 }
 
@@ -241,6 +235,14 @@ typename BST<Data>::NodeLnk* BST<Data>::SkipOnRight(struct BST<Data>::NodeLnk*& 
 
 template <typename Data>
 typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToMin(struct BST<Data>::NodeLnk* const& node) const noexcept{
+  /*
+    In order to return a [reference to a] const pointer, we need to
+    declare a variable (ptr) which points to a const pointer which points to
+    a NodeLnk.
+    This const pointer that points to a NodeLnk is the parameter of the function.
+
+    Hence, *ptr will be a const pointer.
+  */
   NodeLnk* const* ptr = &node;
   NodeLnk* curr = node;
   if(curr!=nullptr){
@@ -279,23 +281,27 @@ typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToMax(struct BST<Data>::Node
 
 template <typename Data>
 typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerTo(struct BST<Data>::NodeLnk* const& ref, Data data) const noexcept{
-  NodeLnk* const* pointer = &ref;
+  /*
+    In order to return a [reference to a] const pointer, we need to
+    declare a variable (pointer) which points to a const pointer which points to
+    a NodeLnk.
+    This const pointer that points to a NodeLnk is the parameter of the function.
+
+    Hence, *pointer will be a const pointer.
+  */
+  NodeLnk* const* pointer = &ref; //a pointer to a const pointer to a NodeLnk
   NodeLnk* current = ref;
-  if(current != nullptr){
+
     while(current != nullptr && current->Element() != data){
       if(current->Element() < data){
-        pointer = &current->right;
+        pointer = &(current->right);
         current = current->right;
       }else if(current->Element() > data){
-        pointer = &current->left;
+        pointer = &(current->left);
         current = current->left;
       }
     }
-    return *pointer;
-
-  }else{
-    return *pointer;
-  }
+  return *pointer;
 }
 
 
@@ -304,21 +310,19 @@ typename BST<Data>::NodeLnk*& BST<Data>::FindPointerTo(struct BST<Data>::NodeLnk
   return const_cast<NodeLnk*&>(static_cast<const BST<Data> *>(this)->FindPointerTo(node, data));
 }
 
-
 template <typename Data>
 typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToPredecessor(struct BST<Data>::NodeLnk* const& ref, Data data) const noexcept{
   NodeLnk* const* pointer = &ref;
   NodeLnk* current = ref;
   NodeLnk* const* lastRight = pointer;
 
-
-if(ref != nullptr){
+  if(ref != nullptr){
     while( current != nullptr){
       if(data == current->Element()){
         if(current->HasLeftChild()){
-                 return pointer = &(FindPointerToMax(current->left));
-             }
-               return lastRight;
+          return pointer = &(FindPointerToMax(current->left));
+        }
+        return lastRight;
       }else if(data < current->Element()){
         pointer = &current->left;
         current = current->left;
@@ -329,9 +333,9 @@ if(ref != nullptr){
       }
     }
     return lastRight;
-}else{
+  }else{
     return lastRight;
-}
+  }
 }
 
 template <typename Data>
@@ -346,24 +350,23 @@ typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToSuccessor(struct BST
   NodeLnk* current = ref;
   NodeLnk* const* lastLeft = nullptr;
 
-
   if(ref != nullptr){
-      while( current != nullptr){
-        if(data == current->Element()){
-          if(current->HasRightChild()){
-                   return pointer = &(FindPointerToMin(current->right));
-               }
-                 return lastLeft;
-        }else if(data < current->Element()){
-          lastLeft = pointer;
-          pointer = &current->left;
-          current = current->left;
-        }else{
-          pointer = &current->right;
-          current = current->right;
+    while( current != nullptr){
+      if(data == current->Element()){
+        if(current->HasRightChild()){
+          return pointer = &(FindPointerToMin(current->right));
         }
+        return lastLeft;
+      }else if(data < current->Element()){
+        lastLeft = pointer;
+        pointer = &current->left;
+        current = current->left;
+      }else{
+        pointer = &current->right;
+        current = current->right;
       }
-      return lastLeft;
+    }
+    return lastLeft;
   }else{
       return lastLeft;
   }
@@ -373,9 +376,5 @@ template <typename Data>
 typename BST<Data>::NodeLnk** BST<Data>::FindPointerToSuccessor(struct BST<Data>::NodeLnk*& node, Data data) noexcept{
   return const_cast<NodeLnk**>(static_cast<const BST<Data> *>(this)->FindPointerToSuccessor(node, data));
 }
-
-
-
-/* ************************************************************************** */
 
 }

@@ -2,11 +2,11 @@
 #include "zlasdtest/test.hpp"
 
 #include "zmytest/test.hpp"
-
+#include "bst/bst.hpp"
 /* ************************************************************************** */
 
 #include <iostream>
-
+using namespace lasd;
 /* ************************************************************************** */
 
 int main() {

@@ -2,15 +2,9 @@
 #ifndef BST_HPP
 #define BST_HPP
 
-/* ************************************************************************** */
-
 #include "../binarytree/lnk/binarytreelnk.hpp"
 
-/* ************************************************************************** */
-
 namespace lasd {
-
-/* ************************************************************************** */
 
 template <typename Data>
 class BST : virtual public BinaryTreeLnk<Data> { // Must extend BinaryTreeLnk<Data>
@@ -25,42 +19,17 @@ protected:
 public:
 
   BST() = default;
-
-  /* ************************************************************************ */
-
-  // Specific constructors
-  BST(const LinearContainer<Data>&); // A bst obtained from a LinearContainer
-
-  /* ************************************************************************ */
-
-  // Copy constructor
+  BST(const LinearContainer<Data>&);
   BST(const BST<Data>&);
-
-  // Move constructor
   BST(BST<Data>&&) noexcept;
 
-  /* ************************************************************************ */
-
-  // Destructor
   virtual ~BST();
 
-  /* ************************************************************************ */
-
-  // Copy assignment
   BST<Data>& operator=(const BST<Data>&);
-
-  // Move assignment
   BST<Data>& operator=(BST<Data>&&) noexcept;
 
-  /* ************************************************************************ */
-
-  // Comparison operators
   bool operator==(const BST<Data>&) const noexcept;
   bool operator!=(const BST<Data>&) const noexcept;
-
-  /* ************************************************************************ */
-
-  // Specific member functions
 
   void Insert(const Data&) noexcept; // Copy of the value
   void Insert(Data&&) noexcept; // Move of the value
@@ -82,13 +51,9 @@ public:
   Data SuccessorNRemove(const Data&); // (concrete function must throw std::length_error when empty)
   void RemoveSuccessor(const Data&); // (concrete function must throw std::length_error when empty)
 
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from TestableContainer)
-
   bool Exists(const Data&) const noexcept override; // Override TestableContainer member
 
-protected:
+public:
 
   // Auxiliary member functions
 
@@ -114,14 +79,8 @@ protected:
   NodeLnk** FindPointerToPredecessor(NodeLnk*&, Data) noexcept;
   NodeLnk* const* FindPointerToSuccessor(NodeLnk* const&, Data) const noexcept;
   NodeLnk** FindPointerToSuccessor(NodeLnk*&, Data) noexcept;
-
-
 };
-
-/* ************************************************************************** */
-
 }
 
 #include "bst.cpp"
-
 #endif
