@@ -93,7 +93,6 @@ void BST<Data>::RemoveMin(){
   delete DetachMin(root);
 }
 
-
 template <typename Data>
 const Data& BST<Data>::Max() const{
   if(root == nullptr) throw std::length_error("Empty tree!");
@@ -277,8 +276,6 @@ typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToMax(struct BST<Data>::Node
   return const_cast<NodeLnk*&>(static_cast<const BST<Data> *>(this)->FindPointerToMax(node));
 }
 
-/* ---- END ----- */
-
 template <typename Data>
 typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerTo(struct BST<Data>::NodeLnk* const& ref, Data data) const noexcept{
   /*
@@ -304,45 +301,43 @@ typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerTo(struct BST<Data>::N
   return *pointer;
 }
 
-
-template <typename Data>
-typename BST<Data>::NodeLnk*& BST<Data>::FindPointerTo(struct BST<Data>::NodeLnk*& node, Data data) noexcept{
-  return const_cast<NodeLnk*&>(static_cast<const BST<Data> *>(this)->FindPointerTo(node, data));
-}
-
 template <typename Data>
 typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToPredecessor(struct BST<Data>::NodeLnk* const& ref, Data data) const noexcept{
+
+  /*
+    If the element we are looking the predecessor for is the current element,
+    then its predecessor resides in the max node of its left subtree (if it has
+    a left subtree, return the lastRight otherwise).
+
+    If the element we are looking the predecessor for is greater than the current element,
+    then we have to go down right the tree, saving the current "lastRight".
+
+    If the element we are looking the predecessor for is less than the current element,
+    then we have to go down left the tree,
+  */
+
   NodeLnk* const* pointer = &ref;
   NodeLnk* current = ref;
-  NodeLnk* const* lastRight = pointer;
+  NodeLnk* const* lastRight = nullptr;
 
-  if(ref != nullptr){
-    while( current != nullptr){
-      if(data == current->Element()){
-        if(current->HasLeftChild()){
-          return pointer = &(FindPointerToMax(current->left));
-        }
-        return lastRight;
-      }else if(data < current->Element()){
-        pointer = &current->left;
-        current = current->left;
+  while(current != nullptr){
+    if(data == current->Element()){
+      if(current->HasLeftChild()){
+        return &(FindPointerToMax(current->left));
       }else{
-        lastRight = pointer;
-        pointer = &current->right;
-        current = current->right;
+        return lastRight;
       }
+    }else if(current->Element() < data){
+      lastRight = pointer;
+      pointer = &(current->right);
+      current = current->right;
+    }else if(current->Element() > data){
+      pointer = &(current->left);
+      current = current->left;
     }
-    return lastRight;
-  }else{
-    return lastRight;
   }
+  return lastRight;
 }
-
-template <typename Data>
-typename BST<Data>::NodeLnk** BST<Data>::FindPointerToPredecessor(struct BST<Data>::NodeLnk*& node, Data data) noexcept{
-  return const_cast<NodeLnk**>(static_cast<const BST<Data> *>(this)->FindPointerToPredecessor(node, data));
-}
-
 
 template <typename Data>
 typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToSuccessor(struct BST<Data>::NodeLnk* const& ref, Data data) const noexcept{
@@ -350,26 +345,34 @@ typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToSuccessor(struct BST
   NodeLnk* current = ref;
   NodeLnk* const* lastLeft = nullptr;
 
-  if(ref != nullptr){
     while( current != nullptr){
       if(data == current->Element()){
         if(current->HasRightChild()){
           return pointer = &(FindPointerToMin(current->right));
         }
-        return lastLeft;
-      }else if(data < current->Element()){
+        else{
+          return lastLeft;
+        }
+      }else if(current->Element() > data){
         lastLeft = pointer;
         pointer = &current->left;
         current = current->left;
-      }else{
+      }else if(current->Element() < data){
         pointer = &current->right;
         current = current->right;
       }
     }
     return lastLeft;
-  }else{
-      return lastLeft;
-  }
+}
+
+template <typename Data>
+typename BST<Data>::NodeLnk*& BST<Data>::FindPointerTo(struct BST<Data>::NodeLnk*& node, Data data) noexcept{
+  return const_cast<NodeLnk*&>(static_cast<const BST<Data> *>(this)->FindPointerTo(node, data));
+}
+
+template <typename Data>
+typename BST<Data>::NodeLnk** BST<Data>::FindPointerToPredecessor(struct BST<Data>::NodeLnk*& node, Data data) noexcept{
+  return const_cast<NodeLnk**>(static_cast<const BST<Data> *>(this)->FindPointerToPredecessor(node, data));
 }
 
 template <typename Data>

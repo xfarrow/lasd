@@ -7,7 +7,7 @@ void move();
 int f();
 
 int main(){
-  //lvalue();
+  lvalue();
   //rvalue();
   move();
   return 0;
@@ -22,6 +22,10 @@ void lvalue(){
       int& riferimento = var;
       riferimento++;
       cout<<var<<endl; // stampa 8
+
+      /* il riferimento ha lo stesso indirizzo della variabile */
+      if(&var == &riferimento)
+        cout<<"Stesso indirizzo";
 
       // il che è esattamente equivalente a fare questo
       int var2 = 7;

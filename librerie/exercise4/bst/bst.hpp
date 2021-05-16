@@ -53,7 +53,7 @@ public:
 
   bool Exists(const Data&) const noexcept override; // Override TestableContainer member
 
-public:
+protected:
 
   // Auxiliary member functions
 
