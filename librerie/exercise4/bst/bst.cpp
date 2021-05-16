@@ -307,28 +307,33 @@ typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToPredecessor(struct B
   /*
     If the element we are looking the predecessor for is the current element,
     then its predecessor resides in the max node of its left subtree (if it has
-    a left subtree, return the lastRight otherwise).
+    a left subtree. Return the lastRight otherwise).
 
     If the element we are looking the predecessor for is greater than the current element,
     then we have to go down right the tree, saving the current "lastRight".
 
     If the element we are looking the predecessor for is less than the current element,
-    then we have to go down left the tree,
+    then we have to go down left the tree.
+
+
+    Note: I return a ** instead of *& because we deferenciate a variable that might
+    contain nullptr (lastRight) that, without proper handling, would result to
+    an invalid read. I decided to keep it simpler to understand.
   */
 
   NodeLnk* const* pointer = &ref;
   NodeLnk* current = ref;
-  NodeLnk* const* lastRight = nullptr;
+  NodeLnk* const* candidate = nullptr;
 
   while(current != nullptr){
     if(data == current->Element()){
       if(current->HasLeftChild()){
         return &(FindPointerToMax(current->left));
       }else{
-        return lastRight;
+        return candidate;
       }
     }else if(current->Element() < data){
-      lastRight = pointer;
+      candidate = pointer;
       pointer = &(current->right);
       current = current->right;
     }else if(current->Element() > data){
@@ -336,25 +341,25 @@ typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToPredecessor(struct B
       current = current->left;
     }
   }
-  return lastRight;
+  return candidate;
 }
 
 template <typename Data>
 typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToSuccessor(struct BST<Data>::NodeLnk* const& ref, Data data) const noexcept{
   NodeLnk* const* pointer = &ref;
   NodeLnk* current = ref;
-  NodeLnk* const* lastLeft = nullptr;
+  NodeLnk* const* candidate = nullptr;
 
     while( current != nullptr){
       if(data == current->Element()){
         if(current->HasRightChild()){
-          return pointer = &(FindPointerToMin(current->right));
+          return &(FindPointerToMin(current->right));
         }
         else{
-          return lastLeft;
+          return candidate;
         }
       }else if(current->Element() > data){
-        lastLeft = pointer;
+        candidate = pointer;
         pointer = &current->left;
         current = current->left;
       }else if(current->Element() < data){
@@ -362,7 +367,7 @@ typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToSuccessor(struct BST
         current = current->right;
       }
     }
-    return lastLeft;
+    return candidate;
 }
 
 template <typename Data>
