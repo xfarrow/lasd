@@ -30,6 +30,7 @@ void menu(){
       break;
   }
 }
+
 DataType ChooseDataType(){
   unsigned short int choice;
   do{
@@ -69,8 +70,8 @@ void UseChosenType(DataType chosenDataType){
 
 /* ----- integer functions ----- */
 
-template <typename T>
-void IntegerFunctions(T& bst){
+template <typename Data>
+void IntegerFunctions(BST<Data>& bst){
   unsigned short int choice;
   do{
     std::cout<<std::endl<<std::endl;
@@ -165,8 +166,8 @@ void IntegerFunctions(T& bst){
   }while(choice!=19 && choice!=20);
 }
 
-template <typename T>
-void ProductsElementsLessThan(T& tree){
+template <typename Data>
+void ProductsElementsLessThan(BST<Data>& tree){
   int n, acc=1;
   void (*func)(const int&, const void*, void*) = AccumulateProduct;
 
@@ -185,8 +186,8 @@ void AccumulateProduct(const int& data, const void* par, void* acc){
 }
 
 /* ----- float functions ----- */
-template <typename T>
-void FloatFunctions(T& bst){
+template <typename Data>
+void FloatFunctions(BST<Data>& bst){
   unsigned short int choice;
   do{
     std::cout<<std::endl<<std::endl;
@@ -281,8 +282,8 @@ void FloatFunctions(T& bst){
   }while(choice!=19 && choice!=20);
 }
 
-template <typename T>
-void SumElementsGreaterThan(T& tree){
+template <typename Data>
+void SumElementsGreaterThan(BST<Data>& tree){
   float n, acc = 0;
   void (*func)(const float&, const void*, void*) = AccumulateSum;
 
@@ -301,8 +302,8 @@ void AccumulateSum(const float& data, const void* par, void* acc){
 
 /* ----- string functions ----- */
 
-template <typename T>
-void StringFunctions(T& bst){
+template <typename Data>
+void StringFunctions(BST<Data>& bst){
   unsigned short int choice;
   do{
     std::cout<<std::endl<<std::endl;
@@ -397,8 +398,8 @@ void StringFunctions(T& bst){
   }while(choice!=19 && choice!=20);
 }
 
-template <typename T>
-void ConcatLessThan(T& tree){
+template <typename Data>
+void ConcatLessThan(BST<Data>& tree){
   int n;
   string concatenated = "";
   void (*func)(const string&, const void*, void*) = ConcatAString;
@@ -417,9 +418,9 @@ void ConcatAString(const string& data, const void* par, void* acc){
 }
 
 /* ----- shared functions ----- */
-template <template <typename...> class Tree, typename DTType>
-void PrintTree(Tree<DTType>& tree){
-  void (*PrinterFunction) (DTType&, void*) = PrintSingleElement;
+template <typename Data>
+void PrintTree(BST<Data>& tree){
+  void (*PrinterFunction) (Data&, void*) = PrintSingleElement;
 
   cout<<"Pre order:\n";
   tree.MapPreOrder(PrinterFunction, nullptr);
@@ -443,88 +444,88 @@ void PrintSingleElement(Data& data, void* _){
   std::cout << data << " ";
 }
 
-template <template <typename...> class Tree, typename DTType>
-void CheckExistence(Tree<DTType>& tree){
-  DTType elementToLookFor;
+template <typename Data>
+void CheckExistence(BST<Data>& tree){
+  Data elementToLookFor;
   cout<<"\n\nCheck existence in the tree of: ";
   cin>>ws;
   cin>>elementToLookFor;
   cout<<"The element " << ( (!tree.Exists(elementToLookFor))? "does not " : "") << "exists\n\n";
 }
 
-template <template <typename...> class Tree, typename DTType>
-void InsertElement(Tree<DTType>& bst){
-  DTType elementToInsert;
+template <typename Data>
+void InsertElement(BST<Data>& bst){
+  Data elementToInsert;
   cout<<"\n\nInsert in the BST the following element: ";
   cin>>ws;
   cin>>elementToInsert;
   bst.Insert(elementToInsert);
 }
 
-template <template <typename...> class Tree, typename DTType>
-void RemoveElement(Tree<DTType>& bst){
-  DTType elementToRemove;
+template <typename Data>
+void RemoveElement(BST<Data>& bst){
+  Data elementToRemove;
   cout<<"\n\nRemove from the BST the following element: ";
   cin>>ws;
   cin>>elementToRemove;
   bst.Remove(elementToRemove);
 }
 
-template <typename T>
-void PrintMinimum(T& bst){
+template <typename Data>
+void PrintMinimum(BST<Data>& bst){
   if(bst.Size()>0)
     cout<<"\n\nThe minimum element in the BST is "<<bst.Min();
   else
-    cout<<"\n\nThe tree is empty.";
+    cout<<"\n\nTree is empty.";
 }
 
-template <typename T>
-void PrintMinimumNDelete(T& bst){
+template <typename Data>
+void PrintMinimumNDelete(BST<Data>& bst){
   if(bst.Size()>0)
     cout<<"The minimum element in the BST ( "<<bst.MinNRemove()<<" ) has been removed";
   else
-    cout<<"\n\nThe tree is empty.";
+    cout<<"\n\nTree is empty.";
 }
 
-template <typename T>
-void RemoveMin(T& bst){
+template <typename Data>
+void RemoveMin(BST<Data>& bst){
   if(bst.Size()>0){
     bst.RemoveMin();
     cout<<"\n\nThe minimum element has been deleted";
   }
   else
-    cout<<"\n\nThe tree is empty";
+    cout<<"\n\nTree is empty.";
 }
 
-template <typename T>
-void PrintMaximum(T& bst){
+template <typename Data>
+void PrintMaximum(BST<Data>& bst){
   if(bst.Size()>0)
     cout<<"\n\nThe maximum element in the BST is "<<bst.Max();
   else
-    cout<<"\n\nThe tree is empty.";
+    cout<<"\n\nTree is empty.";
 }
 
-template <typename T>
-void PrintMaximumNDelete(T& bst){
+template <typename Data>
+void PrintMaximumNDelete(BST<Data>& bst){
   if(bst.Size()>0)
     cout<<"The maximum element in the BST ( "<<bst.MaxNRemove()<<" ) has been removed";
   else
-    cout<<"\n\nThe tree is empty.";
+    cout<<"\n\nTree is empty.";
 }
 
-template <typename T>
-void RemoveMax(T& bst){
+template <typename Data>
+void RemoveMax(BST<Data>& bst){
   if(bst.Size()>0){
     bst.RemoveMax();
     cout<<"\n\nThe maximum element has been deleted";
   }
   else
-    cout<<"\n\nThe tree is empty";
+    cout<<"\n\nTree is empty.";
 }
 
-template <template <typename...> class Tree, typename DTType>
-void PrintPredecessor(Tree<DTType>& bst){
-  DTType lookForPredecessor;
+template <typename Data>
+void PrintPredecessor(BST<Data>& bst){
+  Data lookForPredecessor;
   cout<<"Print the predecessor of ";
   cin>>ws;
   cin>>lookForPredecessor;
@@ -535,9 +536,9 @@ void PrintPredecessor(Tree<DTType>& bst){
   }
 }
 
-template <template <typename...> class Tree, typename DTType>
-void PredecessorNRemove(Tree<DTType>& bst){
-  DTType lookForPredecessor;
+template <typename Data>
+void PredecessorNRemove(BST<Data>& bst){
+  Data lookForPredecessor;
   cout<<"Print and delete the predecessor of ";
   cin>>ws;
   cin>>lookForPredecessor;
@@ -548,9 +549,9 @@ void PredecessorNRemove(Tree<DTType>& bst){
   }
 }
 
-template <template <typename...> class Tree, typename DTType>
-void RemovePredecessor(Tree<DTType>& bst){
-  DTType lookForPredecessor;
+template <typename Data>
+void RemovePredecessor(BST<Data>& bst){
+  Data lookForPredecessor;
   cout<<"Delete the predecessor of ";
   cin>>ws;
   cin>>lookForPredecessor;
@@ -562,9 +563,9 @@ void RemovePredecessor(Tree<DTType>& bst){
   }
 }
 
-template <template <typename...> class Tree, typename DTType>
-void PrintSuccessor(Tree<DTType>& bst){
-  DTType lookForSuccessor;
+template <typename Data>
+void PrintSuccessor(BST<Data>& bst){
+  Data lookForSuccessor;
   cout<<"Print the successor of ";
   cin>>ws;
   cin>>lookForSuccessor;
@@ -575,9 +576,9 @@ void PrintSuccessor(Tree<DTType>& bst){
   }
 }
 
-template <template <typename...> class Tree, typename DTType>
-void SuccessorNRemove(Tree<DTType>& bst){
-  DTType lookForSuccessor;
+template <typename Data>
+void SuccessorNRemove(BST<Data>& bst){
+  Data lookForSuccessor;
   cout<<"Print and delete the successor of ";
   cin>>ws;
   cin>>lookForSuccessor;
@@ -588,9 +589,9 @@ void SuccessorNRemove(Tree<DTType>& bst){
   }
 }
 
-template <template <typename...> class Tree, typename DTType>
-void RemoveSuccessor(Tree<DTType>& bst){
-  DTType lookForSuccessor;
+template <typename Data>
+void RemoveSuccessor(BST<Data>& bst){
+  Data lookForSuccessor;
   cout<<"Delete the successor of ";
   cin>>ws;
   cin>>lookForSuccessor;
@@ -642,8 +643,7 @@ void NodeOperations(T& currentNode){
 
 /* ----- generator functions ----- */
 
-template <typename T>
-T GenerateIntegerBST(T& bst){
+BST<int> GenerateIntegerBST(BST<int>& bst){
   ulong dim = getDimension();
   Vector<int> tmp(dim);
 
@@ -657,12 +657,11 @@ T GenerateIntegerBST(T& bst){
   }
   cout<<endl<<endl;
 
-  T tree(tmp);
+  BST<int> tree(tmp);
   return tree;
 }
 
-template <typename T>
-T GenerateFloatBST(T& bst){
+BST<float> GenerateFloatBST(BST<float>& bst){
   ulong dim = getDimension();
   Vector<float> tmp(dim);
 
@@ -676,12 +675,11 @@ T GenerateFloatBST(T& bst){
   }
   cout<<endl<<endl;
 
-  T tree(tmp);
+  BST<float> tree(tmp);
   return tree;
 }
 
-template <typename T>
-T GenerateStringsBST(T& bst){
+BST<string> GenerateStringsBST(BST<string>& bst){
   ulong dim = getDimension();
   Vector<string> tmp(dim);
 
@@ -695,7 +693,7 @@ T GenerateStringsBST(T& bst){
   }
   cout<<endl<<endl;
 
-  T tree(tmp);
+  BST<string> tree(tmp);
   return tree;
 
 }

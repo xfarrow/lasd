@@ -9,87 +9,87 @@ enum class DataType{integer,ffloat,sstring};
 
 /* ---- integer functions ---- */
 
-template <typename T>
-void IntegerFunctions(T&);
+template <typename Data>
+void IntegerFunctions(lasd::BST<Data>&);
 
-template <typename T>
-void ProductsElementsLessThan(T&);
+template <typename Data>
+void ProductsElementsLessThan(lasd::BST<Data>&);
 
 void AccumulateProduct(const int&, const void*, void*);
 
 /* ----- float functions ----- */
 
-template <typename T>
-void FloatFunctions(T&);
+template <typename Data>
+void FloatFunctions(lasd::BST<Data>&);
 
-template <typename T>
-void SumElementsGreaterThan(T&);
+template <typename Data>
+void SumElementsGreaterThan(lasd::BST<Data>&);
 
 void AccumulateSum(const float&, const void*, void*);
 
 /* ----- string functions ----- */
 
-template <typename T>
-void StringFunctions(T&);
+template <typename Data>
+void StringFunctions(lasd::BST<Data>&);
 
-template <typename T>
-void ConcatLessThan(T&);
+template <typename Data>
+void ConcatLessThan(lasd::BST<Data>&);
 
 void ConcatAString(const std::string&, const void*, void*);
 
 /* ---- shared functions ---- */
 void menu();
 
-template <template <typename...> class Tree, typename DTType>
-void PrintTree(Tree<DTType>&);
+template <typename Data>
+void PrintTree(lasd::BST<Data>&);
 
 template <typename Data>
 void PrintSingleElement(Data& data, void* _);
 
-template <template <typename...> class Tree, typename DTType>
-void CheckExistence(Tree<DTType>& tree);
+template <typename Data>
+void CheckExistence(lasd::BST<Data>& tree);
 
-template <template <typename...> class Tree, typename DTType>
-void InsertElement(Tree<DTType>&);
+template <typename Data>
+void InsertElement(lasd::BST<Data>&);
 
-template <template <typename...> class Tree, typename DTType>
-void RemoveElement(Tree<DTType>&);
+template <typename Data>
+void RemoveElement(lasd::BST<Data>&);
 
-template <typename T>
-void PrintMinimum(T&);
+template <typename Data>
+void PrintMinimum(lasd::BST<Data>&);
 
-template <typename T>
-void PrintMinimumNDelete(T&);
+template <typename Data>
+void PrintMinimumNDelete(lasd::BST<Data>&);
 
-template <typename T>
-void RemoveMin(T&);
+template <typename Data>
+void RemoveMin(lasd::BST<Data>&);
 
-template <typename T>
-void PrintMaximum(T&);
+template <typename Data>
+void PrintMaximum(lasd::BST<Data>&);
 
-template <typename T>
-void PrintMaximumNDelete(T&);
+template <typename Data>
+void PrintMaximumNDelete(lasd::BST<Data>&);
 
-template <typename T>
-void RemoveMax(T&);
+template <typename Data>
+void RemoveMax(lasd::BST<Data>&);
 
-template <template <typename...> class Tree, typename DTType>
-void PrintPredecessor(Tree<DTType>&);
+template <typename Data>
+void PrintPredecessor(lasd::BST<Data>&);
 
-template <template <typename...> class Tree, typename DTType>
-void PredecessorNRemove(Tree<DTType>&);
+template <typename Data>
+void PredecessorNRemove(lasd::BST<Data>&);
 
-template <template <typename...> class Tree, typename DTType>
-void RemovePredecessor(Tree<DTType>&);
+template <typename Data>
+void RemovePredecessor(lasd::BST<Data>&);
 
-template <template <typename...> class Tree, typename DTType>
-void PrintSuccessor(Tree<DTType>&);
+template <typename Data>
+void PrintSuccessor(lasd::BST<Data>&);
 
-template <template <typename...> class Tree, typename DTType>
-void SuccessorNRemove(Tree<DTType>&);
+template <typename Data>
+void SuccessorNRemove(lasd::BST<Data>&);
 
-template <template <typename...> class Tree, typename DTType>
-void RemoveSuccessor(Tree<DTType>&);
+template <typename Data>
+void RemoveSuccessor(lasd::BST<Data>&);
 
 template <typename T>
 void NodeOperations(T&);
@@ -97,15 +97,18 @@ void NodeOperations(T&);
 
 /* ----- generator functions ----- */
 
-DataType ChooseDataType(); //choose data type
+DataType ChooseDataType();
+
 void UseChosenType(DataType);
-template <typename T>
-T GenerateIntegerBST(T&);
-template <typename T>
-T GenerateFloatBST(T&);
-template <typename T>
-T GenerateStringsBST(T&);
+
+lasd::BST<int> GenerateIntegerBST(lasd::BST<int>&);
+
+lasd::BST<float> GenerateFloatBST(lasd::BST<float>&);
+
+lasd::BST<std::string> GenerateStringsBST(lasd::BST<std::string>&);
+
 std::string generateRandomString(ulong);
+
 ulong getDimension();
 
 #endif
