@@ -262,7 +262,7 @@ template <typename Data>
 typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToMax(struct BST<Data>::NodeLnk* const& node) const noexcept{
   NodeLnk* const* ptr = &node;
   NodeLnk* curr = node;
-  if(curr!=nullptr){
+  if(curr!=nullptr){ 
     while(curr->right != nullptr){
       ptr = &curr->right;
       curr = curr->right;
