@@ -328,8 +328,8 @@ void StringFunctions(BST<Data>& bst){
     std::cout<<" 18. Node-level operations (debug)"<<std::endl;
     std::cout<<" 19. Go back"<<std::endl;
     std::cout<<" 20. Quit"<<std::endl;
-
     cout<<endl<<" -> ";
+
     std::cin>>std::ws;
     std::cin>>choice;
     std::cout<<std::endl;
@@ -604,40 +604,49 @@ void RemoveSuccessor(BST<Data>& bst){
 }
 
 template <typename T>
-void NodeOperations(T& currentNode){
+bool NodeOperations(T& currentNode){
   uint choice;
+  bool wantToExit = false;
   cout<<endl<<endl;
-  cout<<" *** Element in the current node: "<<currentNode.Element()<<" ***"<<endl;
-  cout<<" 1. Go left"<<endl;
-  cout<<" 2. Go Right"<<endl;
-  cout<<" 3. Is this a leaf?"<<endl;
-  cout<<" 4. Go back"<<endl;
-  cout<<endl<<" -> ";
-  cin>>ws;
-  cin>>choice;
-  switch(choice){
-    case 1:
-      if(currentNode.HasLeftChild()) NodeOperations(currentNode.LeftChild());
-      else{
-        cout<<"\nThe node does not have a left child, operation aborted.";
-        NodeOperations(currentNode);
-      }
-      break;
+  do{
+    cout<<" *** Element in the current node: "<<currentNode.Element()<<" ***"<<endl;
+    cout<<" 1. Go left"<<endl;
+    cout<<" 2. Go Right"<<endl;
+    cout<<" 3. Is this a leaf?"<<endl;
+    cout<<" 4. Go up"<<endl;
+    cout<<" 5. Go to menu"<<endl;
+    cout<<endl<<" -> ";
+    cin>>ws;
+    cin>>choice;
+    switch(choice){
+      case 1:
+        if(currentNode.HasLeftChild()){
+          wantToExit = NodeOperations(currentNode.LeftChild());
+        }
+        else{
+          cout<<"\nThe node does not have a left child, operation aborted.\n";
+        }
+        break;
 
-    case 2:
-      if(currentNode.HasRightChild()) NodeOperations(currentNode.RightChild());
-      else {
-        cout<<"\nThe node does not have a right child, operation aborted.";
-        NodeOperations(currentNode);
-      }
-      break;
+        case 2:
+          if(currentNode.HasRightChild()){
+            wantToExit = NodeOperations(currentNode.RightChild());
+          }
+          else {
+            cout<<"\nThe node does not have a right child, operation aborted.\n";
+          }
+          break;
 
-    case 3:
-      if(currentNode.IsLeaf()) cout<<"\n Yes, the current node is a leaf";
-      else cout<<"\n No, the current node is not a leaf";
-      NodeOperations(currentNode);
-      break;
+        case 3:
+          if(currentNode.IsLeaf()) cout<<"\n Yes, the current node is a leaf\n";
+          else cout<<"\n No, the current node is not a leaf\n";
+          break;
+
+        case 4:
+          return false;
     }
+  }while(choice!=5 && !wantToExit);
+  return true;
 }
 
 
@@ -650,7 +659,7 @@ BST<int> GenerateIntegerBST(BST<int>& bst){
   default_random_engine gen(random_device{}());
   uniform_int_distribution<int> dist(0,1000);
 
-  cout<<"\n\nElements in the binary tree (in breadth order):\n";
+  cout<<"\n\nElements in the binary tree (in order of insertion):\n";
   for(ulong i=0 ; i<dim ; ++i){
     tmp[i] = dist(gen);
     cout<<tmp[i]<<" ";

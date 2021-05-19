@@ -92,7 +92,7 @@ template <typename Data>
 void RemoveSuccessor(lasd::BST<Data>&);
 
 template <typename T>
-void NodeOperations(T&);
+bool NodeOperations(T&);
 
 
 /* ----- generator functions ----- */

@@ -262,7 +262,7 @@ template <typename Data>
 typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToMax(struct BST<Data>::NodeLnk* const& node) const noexcept{
   NodeLnk* const* ptr = &node;
   NodeLnk* curr = node;
-  if(curr!=nullptr){ 
+  if(curr!=nullptr){
     while(curr->right != nullptr){
       ptr = &curr->right;
       curr = curr->right;
@@ -283,21 +283,28 @@ typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerTo(struct BST<Data>::N
     declare a variable (pointer) which points to a const pointer which points to
     a NodeLnk.
     This const pointer that points to a NodeLnk is the parameter of the function.
+    Hence, (*pointer) will be a const pointer.
 
-    Hence, *pointer will be a const pointer.
+    Note: this function (and others too) could've been written using one single pointer, in this way:
+    while(*pointer != nullptr && (*(*pointer)).Element() != data){
+      if( (*(*pointer)).Element() < data ) pointer = &((*pointer)->right);
+      else if((*(*pointer)).Element() > data ) pointer = &((*pointer)->left);
+    }
+    but I preferred to use a clearer version.
   */
+
   NodeLnk* const* pointer = &ref; //a pointer to a const pointer to a NodeLnk
   NodeLnk* current = ref;
 
-    while(current != nullptr && current->Element() != data){
-      if(current->Element() < data){
-        pointer = &(current->right);
-        current = current->right;
-      }else if(current->Element() > data){
-        pointer = &(current->left);
-        current = current->left;
-      }
+  while(current != nullptr && current->Element() != data){
+    if(current->Element() < data){
+      pointer = &(current->right);
+      current = current->right;
+    }else if(current->Element() > data){
+      pointer = &(current->left);
+      current = current->left;
     }
+  }
   return *pointer;
 }
 
@@ -307,10 +314,10 @@ typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToPredecessor(struct B
   /*
     If the element we are looking the predecessor for is the current element,
     then its predecessor resides in the max node of its left subtree (if it has
-    a left subtree. Return the lastRight otherwise).
+    a left subtree. Return the candidate otherwise).
 
     If the element we are looking the predecessor for is greater than the current element,
-    then we have to go down right the tree, saving the current "lastRight".
+    then we have to go down right the tree, saving the current "candidate".
 
     If the element we are looking the predecessor for is less than the current element,
     then we have to go down left the tree.
