@@ -611,7 +611,7 @@ bool NodeOperations(T& currentNode){
   do{
     cout<<" *** Element in the current node: "<<currentNode.Element()<<" ***"<<endl;
     cout<<" 1. Go left"<<endl;
-    cout<<" 2. Go Right"<<endl;
+    cout<<" 2. Go right"<<endl;
     cout<<" 3. Is this a leaf?"<<endl;
     cout<<" 4. Go up"<<endl;
     cout<<" 5. Go to menu"<<endl;
@@ -659,7 +659,7 @@ BST<int> GenerateIntegerBST(BST<int>& bst){
   default_random_engine gen(random_device{}());
   uniform_int_distribution<int> dist(0,1000);
 
-  cout<<"\n\nElements in the binary tree (in order of insertion):\n";
+  cout<<"\n\nElements in the binary search tree (in order of insertion):\n";
   for(ulong i=0 ; i<dim ; ++i){
     tmp[i] = dist(gen);
     cout<<tmp[i]<<" ";
@@ -677,7 +677,7 @@ BST<float> GenerateFloatBST(BST<float>& bst){
   default_random_engine gen(random_device{}());
   uniform_real_distribution<double> distr(0,5);
 
-  cout<<"\n\nElements in the binary tree (in breadth order):\n";
+  cout<<"\n\nElements in the binary search tree (in order of insertion):\n";
   for(unsigned long i = 0; i < dim; ++i){
     tmp[i] = (round(distr(gen)*10000))/100;
     cout<<tmp[i]<<" ";
@@ -695,7 +695,7 @@ BST<string> GenerateStringsBST(BST<string>& bst){
   default_random_engine gen(random_device{}());
   uniform_int_distribution<int> dist(1,5);
 
-  cout<<"\n\nElements in the tree (in breadth order):\n";
+  cout<<"\n\nElements in the binary search tree (in order of insertion):\n";
   for(ulong i = 0; i < dim; ++i){
     tmp[i] = generateRandomString(dist(gen));
     cout<<tmp[i]<<" ";
