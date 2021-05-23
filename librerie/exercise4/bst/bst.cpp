@@ -321,11 +321,6 @@ typename BST<Data>::NodeLnk* const* BST<Data>::FindPointerToPredecessor(struct B
 
     If the element we are looking the predecessor for is less than the current element,
     then we have to go down left the tree.
-
-
-    Note: I return a ** instead of *& because we deferenciate a variable that might
-    contain nullptr (candidate) that, without proper handling, would result to
-    an invalid read. I decided to keep it simpler to understand.
   */
 
   NodeLnk* const* pointer = &ref;

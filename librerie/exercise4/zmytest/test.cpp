@@ -450,7 +450,7 @@ void CheckExistence(BST<Data>& tree){
   cout<<"\n\nCheck existence in the tree of: ";
   cin>>ws;
   cin>>elementToLookFor;
-  cout<<"The element " << ( (!tree.Exists(elementToLookFor))? "does not " : "") << "exists\n\n";
+  cout<<"The element " << ( (tree.Exists(elementToLookFor))? "does" : "does not") << " exist\n\n";
 }
 
 template <typename Data>
@@ -491,7 +491,7 @@ template <typename Data>
 void RemoveMin(BST<Data>& bst){
   if(bst.Size()>0){
     bst.RemoveMin();
-    cout<<"\n\nThe minimum element has been deleted";
+    cout<<"\n\nThe minimum element has been removed";
   }
   else
     cout<<"\n\nTree is empty.";
@@ -517,7 +517,7 @@ template <typename Data>
 void RemoveMax(BST<Data>& bst){
   if(bst.Size()>0){
     bst.RemoveMax();
-    cout<<"\n\nThe maximum element has been deleted";
+    cout<<"\n\nThe maximum element has been removed";
   }
   else
     cout<<"\n\nTree is empty.";
