@@ -61,9 +61,13 @@ const Data& BinaryTree<Data>::Node::Element() const{
 /* ----- end of struct Node ----- */
 
 template <typename Data>
-bool BinaryTree<Data>::operator==(const BinaryTree& toCompare) const noexcept{
-  if(size!=toCompare.size) return false;
-  return(Root() == toCompare.Root());
+bool BinaryTree<Data>::operator==(const BinaryTree& tree) const noexcept{
+  if(size == tree.size){
+    if(size == 0) return true;
+    else return (Root() == tree.Root());
+  }else{
+    return false;
+  }
 }
 
 template <typename Data>

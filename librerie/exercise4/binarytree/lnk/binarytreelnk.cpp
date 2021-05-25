@@ -140,14 +140,15 @@ BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator=(BinaryTreeLnk<Data>&& tree) 
   return *this;
 }
 
+/*
+**  operator== and operator!= can be removed from BinaryTreeLnk since they are
+**  inherited from BinaryTree. They're here just for clarity and  because they're
+**  in the template.
+**  Maybe you can make them more optimized here.
+*/
 template <typename Data>
 bool BinaryTreeLnk<Data>::operator==(const BinaryTreeLnk<Data>& tree) const noexcept{
-  if(size == tree.size){
-    if(size == 0) return true;
-    else return (Root() == tree.Root());
-  }else{
-    return false;
-  }
+  return (BinaryTree<Data>::operator==(tree));
 }
 
 template <typename Data>
