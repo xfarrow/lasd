@@ -40,7 +40,7 @@ public:
   Vector(Vector&&)noexcept;
 
   // Destructor
-  ~Vector();
+  virtual ~Vector();
 
   // Copy assignment
    Vector& operator=(const Vector&);
