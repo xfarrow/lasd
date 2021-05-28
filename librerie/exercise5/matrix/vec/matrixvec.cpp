@@ -13,7 +13,7 @@ template <typename Data>
 MatrixVec<Data>::MatrixVec(const MatrixVec& toCopy){
   rows = toCopy.rows;
   columns = toCopy.columns;
-  size = toCopy.rows * toCopy.columns;
+  size = toCopy.size;
   Elements = new Data[size]{};
   for(ulong i=0 ; i<size ; ++i){
     Elements[i] = toCopy.Elements[i];
@@ -38,7 +38,7 @@ MatrixVec& MatrixVec<Data>::operator=(const MatrixVec& toCopy){
   Clear();
   rows = toCopy.rows;
   columns = toCopy.columns;
-  size = toCopy.rows * toCopy.columns;
+  size = toCopy.size;
   Elements = new Data[size]{};
   for(ulong i=0 ; i<size ; ++i){
     Elements[i] = toCopy.Elements[i];
@@ -77,28 +77,17 @@ void MatrixVec<Data>::RowResize(const ulong newdim){
 
 template <typename Data>
 void MatrixVec<Data>::ColumnResize(const ulong& new_column_dim){
-
   if(new_column_dim == 0){
     Clear();
   }
   else if(new_column_dim != columns){
-
+    ulong limit = (new_column_dim < columns)? new_column_dim : columns;
     Data* tmp = new Data[rows * new_column_dim]{};
-
-    if(new_column_dim > columns){
-      for(ulong i=0 ; i<r ; ++i){
-        for(ulong j=0 ; j<new_column_dim ; ++j){
-          if(ExistsCell(i,j)) tmp[(i*new_column_dim)+j] = (*this)(i,j);
-        }
-      }
-    }else if(new_column_dim < columns){
-      for(ulong i=0 ; i<r ; ++i){
-        for(ulong j=0 ; j<new_column_dim ; ++j){
-          tmp[(i*new_column_dim)+j] = (*this)(i,j);
-        }
+    for(ulong i=0 ; i<r ; ++i){
+      for(ulong j=0 ; j<limit ; ++j){
+        tmp[(i*new_column_dim)+j] = (*this)(i,j);
       }
     }
-
     size = rows * new_column_dim;
     columns = new_column_dim;
     std::swap(Elements, tmp);
