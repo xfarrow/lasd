@@ -37,7 +37,7 @@ MatrixCSR<Data>::MatrixCSR(const MatrixCSR& toCopy) : MatrixCSR(toCopy.rows, toC
 }
 
 template <typename Data>
-MatrixCSR<Data>::MatrixCSR(MatrixCSR&& toMove) : MatrixCSR() noexcept{ // controllare se chiamare MatrixCSR()
+MatrixCSR<Data>::MatrixCSR(MatrixCSR&& toMove) noexcept{
   std::swap(rows, toMove.rows);
   std::swap(columns, toMove.columns);
   std::swap(size, toMove.size);
@@ -75,7 +75,22 @@ MatrixCSR<Data>& MatrixCSR::operator=(MatrixCSR&& toMove) noexcept{
 
 template <typename Data>
 bool MatrixCSR<Data>::operator==(const MatrixCSR& toCompare) const noexcept{
+  if(columns == toCompare.columns && rows == toCompare.rows && size==toCompare.size){
+    for(ulong i=0 ; i<(R.Size()-1) ; ++i){
+      for(Node** ptr1 = R[i], ptr2 = toCopy.R[i] ; ptr1!=R[i+1] && ptr2!=toCopy.R[i+1] ; ptr1 = &( (*(*ptr1)).next ) , ptr2 = &( (*(*ptr2)).next ) ){
 
+        if( ( ((*ptr1)->value).first != ((*ptr2)->value).first ) || ( ((*ptr1)->value).second != ((*ptr2)->value).second )) return false;
+
+        if( (&((*(*ptr1)).next)==R[i+1] && &((*(*ptr2)).next) != toCopy.R.[i+1]) || (&((*(*ptr1)).next)!=R[i+1] && &((*(*ptr2)).next) == toCopy.R.[i+1])){
+          return false;
+        }
+
+      }
+    }
+    return true;
+  }else{
+    return false;
+  }
 }
 
 template <typename Data>
@@ -84,13 +99,94 @@ bool MatrixCSR<Data>::operator!=(const MatrixCSR& toCompare) const noexcept{
 }
 
 template <typename Data>
-void RowResize(const ulong& new_row_size){
-  R.Resize(new_row_size+1);
-  for(ulong i=rows ; i<new_row_size+1 ; ++i){
-    R[i] = R[rows];
+void MatrixCSR<Data>::RowResize(const ulong& new_row_size){
+  if(new_row_size == 0){
+    Clear();
   }
-  rows = new_row_size;
-  size = new_row_size * columns;
+  else if(new_row_size > row){
+    R.Resize(new_row_size+1);
+    for(ulong i=rows ; i<new_row_size+1 ; ++i){
+      R[i] = R[rows];
+    }
+    rows = new_row_size;
+  }else if(new_row_size < row){
+    Node* toDelete,tmp;
+    toDelete = *R[new_row_size];
+    while(toDelete!=nullptr){
+      tmp = toDelete->next;
+      delete toDelete;
+      toDelete = tmp;
+      --size;
+    }
+    *(R[new_row_size]) = nullptr;
+    R.Resize(new_row_size+1);
+    rows = new_row_size;
+  }
+}
+
+template <typename Data>
+void MatrixCSR<Data>::ColumnResize(const ulong& new_column_size){
+  if(new_column_size == 0){
+    Clear();
+  }
+  else if(new_column_size > columns){
+    columns = new_column_size;
+  }
+  else if(new_column_size < columns){
+    Node** add;
+    for(ulong i=0 ; i<R.Size()-1 ; ++i){
+      for(Node** ptr = R[i] ; ptr!=R[i+1] ; ptr = &( (*(*ptr)).next ) ){
+        if(((*ptr)->value).second) >= new_row_size) break;
+      }
+      if(ptr!=R[i+1]){
+        //?
+      }
+    }
+  }
+}
+
+template <typename Data>
+bool MatrixCSR<Data>::ExistsCell(const ulong& r, const ulong& c) noexcept{
+  if(r>=row || c>=column) return false;
+  Node** ptr = R[r];
+  while(ptr != R[r+1]){
+    if( (**ptr).value.second == c ) return true;
+    ptr = &((**ptr).next);
+  }
+  return false;
+}
+
+template <typename Data>
+const Data& MatrixCSR<Data>::operator()(const ulong& r, const ulong& c) const{
+  if(r>=row || c>=column) throw std::out_of_range("Tried to access position ["<<r<<"]["<<c<<"] in a ["<<rows<<"]["<<columns<<"] matrix!");
+  else{
+    Node** ptr = R[r];
+    while(ptr != R[r+1]){
+      if( (**ptr).value.second == c ) return (**ptr).value.first;
+      ptr = &((**ptr).next);
+    }
+    throw std::length_error("The element does not exist!");
+  }
+}
+
+template <typename Data>
+Data& MatrixCSR<Data>::operator()(const ulong& r, const ulong& c){
+  if(r>=row || c>=column) throw std::out_of_range("Tried to access position ["<<r<<"]["<<c<<"] in a ["<<rows<<"]["<<columns<<"] matrix!");
+  else{
+    Node** ptr = R[r];
+    while(ptr != R[r+1]){
+      if((**ptr).value.second == c){
+        return (**ptr).value.first;
+      }
+      else if( (**ptr).value.second < c ){
+        ptr = &((**ptr).next);
+      }
+      else if((**ptr).value.second > c){
+        Node** tmp = *ptr;
+        //?
+      }
+    }
+  }
 }
 
 /* ************************************************************************** */
