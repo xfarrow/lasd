@@ -29,9 +29,9 @@ protected:
     Node*  next = nullptr;
 
     /* ********************************************************************** */
-
+    Node() = default;
     // Specific constructors
-     Node(const Data&);
+    Node(const Data&);
 
     /* ********************************************************************** */
 

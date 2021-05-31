@@ -21,7 +21,7 @@ MatrixVec<Data>::MatrixVec(const MatrixVec& toCopy){
 }
 
 template <typename Data>
-MatrixVec<Data>::MatrixVec(MatrixVec&& toMove) noexcept{
+MatrixVec<Data>::MatrixVec(MatrixVec<Data>&& toMove) noexcept{
   std::swap(rows, toMove.rows);
   std::swap(columns, toMove.columns);
   std::swap(size, toMove.size);
@@ -34,7 +34,7 @@ MatrixVec<Data>::~MatrixVec(){
 }
 
 template <typename Data>
-MatrixVec& MatrixVec<Data>::operator=(const MatrixVec& toCopy){
+MatrixVec<Data>& MatrixVec<Data>::operator=(const MatrixVec& toCopy){
   Clear();
   rows = toCopy.rows;
   columns = toCopy.columns;
@@ -47,7 +47,7 @@ MatrixVec& MatrixVec<Data>::operator=(const MatrixVec& toCopy){
 }
 
 template <typename Data>
-MatrixVec& MatrixVec<Data>::operator=(MatrixVec&& toMove) noexcept{
+MatrixVec<Data>& MatrixVec<Data>::operator=(MatrixVec&& toMove) noexcept{
   Clear();
   std::swap(rows, toMove.rows);
   std::swap(columns, toMove.columns);
@@ -71,7 +71,7 @@ bool MatrixVec<Data>::operator!=(const MatrixVec& toCompare) const noexcept{
 }
 
 template <typename Data>
-void MatrixVec<Data>::RowResize(const ulong newdim){
+void MatrixVec<Data>::RowResize(const ulong& newdim){
   Vector<Data>::Resize(newdim);
 }
 
@@ -83,7 +83,7 @@ void MatrixVec<Data>::ColumnResize(const ulong& new_column_dim){
   else if(new_column_dim != columns){
     ulong limit = (new_column_dim < columns)? new_column_dim : columns;
     Data* tmp = new Data[rows * new_column_dim]{};
-    for(ulong i=0 ; i<r ; ++i){
+    for(ulong i=0 ; i<rows ; ++i){
       for(ulong j=0 ; j<limit ; ++j){
         tmp[(i*new_column_dim)+j] = (*this)(i,j);
       }
@@ -96,20 +96,20 @@ void MatrixVec<Data>::ColumnResize(const ulong& new_column_dim){
 }
 
 template <typename Data>
-bool MatrixVec<Data>::ExistsCell(const ulong& r, const ulong& c) noexcept override{
+bool MatrixVec<Data>::ExistsCell(const ulong& r, const ulong& c) const noexcept{
   return (r<rows && c<columns);
 }
 
 template <typename Data>
 const Data& MatrixVec<Data>::operator()(const ulong& r, const ulong& c) const{
   if(ExistsCell(r,c)) return Elements[(r*columns)+c];
-  else throw std::out_of_range("Tried to access position ["<<r<<"]["<<c<<"] in a ["<<rows<<"]["<<columns<<"] matrix!");
+  else throw std::out_of_range("Tried to access an invalid position!");
 }
 
 template <typename Data>
 Data& MatrixVec<Data>::operator()(const ulong& r, const ulong& c){
   if(ExistsCell(r,c)) return Elements[(r*columns)+c];
-  else throw std::out_of_range("Tried to access position ["<<r<<"]["<<c<<"] in a ["<<rows<<"]["<<columns<<"] matrix!");
+  else throw std::out_of_range("Tried to access an invalid position!");
 }
 
 template <typename Data>
