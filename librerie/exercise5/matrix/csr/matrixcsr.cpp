@@ -218,6 +218,7 @@ Data& MatrixCSR<Data>::operator()(const ulong& r, const ulong& c){
     struct List<std::pair<Data,ulong>>::Node* nextNode = *ptr;
     *ptr = newNode;
     newNode->next = nextNode;
+    (newNode->value).second = c;
 
     if(last == ptr){ // the newely inserted element is the last one in its row
       for(ulong i=r+1 ; i<R.Size() ; ++i){ // then for each next row

@@ -72,7 +72,13 @@ bool MatrixVec<Data>::operator!=(const MatrixVec& toCompare) const noexcept{
 
 template <typename Data>
 void MatrixVec<Data>::RowResize(const ulong& newdim){
-  Vector<Data>::Resize(newdim);
+  if(newdim == 0){
+    Clear();
+  }else{
+    Vector<Data>::Resize(newdim * columns);
+    rows = newdim;
+    size = newdim * columns;
+  }
 }
 
 template <typename Data>
