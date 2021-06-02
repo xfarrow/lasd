@@ -39,8 +39,8 @@ public:
   void RowResize(const ulong&) override; // Override Matrix member
   void ColumnResize(const ulong&) override; // Override Matrix member
   bool ExistsCell(const ulong&, const ulong&) const noexcept override; // Override Matrix member (should not throw exceptions)
-  Data& operator()(const ulong&, const ulong&) override; // Override Matrix member (mutable access to the element; throw out_of_range when out of range)
-  const Data& operator()(const ulong&, const ulong&) const override; // Override Matrix member (immutable access to the element; throw out_of_range when out of range and length_error when not present)
+  Data& operator()(const ulong, const ulong) override; // Override Matrix member (mutable access to the element; throw out_of_range when out of range)
+  const Data& operator()(const ulong, const ulong) const override; // Override Matrix member (immutable access to the element; throw out_of_range when out of range and length_error when not present)
 
 
   // Specific member functions (inherited from Container)
@@ -55,6 +55,10 @@ public:
   // type MapPostOrder(arguments) specifiers; // Override MappableContainer member
   // type FoldPreOrder(arguments) specifiers; // Override FoldableContainer member
   // type FoldPostOrder(arguments) specifiers; // Override FoldableContainer member
+
+  void debug(){
+    return;
+  }
 
 };
 

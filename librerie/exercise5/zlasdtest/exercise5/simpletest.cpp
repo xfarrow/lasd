@@ -36,7 +36,7 @@ void stestMatrixInt(Mat<long>& mat, uint& testnum, uint& testerr) {
     SetRowNumber(loctestnum, loctesterr, mat, true, 1);
     SetColumnNumber(loctestnum, loctesterr, mat, true, 1);
 
-    std::cout<<"\nClearing the matrix\n";
+    std::cout<<" Clearing the matrix\n";
     mat.Clear();
 
     ExistsCell(loctestnum, loctesterr, mat, false, 0, 0);
@@ -77,9 +77,9 @@ void stestMatrixInt(Mat<long>& mat, uint& testnum, uint& testerr) {
     SetColumnNumber(loctestnum, loctesterr, mat, true, 5); //31
 
     SetCell<long>(loctestnum, loctesterr, mat, true, 1, 4, 8);
-    SetCell<long>(loctestnum, loctesterr, mat, true, 3, 4, 9);
-
-    SetColumnNumber(loctestnum, loctesterr, mat, true, 3);
+    SetCell<long>(loctestnum, loctesterr, mat, true, 3, 4, 9); //33
+    //mat.debug();
+    SetColumnNumber(loctestnum, loctesterr, mat, true, 3); //34
     SetColumnNumber(loctestnum, loctesterr, mat, true, 4);
 
     MapPreOrder<long, long>(loctestnum, loctesterr, mat, true, &MapPrint<long>, 0);
@@ -131,7 +131,7 @@ void stestMatrixInt(Mat<long>& mat, uint& testnum, uint& testerr) {
 
     NonEqualMatrix(loctestnum, loctesterr, mat, copmat);
 
-    SetCell<long>(loctestnum, loctesterr, mat, true, 0, 3, 4);
+    SetCell<long>(loctestnum, loctesterr, mat, true, 0, 3, 4); //63
     SetCell<long>(loctestnum, loctesterr, mat, true, 2, 3, 5);
 
     MapPreOrder<long, long>(loctestnum, loctesterr, mat, true, &MapPrint<long>, 0);
@@ -143,7 +143,7 @@ void stestMatrixInt(Mat<long>& mat, uint& testnum, uint& testerr) {
 
     MapPreOrder<long, long>(loctestnum, loctesterr, mat, true, &MapPrint<long>, 0);
 
-    FoldPreOrder<long, long, long>(loctestnum, loctesterr, mat, true, &FoldMultiply<long>, 0, 1, 40320);
+    FoldPreOrder<long, long, long>(loctestnum, loctesterr, mat, true, &FoldMultiply<long>, 0, 1, 40320); //70
 
     MapPostOrder<long, long>(loctestnum, loctesterr, mat, true, &MapDecrement<long>, 0);
 
@@ -154,21 +154,21 @@ void stestMatrixInt(Mat<long>& mat, uint& testnum, uint& testerr) {
 
     Mat<long> movmat(std::move(mat));
 
-    GetRowNumber(loctestnum, loctesterr, mat, true, 0);
-    GetColumnNumber(loctestnum, loctesterr, mat, true, 0);
+    GetRowNumber(loctestnum, loctesterr, mat, true, 0); //75
+    GetColumnNumber(loctestnum, loctesterr, mat, true, 0); //76
 
     ExistsCell(loctestnum, loctesterr, mat, false, 0, 0);
 
     Exists<long>(loctestnum, loctesterr, movmat, false, 8);
 
-    SetCell<long>(loctestnum, loctesterr, movmat, true, 4, 2, 8);
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 4, 2, 8); //79
 
     MapPreOrder<long, long>(loctestnum, loctesterr, movmat, true, &MapPrint<long>, 0);
     MapPostOrder<long, long>(loctestnum, loctesterr, movmat, true, &MapPrint<long>, 0);
 
     FoldPreOrder<long, long, long>(loctestnum, loctesterr, movmat, true, &FoldAdd<long>, 0, 0, 36);
 
-    Exists<long>(loctestnum, loctesterr, movmat, true, 8);
+    Exists<long>(loctestnum, loctesterr, movmat, true, 8); //83
 
     SetRowNumber(loctestnum, loctesterr, movmat, true, 4);
     MapPostOrder<long, long>(loctestnum, loctesterr, movmat, true, &MapPrint<long>, 0);
@@ -176,7 +176,7 @@ void stestMatrixInt(Mat<long>& mat, uint& testnum, uint& testerr) {
     movmat.Clear();
 
     GetRowNumber(loctestnum, loctesterr, movmat, true, 0);
-    GetColumnNumber(loctestnum, loctesterr, movmat, true, 0);
+    GetColumnNumber(loctestnum, loctesterr, movmat, true, 0); //87
 
     mat = copmat;
     copmat.Clear();

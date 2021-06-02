@@ -1,12 +1,6 @@
 
 namespace lasd {
 
-/*
-
-      CONTROLLARE COLUMN RESIZE
-      MOVE CONSTRUCTOR
-
-*/
 /* ************************************************************************** */
 
 template <typename Data>
@@ -120,7 +114,7 @@ void MatrixCSR<Data>::RowResize(const ulong& new_row_size){
   }
   else if(new_row_size > rows){
     R.Resize(new_row_size+1);
-    for(ulong i=rows ; i<new_row_size+1 ; ++i){
+    for(ulong i=rows+1 ; i<R.Size(); ++i){
       R[i] = R[rows];
     }
     rows = new_row_size;
@@ -145,14 +139,11 @@ void MatrixCSR<Data>::ColumnResize(const ulong& new_column_size){
   if(new_column_size == 0){
     Clear();
   }
-  else if(new_column_size > columns){
-    columns = new_column_size;
-  }
   else if(new_column_size < columns){
     Node** last;
     Node** last_not_deleted;
     Node* toDelete;
-    for(ulong i=0 ; i<R.Size()-1 ; ++i){
+    for(ulong i=0 ; i<R.Size()-1 ; ++i){ // iterate over the R array
       last = R[i+1];
       last_not_deleted = R[i];
       for(Node** ptr = R[i] ; ptr!=R[i+1] ; ptr = &( (*(*ptr)).next ) ){
@@ -163,15 +154,19 @@ void MatrixCSR<Data>::ColumnResize(const ulong& new_column_size){
           *ptr = (*(*ptr)).next;
           delete toDelete;
           --size;
-        }
-      }
-      for(ulong j=i+1 ; j<R.Size() ; ++j){
-        if(R[j] == last){
-          R[j] = last_not_deleted;
+
+          for(ulong j=i+1 ; j<R.Size() ; ++j){
+            if(R[j] == last){
+              R[j] = last_not_deleted;
+            }
+            else break;
+          }
+          if(ptr == R[i+1]) break;
         }
       }
     }
   }
+  columns = new_column_size;
 }
 
 template <typename Data>
@@ -186,12 +181,14 @@ bool MatrixCSR<Data>::ExistsCell(const ulong& r, const ulong& c) const noexcept{
 }
 
 template <typename Data>
-const Data& MatrixCSR<Data>::operator()(const ulong& r, const ulong& c) const{
+const Data& MatrixCSR<Data>::operator()(const ulong r, const ulong c) const{
   if(r>=rows || c>=columns) throw std::out_of_range("Tried to access an invalid position!");
   else{
     Node** ptr = R[r];
     while(ptr != R[r+1]){
-      if( (**ptr).value.second == c ) return (**ptr).value.first;
+      if( (**ptr).value.second == c ){
+        return (**ptr).value.first;
+      }
       ptr = &((**ptr).next);
     }
     throw std::length_error("The element does not exist!");
@@ -199,12 +196,11 @@ const Data& MatrixCSR<Data>::operator()(const ulong& r, const ulong& c) const{
 }
 
 template <typename Data>
-Data& MatrixCSR<Data>::operator()(const ulong& r, const ulong& c){
+Data& MatrixCSR<Data>::operator()(const ulong r, const ulong c){
   if(r>=rows || c>=columns) throw std::out_of_range("Tried to access an invalid position!");
   else{
     Node** ptr = R[r];
     Node** last = R[r+1]; // pointer to the pointer inside the last element of the r-th cell
-
     while(ptr != R[r+1] && ((**ptr).value.second <= c)){
       if((**ptr).value.second == c){
         return (**ptr).value.first;
@@ -214,21 +210,22 @@ Data& MatrixCSR<Data>::operator()(const ulong& r, const ulong& c){
       }
     }
 
-    struct List<std::pair<Data,ulong>>::Node* newNode = new Node;
-    struct List<std::pair<Data,ulong>>::Node* nextNode = *ptr;
+    Node* newNode = new Node();
+    Node* nextNode = *ptr;
     *ptr = newNode;
     newNode->next = nextNode;
     (newNode->value).second = c;
+    ++size;
 
     if(last == ptr){ // the newely inserted element is the last one in its row
       for(ulong i=r+1 ; i<R.Size() ; ++i){ // then for each next row
-        if(R[r+1] == last){ // check if it pointed to last (it was empty)
-          R[r+1] = &(newNode->next); // assign the address of the pointer of the next node
+        if(R[i] == last){ // check if it pointed to last (it was empty)
+          R[i] = &(newNode->next); // assign the address of the pointer of the next node
         }
         else break;
       }
     }
-    return (newNode->value).first;
+  return (newNode->value).first;
   }
 }
 
@@ -239,6 +236,7 @@ void MatrixCSR<Data>::Clear(){
   rows = 0;
   size = 0;
   R.Resize(1);
+  R[0] = &head;
 }
 
 template <typename Data>
@@ -269,7 +267,38 @@ void MatrixCSR<Data>::FoldPostOrder(const typename FoldableContainer<Data>::Fold
     , par , acc);
 }
 
+template <typename Data>
+void MatrixCSR<Data>::debug(){
+  std::cout<<std::endl;
+  std::cout<<"rows: "<<rows<<" columns: "<<columns<<" size: "<<size<<"\n\n";
+  Node* tmp = head;
 
+  while(tmp!=nullptr){
+    std::cout<<(tmp->value).first<<"|"<< (tmp->value).second;
+    std::cout<<std::endl;
+    std::cout<<&(tmp->next);
+
+    std::cout<<std::endl;
+    std::cout<<std::endl;
+
+    tmp = tmp->next;
+  }
+
+  std::cout << "R VECTOR:" << '\n';
+  for(ulong i=0; i<R.Size();++i){
+    std::cout << R[i] << '\n';
+  }
+  std::cout<<std::endl;
+  std::cout<<std::endl;
+
+  //// print
+  // for(int i=0; i<rows; ++i){
+  //   for(int j=0; j<columns ; ++j){
+  //     std::cout<<(*this)(i,j)<<" ";
+  //   }
+  //   std::cout<<std::endl;
+  // }
+}
 
 /* ************************************************************************** */
 

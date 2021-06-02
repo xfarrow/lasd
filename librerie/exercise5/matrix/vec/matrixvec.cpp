@@ -107,13 +107,13 @@ bool MatrixVec<Data>::ExistsCell(const ulong& r, const ulong& c) const noexcept{
 }
 
 template <typename Data>
-const Data& MatrixVec<Data>::operator()(const ulong& r, const ulong& c) const{
+const Data& MatrixVec<Data>::operator()(const ulong r, const ulong c) const{
   if(ExistsCell(r,c)) return Elements[(r*columns)+c];
   else throw std::out_of_range("Tried to access an invalid position!");
 }
 
 template <typename Data>
-Data& MatrixVec<Data>::operator()(const ulong& r, const ulong& c){
+Data& MatrixVec<Data>::operator()(const ulong r, const ulong c){
   if(ExistsCell(r,c)) return Elements[(r*columns)+c];
   else throw std::out_of_range("Tried to access an invalid position!");
 }
