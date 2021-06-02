@@ -34,23 +34,11 @@ void menu(){
     mat(3,4) = 9;
     mat(4,1) = 6;
     mat(4,3) = 7;
+    mat(4,0) = 13;
 
-    for(ulong i=0 ; i<mat.RowNumber() ; ++i){
-      for(ulong j=0 ; j<mat.ColumnNumber() ; ++j){
-        cout<<mat(i,j)<<" ";
-      }
-    cout<<endl;
-    }
-    mat(3,0) = 5;
-    mat(3,1) = 6;
-    mat(3,2) = 7;
-    mat(3,3) = 8;
+    mat.ColumnResize(2);
 
-    for(ulong i=0 ; i<mat.RowNumber() ; ++i){
-      for(ulong j=0 ; j<mat.ColumnNumber() ; ++j){
-        cout<<mat(i,j)<<" ";
-      }
-    cout<<endl;
-    }
-}
+    mat.debug();
+
+  }
 }

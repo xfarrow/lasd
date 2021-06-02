@@ -140,28 +140,32 @@ void MatrixCSR<Data>::ColumnResize(const ulong& new_column_size){
     Clear();
   }
   else if(new_column_size < columns){
-    Node** last;
-    Node** last_not_deleted;
+    Node** prev;
     Node* toDelete;
+    Node** toModify;
     for(ulong i=0 ; i<R.Size()-1 ; ++i){ // iterate over the R array
-      last = R[i+1];
-      last_not_deleted = R[i];
-      for(Node** ptr = R[i] ; ptr!=R[i+1] ; ptr = &( (*(*ptr)).next ) ){
+      prev = R[i]; // in case an element must be deleted, this is its previous element.
+
+      for(Node** ptr = R[i] ; ptr!=R[i+1] ; ){
         if(((*ptr)->value).second < new_column_size){
-          last_not_deleted = &( (*(*ptr)).next );
+          prev = &( (*(*ptr)).next );
+          ptr = &( (*(*ptr)).next);
         }else{
+          std::cout<<"\n\nSto cancellando "<<((*ptr)->value).first<<"\n\n";
           toDelete = *ptr;
+          toModify = &( (*(*ptr)).next );
           *ptr = (*(*ptr)).next;
           delete toDelete;
           --size;
 
+          //debug();
+
           for(ulong j=i+1 ; j<R.Size() ; ++j){
-            if(R[j] == last){
-              R[j] = last_not_deleted;
+            if(R[j] == toModify){
+              R[j] = prev;
             }
             else break;
           }
-          if(ptr == R[i+1]) break;
         }
       }
     }
@@ -270,26 +274,27 @@ void MatrixCSR<Data>::FoldPostOrder(const typename FoldableContainer<Data>::Fold
 template <typename Data>
 void MatrixCSR<Data>::debug(){
   std::cout<<std::endl;
-  std::cout<<"rows: "<<rows<<" columns: "<<columns<<" size: "<<size<<"\n\n";
-  Node* tmp = head;
 
-  while(tmp!=nullptr){
-    std::cout<<(tmp->value).first<<"|"<< (tmp->value).second;
-    std::cout<<std::endl;
-    std::cout<<&(tmp->next);
-
-    std::cout<<std::endl;
-    std::cout<<std::endl;
-
-    tmp = tmp->next;
-  }
-
-  std::cout << "R VECTOR:" << '\n';
-  for(ulong i=0; i<R.Size();++i){
-    std::cout << R[i] << '\n';
-  }
-  std::cout<<std::endl;
-  std::cout<<std::endl;
+  // std::cout<<"rows: "<<rows<<" columns: "<<columns<<" size: "<<size<<"\n\n";
+  // Node* tmp = head;
+  //
+  // while(tmp!=nullptr){
+  //   std::cout<<(tmp->value).first<<"|"<< (tmp->value).second;
+  //   std::cout<<std::endl;
+  //   std::cout<<&(tmp->next);
+  //
+  //   std::cout<<std::endl;
+  //   std::cout<<std::endl;
+  //
+  //   tmp = tmp->next;
+  // }
+  //
+  // std::cout << "R VECTOR:" << '\n';
+  // for(ulong i=0; i<R.Size();++i){
+  //   std::cout << R[i] << '\n';
+  // }
+  // std::cout<<std::endl;
+  // std::cout<<std::endl;
 
   //// print
   // for(int i=0; i<rows; ++i){
