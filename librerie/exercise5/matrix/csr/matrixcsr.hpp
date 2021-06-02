@@ -61,10 +61,10 @@ public: //CAMBIARE A PROTETTO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   /* ************************************************************************ */
 
   // Copy assignment
-  MatrixCSR& operator=(const MatrixCSR&);
+  MatrixCSR& operator=(const MatrixCSR<Data>&);
 
   // Move assignment
-  MatrixCSR& operator=(MatrixCSR&&) noexcept;
+  MatrixCSR& operator=(MatrixCSR<Data>&&) noexcept;
 
   /* ************************************************************************ */
 

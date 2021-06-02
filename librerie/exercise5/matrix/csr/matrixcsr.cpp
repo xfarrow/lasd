@@ -61,18 +61,27 @@ MatrixCSR<Data>::~MatrixCSR(){
 }
 
 template <typename Data>
-MatrixCSR<Data>& MatrixCSR<Data>::operator=(const MatrixCSR& toCopy){
-  MatrixCSR<Data>* tmp = new MatrixCSR<Data>(toCopy);
-  std::swap(*this, *tmp);
-  delete tmp;
+MatrixCSR<Data>& MatrixCSR<Data>::operator=(const MatrixCSR<Data>& toCopy){
+  MatrixCSR<Data> tmp(toCopy);
+  std::swap(tmp, *this);
   return *this;
 }
 
 template <typename Data>
-MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR&& toMove) noexcept{
-  MatrixCSR<Data>* tmp = new MatrixCSR<Data>(std::move(toMove));
-  std::swap(*this, *tmp);
-  delete tmp;
+MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& toMove) noexcept{
+  Clear();
+  std::swap(rows, toMove.rows);
+  std::swap(columns, toMove.columns);
+  std::swap(size, toMove.size);
+  std::swap(head, toMove.head);
+  std::swap(R, toMove.R);
+  toMove.R.Resize(1);
+  toMove.R[0] = &toMove.head;
+
+  Node** oldHead = R[0];
+  for(ulong i=0 ; i<R.Size() && R[i]==oldHead; ++i){
+    R[i] = &head;
+  }
   return *this;
 }
 
@@ -151,14 +160,11 @@ void MatrixCSR<Data>::ColumnResize(const ulong& new_column_size){
           prev = &( (*(*ptr)).next );
           ptr = &( (*(*ptr)).next);
         }else{
-          std::cout<<"\n\nSto cancellando "<<((*ptr)->value).first<<"\n\n";
           toDelete = *ptr;
           toModify = &( (*(*ptr)).next );
           *ptr = (*(*ptr)).next;
           delete toDelete;
           --size;
-
-          //debug();
 
           for(ulong j=i+1 ; j<R.Size() ; ++j){
             if(R[j] == toModify){
@@ -275,26 +281,26 @@ template <typename Data>
 void MatrixCSR<Data>::debug(){
   std::cout<<std::endl;
 
-  // std::cout<<"rows: "<<rows<<" columns: "<<columns<<" size: "<<size<<"\n\n";
-  // Node* tmp = head;
-  //
-  // while(tmp!=nullptr){
-  //   std::cout<<(tmp->value).first<<"|"<< (tmp->value).second;
-  //   std::cout<<std::endl;
-  //   std::cout<<&(tmp->next);
-  //
-  //   std::cout<<std::endl;
-  //   std::cout<<std::endl;
-  //
-  //   tmp = tmp->next;
-  // }
-  //
-  // std::cout << "R VECTOR:" << '\n';
-  // for(ulong i=0; i<R.Size();++i){
-  //   std::cout << R[i] << '\n';
-  // }
-  // std::cout<<std::endl;
-  // std::cout<<std::endl;
+  std::cout<<"rows: "<<rows<<" columns: "<<columns<<" size: "<<size<<"\n\n";
+  Node* tmp = head;
+
+  while(tmp!=nullptr){
+    std::cout<<(tmp->value).first<<"|"<< (tmp->value).second;
+    std::cout<<std::endl;
+    std::cout<<&(tmp->next);
+
+    std::cout<<std::endl;
+    std::cout<<std::endl;
+
+    tmp = tmp->next;
+  }
+
+  std::cout << "R VECTOR:" << '\n';
+  for(ulong i=0; i<R.Size();++i){
+    std::cout << R[i] << '\n';
+  }
+  std::cout<<std::endl;
+  std::cout<<std::endl;
 
   //// print
   // for(int i=0; i<rows; ++i){

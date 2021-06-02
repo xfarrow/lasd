@@ -78,7 +78,7 @@ void stestMatrixInt(Mat<long>& mat, uint& testnum, uint& testerr) {
 
     SetCell<long>(loctestnum, loctesterr, mat, true, 1, 4, 8);
     SetCell<long>(loctestnum, loctesterr, mat, true, 3, 4, 9); //33
-    //mat.debug();
+
     SetColumnNumber(loctestnum, loctesterr, mat, true, 3); //34
     SetColumnNumber(loctestnum, loctesterr, mat, true, 4);
 

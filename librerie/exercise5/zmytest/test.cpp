@@ -6,6 +6,21 @@
 #include<iostream>
 using namespace std;
 using namespace lasd;
+
+
+void ciao (MatrixCSR<long>& a, MatrixCSR<long>& b)
+{
+  std::cout << "A" << '\n';
+  MatrixCSR<long> c(std::move(a));
+
+  std::cout << "B" << '\n';
+  a=std::move(b);
+  a.debug();
+
+  std::cout << "C" << '\n';
+  b=std::move(c);
+}
+
 void menu(){
 
   unsigned short int choice;
@@ -38,7 +53,7 @@ void menu(){
 
     mat.ColumnResize(2);
 
-    mat.debug();
-
+    MatrixCSR<long> copmat;
+    copmat = std::move(mat);
   }
 }
