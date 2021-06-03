@@ -235,8 +235,8 @@ void stestMatrixFloat(Mat& mat, uint& testnum, uint& testerr) {
     SetCell(loctestnum, loctesterr, mat, true, 2, 0, 2.1);
 
     SetCell(loctestnum, loctesterr, mat, true, 3, 2, 3.0);
-    SetCell(loctestnum, loctesterr, mat, true, 2, 1, 2.1);
-    SetCell(loctestnum, loctesterr, mat, true, 1, 0, 1.2);
+    SetCell(loctestnum, loctesterr, mat, true, 2, 1, 2.1); //11
+    SetCell(loctestnum, loctesterr, mat, true, 1, 0, 1.2); //12
 
     Mat newmat(5, 10);
     newmat = std::move(mat);

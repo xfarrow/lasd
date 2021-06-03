@@ -48,7 +48,6 @@ MatrixVec<Data>& MatrixVec<Data>::operator=(const MatrixVec& toCopy){
 
 template <typename Data>
 MatrixVec<Data>& MatrixVec<Data>::operator=(MatrixVec&& toMove) noexcept{
-  Clear();
   std::swap(rows, toMove.rows);
   std::swap(columns, toMove.columns);
   std::swap(size, toMove.size);

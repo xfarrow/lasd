@@ -39,7 +39,6 @@ MatrixCSR<Data>::MatrixCSR(const MatrixCSR& toCopy) : MatrixCSR(toCopy.rows, toC
 
 template <typename Data>
 MatrixCSR<Data>::MatrixCSR(MatrixCSR&& toMove) noexcept{
-
   std::swap(rows, toMove.rows);
   std::swap(columns, toMove.columns);
   std::swap(size, toMove.size);
@@ -69,7 +68,6 @@ MatrixCSR<Data>& MatrixCSR<Data>::operator=(const MatrixCSR<Data>& toCopy){
 
 template <typename Data>
 MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& toMove) noexcept{
-  Clear();
   std::swap(rows, toMove.rows);
   std::swap(columns, toMove.columns);
   std::swap(size, toMove.size);

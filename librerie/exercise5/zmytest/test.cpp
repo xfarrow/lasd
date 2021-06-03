@@ -36,24 +36,6 @@ void menu(){
   if(choice==1){
     lasdtest();
   }else{
-    MatrixCSR<long> mat;
-    mat.RowResize(5);
-    mat.ColumnResize(5);
-
-    mat(0,1) = 1;
-    mat(0,3) = 4;
-    mat(1,0) = 2;
-    mat(1,4) = 8;
-    mat(2,1) = 3;
-    mat(2,2) = 5;
-    mat(3,4) = 9;
-    mat(4,1) = 6;
-    mat(4,3) = 7;
-    mat(4,0) = 13;
-
-    mat.ColumnResize(2);
-
-    MatrixCSR<long> copmat;
-    copmat = std::move(mat);
+    
   }
 }
