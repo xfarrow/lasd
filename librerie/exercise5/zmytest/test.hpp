@@ -35,6 +35,22 @@ template <typename T>
 void Read(const T&);
 template <typename T>
 void Resize(T& mtx);
+template <typename T>
+void FloatFunctions(T&);
+template <typename T>
+void SumElementsGreaterThan(T&);
+void AccumulateSum(const float&, const void*, void*);
+template <typename T>
+void CubeElements(T&);
+void Exponentiation(float&, void*);
+template <typename T>
+void StringFunctions(T&);
+template <typename T>
+void ConcatLessThan(T&);
+void ConcatAString(const string&, const void*, void*);
+template <typename T>
+void HeadConcat(T&);
+void HeadConcatMapAux(string&, void*);
 
 /* ----- generator functions ----- */
 DataType ChooseDataType(); //choose data type

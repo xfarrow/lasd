@@ -72,13 +72,12 @@ void UseChosenType(Implementation chosenImplementation, DataType chosenDataType)
     }else if(chosenDataType == DataType::ffloat){
       MatrixVec<float> mtx;
       mtx = GenerateFloatMat(mtx);
-      //FloatFunctions(mtx);
+      FloatFunctions(mtx);
 
     }else if(chosenDataType == DataType::sstring){
       MatrixVec<string> mtx;
       mtx = GenerateStringsMat(mtx);
-
-      //StringFunctions(mtx);
+      StringFunctions(mtx);
     }
   }else if(chosenImplementation == Implementation::yale){
     if(chosenDataType == DataType::integer){
@@ -89,12 +88,12 @@ void UseChosenType(Implementation chosenImplementation, DataType chosenDataType)
     }else if(chosenDataType == DataType::ffloat){
       MatrixCSR<float> mtx;
       mtx = GenerateFloatMat(mtx);
-    //  FloatFunctions(mtx);
+      FloatFunctions(mtx);
 
     }else if(chosenDataType == DataType::sstring){
       MatrixCSR<string> mtx;
       mtx = GenerateStringsMat(mtx);
-      //StringFunctions(mtx);
+      StringFunctions(mtx);
     }
   }
 }
@@ -131,6 +130,102 @@ void IntegerFunctions(T& mtx){
         break;
       case 4:
         Double(mtx);
+        break;
+      case 5:
+        Insert(mtx);
+        break;
+      case 6:
+        Read(mtx);
+        break;
+      case 7:
+        Resize(mtx);
+        break;
+      case 8:
+        menu();
+        break;
+    }
+  }while(choice!=8 && choice!=9);
+}
+
+template <typename T>
+void FloatFunctions(T& mtx){
+  unsigned short int choice;
+  do{
+    std::cout<<std::endl<<std::endl;
+    std::cout<<"Choose one of the following options:"<<std::endl;
+    std::cout<<" 1. Print elements"<<std::endl;
+    std::cout<<" 2. Check existence of an element "<<std::endl;
+    std::cout<<" 3. Sum of floats greater than 'n'"<<std::endl;
+    std::cout<<" 4. Cube (-n)"<<std::endl;
+    std::cout<<" 5. Insert in a position"<<std::endl;
+    std::cout<<" 6. Read from a position"<<std::endl;
+    std::cout<<" 7. Resize"<<std::endl;
+    std::cout<<" 8. Go back"<<std::endl;
+    std::cout<<" 9. Quit"<<std::endl;
+    cout<<endl<<" -> ";
+    std::cin>>std::ws;
+    std::cin>>choice;
+    std::cout<<std::endl;
+    switch(choice){
+      case 1:
+        PrintElements(mtx);
+        break;
+      case 2:
+        CheckExistence(mtx);
+        break;
+      case 3:
+        SumElementsGreaterThan(mtx);
+        break;
+      case 4:
+        CubeElements(mtx);
+        break;
+      case 5:
+        Insert(mtx);
+        break;
+      case 6:
+        Read(mtx);
+        break;
+      case 7:
+        Resize(mtx);
+        break;
+      case 8:
+        menu();
+        break;
+    }
+  }while(choice!=8 && choice!=9);
+}
+
+template <typename T>
+void StringFunctions(T& mtx){
+  unsigned short int choice;
+  do{
+    std::cout<<std::endl<<std::endl;
+    std::cout<<"Choose one of the following options:"<<std::endl;
+    std::cout<<" 1. Print elements"<<std::endl;
+    std::cout<<" 2. Check existence of an element "<<std::endl;
+    std::cout<<" 3. Concatenate strings whose dimension is less or equal than 'n'"<<std::endl;
+    std::cout<<" 4. Head concatenation of a string"<<std::endl;
+    std::cout<<" 5. Insert in a position"<<std::endl;
+    std::cout<<" 6. Read from a position"<<std::endl;
+    std::cout<<" 7. Resize"<<std::endl;
+    std::cout<<" 8. Go back"<<std::endl;
+    std::cout<<" 9. Quit"<<std::endl;
+    cout<<endl<<" -> ";
+    std::cin>>std::ws;
+    std::cin>>choice;
+    std::cout<<std::endl;
+    switch(choice){
+      case 1:
+        PrintElements(mtx);
+        break;
+      case 2:
+        CheckExistence(mtx);
+        break;
+      case 3:
+        ConcatLessThan(mtx);
+        break;
+      case 4:
+        HeadConcat(mtx);
         break;
       case 5:
         Insert(mtx);
@@ -195,6 +290,69 @@ void Insert(T& mtx){
   }catch(out_of_range exc){
     cout<<exc.what();
   }
+}
+
+template <typename T>
+void ConcatLessThan(T& mtx){
+  int n;
+  string concatenated = "";
+  void (*func)(const string&, const void*, void*) = ConcatAString;
+
+  cout<<" Concatenate all elements of the tree whose length is less or equal than ";
+  cin>>ws>>n;
+
+  mtx.FoldPreOrder(func, (void*)&n, (void*)&concatenated);
+  cout<<"\n The result is "<< concatenated << endl << endl;
+}
+void ConcatAString(const string& data, const void* par, void* acc){
+  if( ((int)data.length()) <= ((*(int*)par)) ){
+    *(string*)acc = *(string*)acc + "-" + data;
+  }
+}
+
+template <typename T>
+void HeadConcat(T& mtx){
+  void (*fun)(string&, void*) = HeadConcatMapAux;
+  string par;
+
+  cout<<" Concatenate in front the following string: ";
+  cin>>ws;
+  cin>>par;
+
+  mtx.MapPreOrder(fun,(void*)&par);
+  cout<<" Done.\n";
+}
+void HeadConcatMapAux(string& data, void* par){
+  data = *(string*)par + data;
+}
+
+template <typename T>
+void SumElementsGreaterThan(T& mtx){
+  float n, acc = 0;
+  void (*func)(const float&, const void*, void*) = AccumulateSum;
+
+  cout<<" Sum all elements of the matrix whose value is greater than ";
+  cin>>ws>>n;
+
+  mtx.FoldPreOrder(func, (void*)&n, (void*)&acc);
+  cout<<"\n The result is "<<acc<<endl<<endl;
+}
+
+void AccumulateSum(const float& data, const void* par, void* acc){
+  if(data > (*(float*)par)){
+      *(float*)acc += data;
+  }
+}
+
+template <typename T>
+void CubeElements(T& mtx){
+  void (*fun)(float&, void*) = Exponentiation;
+  float par = 3;
+  mtx.MapPreOrder(fun,(void*)&par);
+  cout<<" Done.\n";
+}
+void Exponentiation(float& data, void* par){
+  data = (-1.0F) * pow(data , *(float*)par );
 }
 
 template <typename T>
