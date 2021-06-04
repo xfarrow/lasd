@@ -293,20 +293,12 @@ void MatrixCSR<Data>::debug(){
     tmp = tmp->next;
   }
 
-  std::cout << "R VECTOR:" << '\n';
+  std::cout << "\nR VECTOR:" << '\n';
   for(ulong i=0; i<R.Size();++i){
     std::cout << R[i] << '\n';
   }
   std::cout<<std::endl;
   std::cout<<std::endl;
-
-  //// print
-  // for(int i=0; i<rows; ++i){
-  //   for(int j=0; j<columns ; ++j){
-  //     std::cout<<(*this)(i,j)<<" ";
-  //   }
-  //   std::cout<<std::endl;
-  // }
 }
 
 /* ************************************************************************** */
