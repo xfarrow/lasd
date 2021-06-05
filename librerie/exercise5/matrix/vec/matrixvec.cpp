@@ -70,22 +70,17 @@ bool MatrixVec<Data>::operator!=(const MatrixVec& toCompare) const noexcept{
 }
 
 template <typename Data>
-void MatrixVec<Data>::RowResize(const ulong& newdim){
-  if(newdim == 0){
-    Clear();
-  }else{
-    Vector<Data>::Resize(newdim * columns);
-    rows = newdim;
-    size = newdim * columns;
+void MatrixVec<Data>::RowResize(const ulong& new_row_dim){
+  if(new_row_dim != rows){
+    Vector<Data>::Resize(new_row_dim * columns);
+    rows = new_row_dim;
+    size = new_row_dim * columns;
   }
 }
 
 template <typename Data>
 void MatrixVec<Data>::ColumnResize(const ulong& new_column_dim){
-  if(new_column_dim == 0){
-    Clear();
-  }
-  else if(new_column_dim != columns){
+  if(new_column_dim != columns){
     ulong limit = (new_column_dim < columns)? new_column_dim : columns;
     Data* tmp = new Data[rows * new_column_dim]{};
     for(ulong i=0 ; i<rows ; ++i){

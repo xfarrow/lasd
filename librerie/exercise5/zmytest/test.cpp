@@ -2,7 +2,6 @@
 #include <random>
 #include <iostream>
 
-
 void menu(){
 
   DataType chosenDataType;
@@ -67,32 +66,38 @@ void UseChosenType(Implementation chosenImplementation, DataType chosenDataType)
     if(chosenDataType == DataType::integer){
       MatrixVec<int> mtx;
       mtx = GenerateIntegerMat(mtx);
+      cout<<"\nThe matrix has been randomly generated.\n";
       IntegerFunctions(mtx);
 
     }else if(chosenDataType == DataType::ffloat){
       MatrixVec<float> mtx;
       mtx = GenerateFloatMat(mtx);
+      cout<<"\nThe matrix has been randomly generated.\n";
       FloatFunctions(mtx);
 
     }else if(chosenDataType == DataType::sstring){
       MatrixVec<string> mtx;
       mtx = GenerateStringsMat(mtx);
+      cout<<"\nThe matrix has been randomly generated.\n";
       StringFunctions(mtx);
     }
   }else if(chosenImplementation == Implementation::yale){
     if(chosenDataType == DataType::integer){
       MatrixCSR<int> mtx;
       mtx = GenerateIntegerMat(mtx);
+      cout<<"\nThe matrix has been randomly generated.\n";
       IntegerFunctions(mtx);
 
     }else if(chosenDataType == DataType::ffloat){
       MatrixCSR<float> mtx;
       mtx = GenerateFloatMat(mtx);
+      cout<<"\nThe matrix has been randomly generated.\n";
       FloatFunctions(mtx);
 
     }else if(chosenDataType == DataType::sstring){
       MatrixCSR<string> mtx;
       mtx = GenerateStringsMat(mtx);
+      cout<<"\nThe matrix has been randomly generated.\n";
       StringFunctions(mtx);
     }
   }
@@ -360,7 +365,7 @@ void Double(T& mtx){
   void (*fun)(int&, void*) = MultiplyAnElement;
   int par = 2;
   mtx.MapPreOrder(fun,(void*)&par);
-  cout<<"Done.\n";
+  cout<<" Done.\n";
 }
 void MultiplyAnElement(int& data, void* par){
   data *= *(int*)par;
@@ -371,11 +376,11 @@ void ProductsElementsLessThan(T& mtx){
   int n, acc=1;
   void (*func)(const int&, const void*, void*) = AccumulateProduct;
 
-  cout<<"Multipy all elements of the matrix whose value is less than ";
+  cout<<" Multipy all elements of the matrix whose value is less than ";
   cin>>ws>>n;
 
   mtx.FoldPreOrder(func, (void*)&n, (void*)&acc);
-  cout<<"\nThe result is "<<acc<<endl<<endl;
+  cout<<"\n The result is "<<acc<<endl<<endl;
 
 }
 
@@ -388,10 +393,10 @@ void AccumulateProduct(const int& data, const void* par, void* acc){
 template <template <typename...> class Matrix, typename Data>
 void CheckExistence(Matrix<Data>& mtx){
   Data elementToLookFor;
-  cout<<"\n\nCheck existence in the matrix of: ";
+  cout<<"\n\n Check existence in the matrix of: ";
   cin>>ws;
   cin>>elementToLookFor;
-  cout<<"The element " << ( (mtx.FoldableContainer<Data>::Exists(elementToLookFor))? "does" : "does not") << " exist\n\n";
+  cout<<" The element " << ( (mtx.FoldableContainer<Data>::Exists(elementToLookFor))? "does" : "does not") << " exist\n\n";
 }
 
 template <template <typename...> class Matrix, typename Data>
@@ -524,7 +529,6 @@ T GenerateStringsMat(T& mat){
     }while(column >= n_columns);
     matrix(row,column) = generateRandomString(dist(gen));
   }
-
   return matrix;
 
 }

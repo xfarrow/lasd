@@ -116,10 +116,7 @@ bool MatrixCSR<Data>::operator!=(const MatrixCSR& toCompare) const noexcept{
 
 template <typename Data>
 void MatrixCSR<Data>::RowResize(const ulong& new_row_size){
-  if(new_row_size == 0){
-    Clear();
-  }
-  else if(new_row_size > rows){
+  if(new_row_size > rows){
     R.Resize(new_row_size+1);
     for(ulong i=rows+1 ; i<R.Size(); ++i){
       R[i] = R[rows];
@@ -143,10 +140,7 @@ void MatrixCSR<Data>::RowResize(const ulong& new_row_size){
 
 template <typename Data>
 void MatrixCSR<Data>::ColumnResize(const ulong& new_column_size){
-  if(new_column_size == 0){
-    Clear();
-  }
-  else if(new_column_size < columns){
+  if(new_column_size < columns){
     Node** prev;
     Node* toDelete;
     Node** toModify;
