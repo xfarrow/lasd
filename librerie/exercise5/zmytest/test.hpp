@@ -74,8 +74,11 @@ void PrintElements(Matrix<Data>& mtx);
 template <typename Data>
 void PrintSingleElement(Data&, void*);
 
+template <typename T>
+void CheckExistenceOfCell(T&);
+
 template <template <typename...> class Matrix, typename Data>
-void CheckExistence(Matrix<Data>&);
+void CheckExistenceOfElement(Matrix<Data>&);
 
 template <typename T>
 void Insert(T&);

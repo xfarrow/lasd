@@ -113,13 +113,14 @@ void IntegerFunctions(T& mtx){
     std::cout<<"Choose one of the following options:"<<std::endl;
     std::cout<<" 1. Print elements"<<std::endl;
     std::cout<<" 2. Check existence of an element "<<std::endl;
-    std::cout<<" 3. Product of integers less than 'n'"<<std::endl;
-    std::cout<<" 4. Double all elements"<<std::endl;
-    std::cout<<" 5. Insert in a position"<<std::endl;
-    std::cout<<" 6. Read from a position"<<std::endl;
-    std::cout<<" 7. Resize"<<std::endl;
-    std::cout<<" 8. Go back"<<std::endl;
-    std::cout<<" 9. Quit"<<std::endl;
+    std::cout<<" 3. Check existence of a cell"<<std::endl;
+    std::cout<<" 4. Product of integers less than 'n'"<<std::endl;
+    std::cout<<" 5. Double all elements"<<std::endl;
+    std::cout<<" 6. Insert in a position"<<std::endl;
+    std::cout<<" 7. Read from a position"<<std::endl;
+    std::cout<<" 8. Resize"<<std::endl;
+    std::cout<<" 9. Go back"<<std::endl;
+    std::cout<<" 10. Quit"<<std::endl;
     cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
@@ -129,28 +130,31 @@ void IntegerFunctions(T& mtx){
         PrintElements(mtx);
         break;
       case 2:
-        CheckExistence(mtx);
+        CheckExistenceOfElement(mtx);
         break;
       case 3:
-        ProductsElementsLessThan(mtx);
+        CheckExistenceOfCell(mtx);
         break;
       case 4:
-        Double(mtx);
+        ProductsElementsLessThan(mtx);
         break;
       case 5:
-        Insert(mtx);
+        Double(mtx);
         break;
       case 6:
-        Read(mtx);
+        Insert(mtx);
         break;
       case 7:
-        Resize(mtx);
+        Read(mtx);
         break;
       case 8:
+        Resize(mtx);
+        break;
+      case 9:
         menu();
         break;
     }
-  }while(choice!=8 && choice!=9);
+  }while(choice!=9 && choice!=10);
 }
 
 template <typename T>
@@ -193,13 +197,14 @@ void FloatFunctions(T& mtx){
     std::cout<<"Choose one of the following options:"<<std::endl;
     std::cout<<" 1. Print elements"<<std::endl;
     std::cout<<" 2. Check existence of an element "<<std::endl;
-    std::cout<<" 3. Sum of floats greater than 'n'"<<std::endl;
-    std::cout<<" 4. Cube (-n)"<<std::endl;
-    std::cout<<" 5. Insert in a position"<<std::endl;
-    std::cout<<" 6. Read from a position"<<std::endl;
-    std::cout<<" 7. Resize"<<std::endl;
-    std::cout<<" 8. Go back"<<std::endl;
-    std::cout<<" 9. Quit"<<std::endl;
+    std::cout<<" 3. Check existence of a cell"<<std::endl;
+    std::cout<<" 4. Sum of floats greater than 'n'"<<std::endl;
+    std::cout<<" 5. Cube (-n)"<<std::endl;
+    std::cout<<" 6. Insert in a position"<<std::endl;
+    std::cout<<" 7. Read from a position"<<std::endl;
+    std::cout<<" 8. Resize"<<std::endl;
+    std::cout<<" 9. Go back"<<std::endl;
+    std::cout<<" 10. Quit"<<std::endl;
     cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
@@ -209,28 +214,31 @@ void FloatFunctions(T& mtx){
         PrintElements(mtx);
         break;
       case 2:
-        CheckExistence(mtx);
+        CheckExistenceOfElement(mtx);
         break;
       case 3:
-        SumElementsGreaterThan(mtx);
+        CheckExistenceOfCell(mtx);
         break;
       case 4:
-        CubeElements(mtx);
+        SumElementsGreaterThan(mtx);
         break;
       case 5:
-        Insert(mtx);
+        CubeElements(mtx);
         break;
       case 6:
-        Read(mtx);
+        Insert(mtx);
         break;
       case 7:
-        Resize(mtx);
+        Read(mtx);
         break;
       case 8:
+        Resize(mtx);
+        break;
+      case 9:
         menu();
         break;
     }
-  }while(choice!=8 && choice!=9);
+  }while(choice!=9 && choice!=10);
 }
 
 template <typename T>
@@ -273,13 +281,14 @@ void StringFunctions(T& mtx){
     std::cout<<"Choose one of the following options:"<<std::endl;
     std::cout<<" 1. Print elements"<<std::endl;
     std::cout<<" 2. Check existence of an element "<<std::endl;
-    std::cout<<" 3. Concatenate strings whose dimension is less or equal than 'n'"<<std::endl;
-    std::cout<<" 4. Head concatenation of a string"<<std::endl;
-    std::cout<<" 5. Insert in a position"<<std::endl;
-    std::cout<<" 6. Read from a position"<<std::endl;
-    std::cout<<" 7. Resize"<<std::endl;
-    std::cout<<" 8. Go back"<<std::endl;
-    std::cout<<" 9. Quit"<<std::endl;
+    std::cout<<" 3. Check existence of a cell"<<std::endl;
+    std::cout<<" 4. Concatenate strings whose dimension is less or equal than 'n'"<<std::endl;
+    std::cout<<" 5. Head concatenation of a string"<<std::endl;
+    std::cout<<" 6. Insert in a position"<<std::endl;
+    std::cout<<" 7. Read from a position"<<std::endl;
+    std::cout<<" 8. Resize"<<std::endl;
+    std::cout<<" 9. Go back"<<std::endl;
+    std::cout<<" 10. Quit"<<std::endl;
     cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
@@ -289,28 +298,31 @@ void StringFunctions(T& mtx){
         PrintElements(mtx);
         break;
       case 2:
-        CheckExistence(mtx);
+        CheckExistenceOfElement(mtx);
         break;
       case 3:
-        ConcatLessThan(mtx);
+        CheckExistenceOfCell(mtx);
         break;
       case 4:
-        HeadConcat(mtx);
+        ConcatLessThan(mtx);
         break;
       case 5:
-        Insert(mtx);
+        HeadConcat(mtx);
         break;
       case 6:
-        Read(mtx);
+        Insert(mtx);
         break;
       case 7:
-        Resize(mtx);
+        Read(mtx);
         break;
       case 8:
+        Resize(mtx);
+        break;
+      case 9:
         menu();
         break;
     }
-  }while(choice!=8 && choice!=9);
+  }while(choice!=9 && choice!=10);
 }
 
 template <typename T>
@@ -350,6 +362,18 @@ void HeadConcatMapAux(string& data, void* par){
 }
 
 /* ----- shared functions ----- */
+
+template <typename T>
+void CheckExistenceOfCell(T& mtx){
+  ulong row,column;
+  cout<<"\n\n Check existence in the matrix of the cell with coordinates: \n";
+  cout<<" Row: ";
+  cin>>row;
+  cout<<" Column: ";
+  cin>>column;
+
+  cout<<" The cell " << ( (mtx.ExistsCell(row,column))? "does" : "does not") << " exist\n\n";
+}
 
 template <typename T>
 void Resize(T& mtx){
@@ -401,7 +425,7 @@ void Insert(T& mtx){
 }
 
 template <template <typename...> class Matrix, typename Data>
-void CheckExistence(Matrix<Data>& mtx){
+void CheckExistenceOfElement(Matrix<Data>& mtx){
   Data elementToLookFor;
   cout<<"\n\n Check existence in the matrix of: ";
   cin>>ws;
