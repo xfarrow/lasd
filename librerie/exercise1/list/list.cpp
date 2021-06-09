@@ -167,7 +167,7 @@ void List<Data>::InsertAtBack(const Data& data){
 template <typename Data>
 void List<Data>::InsertAtBack(Data&& data){
   if(size == 0){
-    InsertAtFront(data);
+    InsertAtFront(std::move(data));
   }
   else{
     struct Node* last = new Node(std::move(data));
