@@ -50,7 +50,7 @@ Implementation ChooseImplementation(){
   do{
     std::cout<<"\nChoose an implementation for the binary tree:"<<std::endl;
     std::cout<<" 1. Vector"<<std::endl;
-    std::cout<<" 2. YALE format (Compressed Sparse Row) "<<std::endl;
+    std::cout<<" 2. YALE (Compressed Sparse Row) "<<std::endl;
     cout<<endl<<" -> ";
     std::cin>>std::ws;
     std::cin>>choice;
@@ -103,6 +103,7 @@ void UseChosenType(Implementation chosenImplementation, DataType chosenDataType)
   }
 }
 
+/* ----- integer functions ----- */
 
 template <typename T>
 void IntegerFunctions(T& mtx){
@@ -153,6 +154,38 @@ void IntegerFunctions(T& mtx){
 }
 
 template <typename T>
+void ProductsElementsLessThan(T& mtx){
+  int n, acc=1;
+  void (*func)(const int&, const void*, void*) = AccumulateProduct;
+
+  cout<<" Multipy all elements of the matrix whose value is less than ";
+  cin>>ws>>n;
+
+  mtx.FoldPreOrder(func, (void*)&n, (void*)&acc);
+  cout<<"\n The result is "<<acc<<endl<<endl;
+}
+
+void AccumulateProduct(const int& data, const void* par, void* acc){
+  if(data < (*(int*)par)){
+      *(int*)acc *= data;
+  }
+}
+
+template <typename T>
+void Double(T& mtx){
+  void (*fun)(int&, void*) = MultiplyAnElement;
+  int par = 2;
+  mtx.MapPreOrder(fun,(void*)&par);
+  cout<<" Done.\n";
+}
+
+void MultiplyAnElement(int& data, void* par){
+  data *= *(int*)par;
+}
+
+/* ----- float functions ----- */
+
+template <typename T>
 void FloatFunctions(T& mtx){
   unsigned short int choice;
   do{
@@ -199,6 +232,38 @@ void FloatFunctions(T& mtx){
     }
   }while(choice!=8 && choice!=9);
 }
+
+template <typename T>
+void SumElementsGreaterThan(T& mtx){
+  float n, acc = 0;
+  void (*func)(const float&, const void*, void*) = AccumulateSum;
+
+  cout<<" Sum all elements of the matrix whose value is greater than ";
+  cin>>ws>>n;
+
+  mtx.FoldPreOrder(func, (void*)&n, (void*)&acc);
+  cout<<"\n The result is "<<acc<<endl<<endl;
+}
+
+void AccumulateSum(const float& data, const void* par, void* acc){
+  if(data > (*(float*)par)){
+      *(float*)acc += data;
+  }
+}
+
+template <typename T>
+void CubeElements(T& mtx){
+  void (*fun)(float&, void*) = Exponentiation;
+  float par = 3;
+  mtx.MapPreOrder(fun,(void*)&par);
+  cout<<" Done.\n";
+}
+
+void Exponentiation(float& data, void* par){
+  data = (-1.0F) * pow(data , *(float*)par );
+}
+
+/* ----- string functions ----- */
 
 template <typename T>
 void StringFunctions(T& mtx){
@@ -249,6 +314,44 @@ void StringFunctions(T& mtx){
 }
 
 template <typename T>
+void ConcatLessThan(T& mtx){
+  int n;
+  string concatenated = "";
+  void (*func)(const string&, const void*, void*) = ConcatAString;
+
+  cout<<" Concatenate all elements of the tree whose length is less or equal than ";
+  cin>>ws>>n;
+
+  mtx.FoldPreOrder(func, (void*)&n, (void*)&concatenated);
+  cout<<"\n The result is "<< concatenated << endl << endl;
+}
+
+void ConcatAString(const string& data, const void* par, void* acc){
+  if( ((int)data.length()) <= ((*(int*)par)) ){
+    *(string*)acc = *(string*)acc + "-" + data;
+  }
+}
+
+template <typename T>
+void HeadConcat(T& mtx){
+  void (*fun)(string&, void*) = HeadConcatMapAux;
+  string par;
+
+  cout<<" Concatenate in front the following string: ";
+  cin>>ws;
+  cin>>par;
+
+  mtx.MapPreOrder(fun,(void*)&par);
+  cout<<" Done.\n";
+}
+
+void HeadConcatMapAux(string& data, void* par){
+  data = *(string*)par + data;
+}
+
+/* ----- shared functions ----- */
+
+template <typename T>
 void Resize(T& mtx){
   ulong rows, columns;
   cout<<" The current dimension of the matrix is " << mtx.RowNumber() << " x " << mtx.ColumnNumber() << endl;
@@ -294,99 +397,6 @@ void Insert(T& mtx){
     cin>>mtx(row,column);
   }catch(out_of_range exc){
     cout<<exc.what();
-  }
-}
-
-template <typename T>
-void ConcatLessThan(T& mtx){
-  int n;
-  string concatenated = "";
-  void (*func)(const string&, const void*, void*) = ConcatAString;
-
-  cout<<" Concatenate all elements of the tree whose length is less or equal than ";
-  cin>>ws>>n;
-
-  mtx.FoldPreOrder(func, (void*)&n, (void*)&concatenated);
-  cout<<"\n The result is "<< concatenated << endl << endl;
-}
-void ConcatAString(const string& data, const void* par, void* acc){
-  if( ((int)data.length()) <= ((*(int*)par)) ){
-    *(string*)acc = *(string*)acc + "-" + data;
-  }
-}
-
-template <typename T>
-void HeadConcat(T& mtx){
-  void (*fun)(string&, void*) = HeadConcatMapAux;
-  string par;
-
-  cout<<" Concatenate in front the following string: ";
-  cin>>ws;
-  cin>>par;
-
-  mtx.MapPreOrder(fun,(void*)&par);
-  cout<<" Done.\n";
-}
-void HeadConcatMapAux(string& data, void* par){
-  data = *(string*)par + data;
-}
-
-template <typename T>
-void SumElementsGreaterThan(T& mtx){
-  float n, acc = 0;
-  void (*func)(const float&, const void*, void*) = AccumulateSum;
-
-  cout<<" Sum all elements of the matrix whose value is greater than ";
-  cin>>ws>>n;
-
-  mtx.FoldPreOrder(func, (void*)&n, (void*)&acc);
-  cout<<"\n The result is "<<acc<<endl<<endl;
-}
-
-void AccumulateSum(const float& data, const void* par, void* acc){
-  if(data > (*(float*)par)){
-      *(float*)acc += data;
-  }
-}
-
-template <typename T>
-void CubeElements(T& mtx){
-  void (*fun)(float&, void*) = Exponentiation;
-  float par = 3;
-  mtx.MapPreOrder(fun,(void*)&par);
-  cout<<" Done.\n";
-}
-void Exponentiation(float& data, void* par){
-  data = (-1.0F) * pow(data , *(float*)par );
-}
-
-template <typename T>
-void Double(T& mtx){
-  void (*fun)(int&, void*) = MultiplyAnElement;
-  int par = 2;
-  mtx.MapPreOrder(fun,(void*)&par);
-  cout<<" Done.\n";
-}
-void MultiplyAnElement(int& data, void* par){
-  data *= *(int*)par;
-}
-
-template <typename T>
-void ProductsElementsLessThan(T& mtx){
-  int n, acc=1;
-  void (*func)(const int&, const void*, void*) = AccumulateProduct;
-
-  cout<<" Multipy all elements of the matrix whose value is less than ";
-  cin>>ws>>n;
-
-  mtx.FoldPreOrder(func, (void*)&n, (void*)&acc);
-  cout<<"\n The result is "<<acc<<endl<<endl;
-
-}
-
-void AccumulateProduct(const int& data, const void* par, void* acc){
-  if(data < (*(int*)par)){
-      *(int*)acc *= data;
   }
 }
 
@@ -446,7 +456,6 @@ void Print(T& mat){
 
 template <typename T>
 T GenerateIntegerMat(T& mat){
-
   default_random_engine gen(random_device{}());
   uniform_int_distribution<int> random_dimension(1,20); // generates the dimensions of the matrix
   uniform_int_distribution<int> dist(0,100); // generates values inside the matrix
@@ -472,9 +481,7 @@ T GenerateIntegerMat(T& mat){
     matrix(row,column) = dist(gen);
 
   }
-
   return matrix;
-
 }
 
 template <typename T>

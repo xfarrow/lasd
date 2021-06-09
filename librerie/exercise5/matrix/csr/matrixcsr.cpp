@@ -45,7 +45,7 @@ MatrixCSR<Data>::MatrixCSR(MatrixCSR&& toMove) noexcept{
   std::swap(head, toMove.head);
   std::swap(R, toMove.R);
 
-  toMove.R.Resize(1);
+  toMove.R.Resize(1); // the moved matrix must be empty
   toMove.R[0] = &toMove.head;
 
   Node** oldHead = R[0];
