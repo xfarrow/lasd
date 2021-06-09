@@ -465,8 +465,8 @@ BTInOrderIterator<Data>::BTInOrderIterator(const BTInOrderIterator& itr){
 
 template <typename Data>
 BTInOrderIterator<Data>::BTInOrderIterator(BTInOrderIterator&& toMove) noexcept{
-  std::move(curr, toMove.curr);
-  std::move(stack, toMove.stack);
+  std::swap(curr, toMove.curr);
+  std::swap(stack, toMove.stack);
 }
 
 template <typename Data>
@@ -484,8 +484,8 @@ BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator=(const BTInOrderItera
 
 template <typename Data>
 BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator=(BTInOrderIterator&& toMove) noexcept{
-  std::move(curr, toMove.curr);
-  std::move(stack, toMove.stack);
+  std::swap(curr, toMove.curr);
+  std::swap(stack, toMove.stack);
   return *this;
 }
 
