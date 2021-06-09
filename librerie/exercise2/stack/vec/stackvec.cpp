@@ -44,7 +44,7 @@ StackVec<Data>& StackVec<Data>::operator=(const StackVec<Data>& copyFrom){
 template <typename Data>
 StackVec<Data>& StackVec<Data>::operator=(StackVec<Data>&& moveFrom) noexcept{
   Vector<Data>::operator=(std::move(moveFrom));
-  stackSize = moveFrom.Size();
+  std::swap(stackSize, moveFrom.stackSize);
   return *this;
 }
 

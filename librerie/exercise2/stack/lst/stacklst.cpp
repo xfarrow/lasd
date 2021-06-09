@@ -52,7 +52,7 @@ void StackLst<Data>::Push(const Data& element){
 
 template <typename Data>
 void StackLst<Data>::Push(Data&& element) noexcept{
-  List<Data>::InsertAtFront(element);
+  List<Data>::InsertAtFront(std::move(element));
 }
 
 template <typename Data>
