@@ -37,7 +37,7 @@ QueueVec<Data>::QueueVec(const QueueVec& toCopy){
 
 template <typename Data>
 QueueVec<Data>::QueueVec(QueueVec&& toMove) noexcept{
-    Clear();
+    Clear(); // the moved Queue will be in a consistent state
     std::swap(Elements, toMove.Elements);
     std::swap(rear, toMove.rear);
     std::swap(front, toMove.front);
@@ -140,7 +140,7 @@ bool QueueVec<Data>::Empty() const noexcept{
 
 template <typename Data>
 ulong QueueVec<Data>::Size() const noexcept{
-  //if(size == 0) return 0; // this won't ever get executed, it's here just in case  
+  //if(size == 0) return 0; // this won't ever get executed, it's here just in case
   return ((rear + size) - front) % size;
 }
 
