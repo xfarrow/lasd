@@ -65,39 +65,33 @@ void UseChosenType(Implementation chosenImplementation, DataType chosenDataType)
   if(chosenImplementation == Implementation::vector){
     if(chosenDataType == DataType::integer){
       MatrixVec<int> mtx;
-      mtx = GenerateIntegerMat(mtx);
-      cout<<"\nThe matrix has been randomly generated.\n";
+      mtx = GenerateIntegerMat<MatrixVec<int>>();
       IntegerFunctions(mtx);
 
     }else if(chosenDataType == DataType::ffloat){
       MatrixVec<float> mtx;
-      mtx = GenerateFloatMat(mtx);
-      cout<<"\nThe matrix has been randomly generated.\n";
+      mtx = GenerateFloatMat<MatrixVec<float>>();
       FloatFunctions(mtx);
 
     }else if(chosenDataType == DataType::sstring){
       MatrixVec<string> mtx;
-      mtx = GenerateStringsMat(mtx);
-      cout<<"\nThe matrix has been randomly generated.\n";
+      mtx = GenerateStringsMat<MatrixVec<string>>();
       StringFunctions(mtx);
     }
   }else if(chosenImplementation == Implementation::yale){
     if(chosenDataType == DataType::integer){
       MatrixCSR<int> mtx;
-      mtx = GenerateIntegerMat(mtx);
-      cout<<"\nThe matrix has been randomly generated.\n";
+      mtx = GenerateIntegerMat<MatrixCSR<int>>();
       IntegerFunctions(mtx);
 
     }else if(chosenDataType == DataType::ffloat){
       MatrixCSR<float> mtx;
-      mtx = GenerateFloatMat(mtx);
-      cout<<"\nThe matrix has been randomly generated.\n";
+      mtx = GenerateFloatMat<MatrixCSR<float>>();
       FloatFunctions(mtx);
 
     }else if(chosenDataType == DataType::sstring){
       MatrixCSR<string> mtx;
-      mtx = GenerateStringsMat(mtx);
-      cout<<"\nThe matrix has been randomly generated.\n";
+      mtx = GenerateStringsMat<MatrixCSR<string>>();
       StringFunctions(mtx);
     }
   }
@@ -479,85 +473,108 @@ void Print(T& mat){
 /* ----- generator functions ----- */
 
 template <typename T>
-T GenerateIntegerMat(T& mat){
+T GenerateIntegerMat(){
   default_random_engine gen(random_device{}());
   uniform_int_distribution<int> random_dimension(1,20); // generates the dimensions of the matrix
   uniform_int_distribution<int> dist(0,100); // generates values inside the matrix
 
   ulong n_columns = random_dimension(gen);
   ulong n_rows = random_dimension(gen);
+  ulong row, column, elements_to_insert;
+
   T matrix(n_rows, n_columns);
+  MatrixCSR<bool> aux_matrix(n_rows, n_columns); //avoids to insert twice (or more) an element in a position
 
-  uniform_int_distribution<int> n_elements_to_insert(0,(n_columns*n_rows)); // generates how many elements to insert
-  ulong elements_to_insert = n_elements_to_insert(gen);
-
-  ulong row,column;
+  cout<<" A "<<n_rows<<" x "<<n_columns<<" matrix has been generated.\n";
+  do{
+    elements_to_insert = getDimension();
+  }while(elements_to_insert > n_rows*n_columns);
 
   for(ulong i=1 ; i<=elements_to_insert ; ++i){
     do{
-      row = random_dimension(gen)-1;
-    }while(row >= n_rows);
+      do{
+        row = random_dimension(gen)-1;
+      }while(row >= n_rows);
 
-    do{
-      column = random_dimension(gen)-1;
-    }while(column >= n_columns);
+      do{
+        column = random_dimension(gen)-1;
+      }while(column >= n_columns);
+    }while(aux_matrix.ExistsCell(row,column));
 
+    aux_matrix(row,column) = true;
     matrix(row,column) = dist(gen);
-
   }
   return matrix;
 }
 
 template <typename T>
-T GenerateFloatMat(T& mat){
+T GenerateFloatMat(){
   default_random_engine gen(random_device{}());
   uniform_int_distribution<int> random_dimension(1,20);
   uniform_real_distribution<double> dist(0,9);
 
   ulong n_columns = random_dimension(gen);
   ulong n_rows = random_dimension(gen);
+  ulong row, column, elements_to_insert;
+
   T matrix(n_rows, n_columns);
+  MatrixCSR<bool> aux_matrix(n_rows, n_columns); //avoids to insert twice (or more) an element in a position
 
-  uniform_int_distribution<int> n_elements_to_insert(0,(n_columns*n_rows));
-  ulong elements_to_insert = n_elements_to_insert(gen);
-
-  ulong row,column;
+  cout<<" A "<<n_rows<<" x "<<n_columns<<" matrix has been generated.\n";
+  do{
+    elements_to_insert = getDimension();
+  }while(elements_to_insert > n_rows*n_columns);
 
   for(ulong i=1 ; i<=elements_to_insert ; ++i){
     do{
-      row = random_dimension(gen)-1;
-    }while(row >= n_rows);
-    do{
-      column = random_dimension(gen)-1;
-    }while(column >= n_columns);
+      do{
+        row = random_dimension(gen)-1;
+      }while(row >= n_rows);
+
+      do{
+        column = random_dimension(gen)-1;
+      }while(column >= n_columns);
+
+    }while(aux_matrix.ExistsCell(row,column));
+
+    aux_matrix(row,column) = true;
     matrix(row,column) = dist(gen);
   }
   return matrix;
 }
 
 template <typename T>
-T GenerateStringsMat(T& mat){
-
+T GenerateStringsMat(){
   default_random_engine gen(random_device{}());
   uniform_int_distribution<int> random_dimension(1,20);
   uniform_int_distribution<int> dist(1,5);
 
   ulong n_columns = random_dimension(gen);
   ulong n_rows = random_dimension(gen);
+  ulong row, column, elements_to_insert;
+
   T matrix(n_rows, n_columns);
+  MatrixCSR<bool> aux_matrix(n_rows, n_columns); //avoids to insert twice (or more) an element in a position
 
-  uniform_int_distribution<int> n_elements_to_insert(0,(n_columns*n_rows));
-  ulong elements_to_insert = n_elements_to_insert(gen);
+  cout<<" A "<<n_rows<<" x "<<n_columns<<" matrix has been generated.\n";
 
-  ulong row,column;
+  do{
+    elements_to_insert = getDimension();
+  }while(elements_to_insert > n_rows*n_columns);
 
   for(ulong i=1 ; i<=elements_to_insert ; ++i){
     do{
-      row = random_dimension(gen)-1;
-    }while(row >= n_rows);
-    do{
-      column = random_dimension(gen)-1;
-    }while(column >= n_columns);
+      do{
+        row = random_dimension(gen)-1;
+      }while(row >= n_rows);
+
+      do{
+        column = random_dimension(gen)-1;
+      }while(column >= n_columns);
+
+    }while(aux_matrix.ExistsCell(row,column));
+
+    aux_matrix(row,column) = true;
     matrix(row,column) = generateRandomString(dist(gen));
   }
   return matrix;
@@ -573,4 +590,11 @@ string generateRandomString(ulong dim){
   }
   newString[dim]='\0';
   return newString;
+}
+
+ulong getDimension(){
+  ulong dimension;
+  std::cout<<" How many elements you'd like to insert? ";
+  std::cin>>dimension;
+  return dimension;
 }

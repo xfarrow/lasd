@@ -89,18 +89,20 @@ void Read(const T&);
 template <typename T>
 void Resize(T& mtx);
 
+ulong getDimension();
+
 /* ----- generator functions ----- */
 
 void UseChosenType(Implementation, DataType);
 
 template <typename T>
-T GenerateIntegerMat(T&);
+T GenerateIntegerMat();
 
 template <typename T>
-T GenerateFloatMat(T&);
+T GenerateFloatMat();
 
 template <typename T>
-T GenerateStringsMat(T&);
+T GenerateStringsMat();
 
 std::string generateRandomString(ulong);
 

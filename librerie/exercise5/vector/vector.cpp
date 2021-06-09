@@ -77,7 +77,7 @@ bool Vector<Data>::operator!=(const Vector<Data>& vec)const noexcept{
 template <typename Data>
 void Vector<Data>::Resize(const ulong newsize){
   if(newsize == 0){
-    Clear();
+    Vector<Data>::Clear(); //Vector<Data>::Clear() instead of Clear() otherwise it'd call the Matrix's implementation.
   }
   else if(size != newsize){
     ulong limit = (size < newsize) ? size : newsize;
