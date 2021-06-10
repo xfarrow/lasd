@@ -594,7 +594,7 @@ string generateRandomString(ulong dim){
 
 ulong getDimension(){
   ulong dimension;
-  std::cout<<" How many elements you'd like to insert? ";
+  std::cout<<" How many elements would you like to insert? ";
   std::cin>>dimension;
   return dimension;
 }

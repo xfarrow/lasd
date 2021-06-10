@@ -73,13 +73,22 @@ MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& toMove) noexcept{
   std::swap(size, toMove.size);
   std::swap(head, toMove.head);
   std::swap(R, toMove.R);
-  toMove.R.Resize(1);
-  toMove.R[0] = &toMove.head;
 
-  Node** oldHead = R[0];
+
+ // Fix of the R vector after the swap, both in (*this) and in toMove
+
+  Node** oldHead;
+
+  oldHead = R[0];
   for(ulong i=0 ; i<R.Size() && R[i]==oldHead; ++i){
     R[i] = &head;
   }
+
+  oldHead = toMove.R[0];
+  for(ulong j=0 ; j<toMove.R.Size() && toMove.R[j]==oldHead ; ++j){
+    toMove.R[j] = &(toMove.head);
+  }
+
   return *this;
 }
 
