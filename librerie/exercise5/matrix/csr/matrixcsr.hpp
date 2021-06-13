@@ -13,6 +13,12 @@
 
 namespace lasd {
 
+/*
+**  Although MatrixCSR inherits from List, it's not safe to use List methods here.
+**  For example, insertAtBack() is both a logical (why would you need to create
+**  a separate case for inserting at back in a matrix?) and a functional problem
+**  (the tail gets never updated).
+*/
 template <typename Data>
 class MatrixCSR : virtual public List<std::pair<Data,ulong>>,
                   virtual public Matrix<Data>{ // Must extend Matrix<Data>

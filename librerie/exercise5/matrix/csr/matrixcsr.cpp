@@ -27,7 +27,7 @@ MatrixCSR<Data>::MatrixCSR(const MatrixCSR& toCopy) : MatrixCSR(toCopy.rows, toC
     in this way:
     The row index is represented by "i" (the variable that iterates over the R array),
     meanwhile the column index is represented by the second element in the pair of the node.
-    The actual element is stored in the first element in the pair of the node.
+    The current element is stored in the first element in the pair of the node.
     The update of the newely created R array is left to operator()().
   */
   for(ulong i=0 ; i < (toCopy.R.Size()-1) ; ++i){
@@ -150,15 +150,15 @@ void MatrixCSR<Data>::RowResize(const ulong& new_row_size){
 template <typename Data>
 void MatrixCSR<Data>::ColumnResize(const ulong& new_column_size){
   if(new_column_size < columns){
-    Node** prev;
+    Node** prev;  // in case an element must be deleted, this is its previous element.
     Node* toDelete;
     Node** toModify;
     for(ulong i=0 ; i<R.Size()-1 ; ++i){ // iterate over the R array
-      prev = R[i]; // in case an element must be deleted, this is its previous element.
+      prev = R[i];
 
       for(Node** ptr = R[i] ; ptr!=R[i+1] ; ){
         if(((*ptr)->value).second < new_column_size){
-          prev = &( (*(*ptr)).next );
+          prev = &( (*(*ptr)).next ); // This, alongside line 157 is redundant, but maybe it gives more clarity
           ptr = &( (*(*ptr)).next);
         }else{
           toDelete = *ptr;
