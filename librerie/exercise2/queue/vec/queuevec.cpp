@@ -1,9 +1,9 @@
-
+#define MINSIZE 4
 namespace lasd {
 
 template <typename Data>
 QueueVec<Data>::QueueVec(){
-  size = 4;
+  size = MINSIZE;
   rear = 0;
   front = 0;
   Elements = new Data[size];
@@ -146,10 +146,10 @@ ulong QueueVec<Data>::Size() const noexcept{
 
 template <typename Data>
 void QueueVec<Data>::Clear(){
-  if(size!=4){
+  if(size!=MINSIZE){
     delete[] Elements;
-    Elements = new Data[4];
-    size = 4;
+    Elements = new Data[MINSIZE];
+    size = MINSIZE;
   }
   front = 0;
   rear = 0;
@@ -173,7 +173,7 @@ void QueueVec<Data>::Expand(){
 
 template <typename Data>
 void QueueVec<Data>::Reduce(){
-  if(size<=4) return; // we are not going to have vectors with less than 4 Elements
+  if(size<(MINSIZE*2)) return; // we are not going to have vectors with less than 4 Elements
   ulong newsize = (ulong)size/2;
   Data* tmp = new Data[newsize];
   ulong current_index = front , i=0;

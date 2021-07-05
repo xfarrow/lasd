@@ -1,11 +1,11 @@
-
+#define MINSIZE 4
 namespace lasd {
 
 /* ************************************************************************** */
 // constructors
 template <typename Data>
 StackVec<Data>::StackVec(){
-  size = 4; // default vector is instantiated with 4 cells
+  size = MINSIZE; // default vector is instantiated with 4 cells
   stackSize = 0;
   Elements = new Data[size];
 }
@@ -129,15 +129,15 @@ void StackVec<Data>::Expand(){
 
 template <typename Data>
 void StackVec<Data>::Reduce(){
-  if(size <= 4) return; // we're not going to have vectors with less than 4 cells
+  if(size < (MINSIZE*2)) return; // we're not going to have vectors with less than 4 cells
   Vector<Data>::Resize((ulong)size/2);
 }
 
 template <typename Data>
 void StackVec<Data>::Clear(){
   delete [] Elements;
-  size = 4;
+  size = MINSIZE;
   stackSize = 0;
-  Elements = new Data[size];
+  Elements = new Data[MINSIZE];
 }
 }
